@@ -1,0 +1,1150 @@
+﻿@model AeroVista.Models.FlightSearchViewModel
+
+@{
+    ViewData["Title"] = "Home";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --navy-light: #1a3350;
+        --gold: #C6A75E;
+        --gold-light: #d9be80;
+        --gold-dim: rgba(198,167,94,0.1);
+        --gold-border: rgba(198,167,94,0.2);
+        --muted: #6a7f95;
+        --text-light: #c8d4e0;
+        --off-white: #F5F5F5;
+        --white: #ffffff;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: var(--off-white);
+        font-family: 'DM Sans', sans-serif;
+        overflow-x: hidden;
+    }
+
+    .hero {
+        position: relative;
+        height: 100vh;
+        min-height: 680px;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .carousel-container {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+    }
+
+    #slides {
+        display: flex;
+        height: 100%;
+        transition: transform 1s cubic-bezier(0.77, 0, 0.175, 1);
+    }
+
+        #slides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            flex-shrink: 0;
+            filter: brightness(0.4) saturate(0.7);
+        }
+
+    .hero-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(108deg, rgba(15, 40, 65, 0.94) 0%, rgba(12, 37, 62, 0.55) 55%, rgba(16, 31, 46, 0.1) 100%), linear-gradient(to top, rgba(15, 35, 55, 0.75) 0%, transparent 45%);
+    }
+
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        background-image: linear-gradient(rgba(198,167,94,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.035) 1px, transparent 1px);
+        background-size: 72px 72px;
+        animation: gridDrift 22s linear infinite;
+    }
+
+    @@keyframes gridDrift {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 72px 72px;
+        }
+    }
+
+    .hero-scan {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        background: linear-gradient(to bottom, transparent, rgba(198,167,94,0.025) 50%, transparent);
+        background-size: 100% 180px;
+        animation: scanMove 9s linear infinite;
+        pointer-events: none;
+    }
+
+    @@keyframes scanMove {
+        0% {
+            background-position: 0 -180px;
+        }
+
+        100% {
+            background-position: 0 100vh;
+        }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 5;
+        padding: 0 6vw;
+        width: 100%;
+        animation: heroIn 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    @@keyframes heroIn {
+        from {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .hero-eyebrow-line {
+        width: 36px;
+        height: 1px;
+        background: var(--gold);
+    }
+
+    .hero-eyebrow-text {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: var(--gold);
+        text-transform: uppercase;
+    }
+
+    .hero h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(38px, 6.5vw, 80px);
+        font-weight: 900;
+        color: var(--white);
+        line-height: 1.08;
+        letter-spacing: -0.5px;
+        margin-bottom: 18px;
+    }
+
+        .hero h1 .accent {
+            color: var(--gold);
+            display: block;
+        }
+
+    .hero-sub {
+        font-size: 15px;
+        font-weight: 300;
+        color: var(--muted);
+        max-width: 440px;
+        line-height: 1.75;
+        margin-bottom: 40px;
+    }
+
+    .hero-stats {
+        display: flex;
+        gap: 36px;
+    }
+
+    .hero-stat {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+        padding-left: 14px;
+        position: relative;
+    }
+
+        .hero-stat::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 4px;
+            bottom: 4px;
+            width: 2px;
+            background: var(--gold);
+            opacity: 0.55;
+        }
+
+    .hero-stat-num {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--white);
+        line-height: 1;
+    }
+
+    .hero-stat-label {
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .carousel-dots {
+        position: absolute;
+        bottom: 32px;
+        right: 6vw;
+        z-index: 6;
+        display: flex;
+        gap: 7px;
+        align-items: center;
+    }
+
+    .dot {
+        width: 24px;
+        height: 2px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 2px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+        .dot.active {
+            background: var(--gold);
+            width: 44px;
+        }
+
+    .scroll-hint {
+        position: absolute;
+        bottom: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+        color: rgba(255,255,255,0.25);
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        animation: scrollBounce 2.4s ease-in-out infinite;
+    }
+
+    @@keyframes scrollBounce {
+        0%, 100% {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        50% {
+            transform: translateX(-50%) translateY(7px);
+        }
+    }
+
+    .search-section {
+        position: relative;
+        z-index: 20;
+        padding: 0 6vw;
+        margin-top: -88px;
+    }
+
+    .trip-tabs {
+        display: inline-flex;
+        background: var(--navy);
+        padding: 10px 22px;
+        border-radius: 10px 10px 0 0;
+        gap: 22px;
+        border: 1px solid var(--gold-border);
+        border-bottom: none;
+    }
+
+        .trip-tabs label {
+            font-size: 11px;
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: color 0.25s;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+            .trip-tabs label:has(input:checked) {
+                color: var(--gold);
+            }
+
+        .trip-tabs input[type="radio"] {
+            accent-color: var(--gold);
+        }
+
+    .search-card {
+        background: var(--navy-light);
+        padding: 34px 38px;
+        border-radius: 0 18px 18px 18px;
+        border: 1px solid var(--gold-border);
+        box-shadow: 0 32px 80px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.04);
+        position: relative;
+        overflow: hidden;
+    }
+
+        .search-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle at top right, rgba(198,167,94,0.06), transparent 65%);
+            pointer-events: none;
+        }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        align-items: end;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+        .form-group label,
+        .inner-group label {
+            font-size: 9px;
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 9px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .inner-group input {
+            padding: 12px 15px;
+            border: 1px solid rgba(198,167,94,0.14);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            background: rgba(255,255,255,0.035);
+            color: var(--white);
+            width: 100%;
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+            transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
+        }
+
+        .form-group select {
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C6A75E' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 13px center;
+            padding-right: 34px;
+            cursor: pointer;
+        }
+
+            .form-group select option {
+                background: var(--navy-mid);
+                color: var(--white);
+            }
+
+            .form-group input:focus,
+            .form-group select:focus,
+            .inner-group input:focus {
+                border-color: var(--gold);
+                background: rgba(198,167,94,0.05);
+                box-shadow: 0 0 0 3px rgba(198,167,94,0.09);
+            }
+
+        .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) opacity(0.35);
+            cursor: pointer;
+        }
+
+    .passenger-group {
+        display: flex;
+        gap: 8px;
+    }
+
+    .inner-group {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+    }
+
+    .btn-search {
+        background: linear-gradient(135deg, #C6A75E 0%, #d9be80 50%, #C6A75E 100%);
+        background-size: 200% 200%;
+        color: var(--navy);
+        height: 48px;
+        width: 100%;
+        border: none;
+        font-weight: 700;
+        font-size: 11px;
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        border-radius: 8px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+        .btn-search::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-search:hover::before {
+            left: 100%;
+        }
+
+        .btn-search:hover {
+            transform: translateY(-2px);
+        }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 36px;
+    }
+
+    .section-tag {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 9px;
+        letter-spacing: 3px;
+        color: var(--gold);
+        text-transform: uppercase;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        padding: 6px 14px;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+
+    .section-rule {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, rgba(198,167,94,0.25), transparent);
+    }
+
+    .how-section {
+        padding: 80px 6vw 0;
+    }
+
+    .steps-row {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        position: relative;
+    }
+
+        .steps-row::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: calc(12.5% + 14px);
+            right: calc(12.5% + 14px);
+            height: 1px;
+            background: linear-gradient(to right, var(--gold-border), var(--gold-border), transparent);
+            z-index: 0;
+        }
+
+    .step {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .step-num {
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        border: 1px solid var(--gold-border);
+        background: var(--white);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 20px;
+        box-shadow: 0 4px 20px rgba(198,167,94,0.12);
+        transition: background 0.3s, box-shadow 0.3s;
+    }
+
+    .step:hover .step-num {
+        background: var(--navy);
+        color: var(--gold);
+        box-shadow: 0 8px 28px rgba(11,28,45,0.18);
+    }
+
+    .step h4 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--navy);
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+
+    .step p {
+        font-size: 12px;
+        color: var(--muted);
+        line-height: 1.7;
+        font-weight: 400;
+    }
+
+    .features-section {
+        padding: 72px 6vw 0;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .feature-card {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 30px 28px;
+        border: 1px solid rgba(0,0,0,0.055);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: default;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 48px rgba(11,28,45,0.1);
+        }
+
+        .feature-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(to right, var(--gold), transparent);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+
+        .feature-card:hover::after {
+            transform: scaleX(1);
+        }
+
+    .feature-icon-wrap {
+        width: 44px;
+        height: 44px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+    }
+
+        .feature-icon-wrap svg {
+            color: var(--gold);
+        }
+
+    .feature-num {
+        position: absolute;
+        top: 20px;
+        right: 24px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 32px;
+        font-weight: 900;
+        color: rgba(11,28,45,0.04);
+        line-height: 1;
+    }
+
+    .feature-card h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .feature-card p {
+        font-size: 13px;
+        color: #7a8a99;
+        line-height: 1.7;
+    }
+
+    .destinations-section {
+        padding: 72px 6vw 0;
+    }
+
+    .dest-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr;
+        grid-template-rows: 210px 210px;
+        gap: 14px;
+        border-radius: 18px;
+        overflow: hidden;
+    }
+
+    .dest-card {
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        background: var(--navy-light);
+    }
+
+        .dest-card:first-child {
+            grid-row: 1 / 3;
+        }
+
+        .dest-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease, filter 0.6s ease;
+            filter: brightness(0.55) saturate(0.85);
+        }
+
+        .dest-card:hover img {
+            transform: scale(1.06);
+            filter: brightness(0.45) saturate(0.7);
+        }
+
+    .dest-label {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 18px 22px;
+        background: linear-gradient(to top, rgba(11,28,45,0.88), transparent);
+        color: var(--white);
+        pointer-events: none;
+    }
+
+    .dest-city {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-bottom: 4px;
+    }
+
+    .dest-country {
+        font-size: 11px;
+        color: var(--gold);
+        font-weight: 500;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .dest-badge {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        background: var(--gold);
+        color: var(--navy);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 8px;
+        font-weight: 700;
+        padding: 4px 9px;
+        border-radius: 3px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .promo-section {
+        padding: 72px 6vw 0;
+    }
+
+    .promo-banner {
+        background: var(--navy);
+        border: 1px solid var(--gold-border);
+        border-radius: 18px;
+        padding: 50px 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        overflow: hidden;
+    }
+
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -80px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(198,167,94,0.1) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+        .promo-banner::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(198,167,94,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+        }
+
+    .promo-text {
+        position: relative;
+        z-index: 1;
+    }
+
+    .promo-eyebrow {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 9px;
+        letter-spacing: 4px;
+        color: var(--gold);
+        text-transform: uppercase;
+        margin-bottom: 12px;
+    }
+
+    .promo-heading {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(22px, 3vw, 34px);
+        font-weight: 900;
+        color: var(--white);
+        line-height: 1.15;
+        margin-bottom: 12px;
+    }
+
+        .promo-heading span {
+            color: var(--gold);
+        }
+
+    .promo-desc {
+        font-size: 14px;
+        color: var(--muted);
+        font-weight: 300;
+        max-width: 400px;
+        line-height: 1.7;
+    }
+
+    .promo-cta {
+        position: relative;
+        z-index: 1;
+        flex-shrink: 0;
+        margin-left: 40px;
+        text-align: center;
+    }
+
+    .promo-discount {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 60px;
+        font-weight: 900;
+        color: var(--gold);
+        line-height: 1;
+        margin-bottom: 6px;
+    }
+
+    .promo-discount-sub {
+        font-size: 12px;
+        color: var(--text-light);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 22px;
+    }
+
+    .btn-promo {
+        display: inline-block;
+        padding: 13px 28px;
+        background: transparent;
+        border: 1px solid var(--gold);
+        color: var(--gold);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border-radius: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+    }
+
+        .btn-promo:hover {
+            background: var(--gold);
+            color: var(--navy);
+        }
+</style>
+
+<div class="hero">
+    <div class="carousel-container">
+        <div id="slides">
+            <img src="~/images/City2.avif" alt="Slide 1" />
+            <img src="~/images/City3.avif" alt="Slide 2" />
+            <img src="~/images/City1.jpg" alt="Slide 3" />
+            <img src="~/images/City4.avif" alt="Slide 4" />
+            <img src="~/images/City5.avif" alt="Slide 5" />
+        </div>
+    </div>
+    <div class="hero-overlay"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-scan"></div>
+
+    <div class="hero-content">
+        <div class="hero-eyebrow">
+            <div class="hero-eyebrow-line"></div>
+            <span class="hero-eyebrow-text">AeroVista Airlines</span>
+        </div>
+        <h1>
+            Explore More.
+            <span class="accent">Fly Further.</span>
+        </h1>
+        <p class="hero-sub">Seamless journeys to over 200 destinations worldwide — with precision, comfort, and clarity from booking to landing.</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="hero-stat-num">200+</span>
+                <span class="hero-stat-label">Destinations</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-num">98%</span>
+                <span class="hero-stat-label">On-time Rate</span>
+            </div>
+            <div class="hero-stat">
+                <span class="hero-stat-num">4.9</span>
+                <span class="hero-stat-label">Passenger Rating</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="carousel-dots" id="carouselDots">
+        <div class="dot active" data-index="0"></div>
+        <div class="dot" data-index="1"></div>
+        <div class="dot" data-index="2"></div>
+        <div class="dot" data-index="3"></div>
+        <div class="dot" data-index="4"></div>
+    </div>
+
+    <div class="scroll-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
+        scroll
+    </div>
+</div>
+
+<div class="search-section">
+    <div class="trip-tabs">
+        <label><input type="radio" name="tripType" value="roundtrip" checked /> Round Trip</label>
+        <label><input type="radio" name="tripType" value="oneway" /> One-Way</label>
+    </div>
+
+    <div class="search-card">
+        <form asp-action="Search" method="post">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>From</label>
+                    <select asp-for="FromCityId" asp-items="@(new SelectList(Model.Cities, "CityId", "CityName"))"></select>
+                </div>
+                <div class="form-group">
+                    <label>To</label>
+                    <select asp-for="ToCityId" asp-items="@(new SelectList(Model.Cities, "CityId", "CityName"))"></select>
+                </div>
+                <div class="form-group">
+                    <label>Departure</label>
+                    <input asp-for="DepartureDate" type="date" />
+                </div>
+                <div class="form-group" id="returnDateGroup">
+                    <label>Return</label>
+                    <input asp-for="ReturnDate" type="date" />
+                </div>
+                <div class="form-group">
+                    <label>Passengers</label>
+                    <div class="passenger-group">
+                        <div class="inner-group">
+                            <label>Adults</label>
+                            <input type="number" asp-for="Adults" min="1" value="1" />
+                        </div>
+                        <div class="inner-group">
+                            <label>Children</label>
+                            <input type="number" asp-for="Children" min="0" value="0" />
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Class</label>
+                    <select asp-for="TravelClass">
+                        <option>Economy</option>
+                        <option>Business</option>
+                        <option>First</option>
+                    </select>
+                </div>
+                <div></div>
+                <div class="form-group">
+                    <button class="btn-search" type="submit">Search Flights</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="how-section">
+    <div class="section-header">
+        <span class="section-tag">How It Works</span>
+        <div class="section-rule"></div>
+    </div>
+    <div class="steps-row">
+        <div class="step">
+            <div class="step-num">01</div>
+            <h4>Search</h4>
+            <p>Enter your origin, destination, and travel dates to view available flights in real time.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">02</div>
+            <h4>Select</h4>
+            <p>Compare fares across Economy, Business, and First class. Choose what suits your journey.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">03</div>
+            <h4>Book</h4>
+            <p>Enter passenger details and confirm your reservation securely in minutes.</p>
+        </div>
+        <div class="step">
+            <div class="step-num">04</div>
+            <h4>Fly</h4>
+            <p>Receive your e-ticket instantly. Manage your booking anytime from your account.</p>
+        </div>
+    </div>
+</div>
+
+<div class="features-section">
+    <div class="section-header">
+        <span class="section-tag">Why AeroVista</span>
+        <div class="section-rule"></div>
+    </div>
+    <div class="features-grid">
+        <div class="feature-card">
+            <div class="feature-num">01</div>
+            <div class="feature-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+            </div>
+            <h3>Global Network</h3>
+            <p>Fly to 200+ destinations across 6 continents with seamless connections and premium route partnerships.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-num">02</div>
+            <div class="feature-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+            </div>
+            <h3>Secure Booking</h3>
+            <p>Bank-grade encryption and flexible cancellation policies ensure your booking is always protected.</p>
+        </div>
+        <div class="feature-card">
+            <div class="feature-num">03</div>
+            <div class="feature-icon-wrap">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                    <polyline points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+            </div>
+            <h3>Instant Confirmation</h3>
+            <p>Real-time seat availability with e-ticket delivery to your inbox within seconds of booking.</p>
+        </div>
+    </div>
+</div>
+
+<div class="destinations-section">
+    <div class="section-header">
+        <span class="section-tag">Top Destinations</span>
+        <div class="section-rule"></div>
+    </div>
+    <div class="dest-grid">
+        <div class="dest-card">
+            <img src="~/images/newyork.jpg" alt="New York" />
+            <div class="dest-label">
+                <div class="dest-city">New York</div>
+                <div class="dest-country">United States</div>
+            </div>
+            <div class="dest-badge">Popular</div>
+        </div>
+        <div class="dest-card">
+            <img src="~/images/paris.jpg" alt="Paris" />
+            <div class="dest-label">
+                <div class="dest-city">Paris</div>
+                <div class="dest-country">France</div>
+            </div>
+        </div>
+        <div class="dest-card">
+            <img src="~/images/cairo.jpg" alt="Cairo" />
+            <div class="dest-label">
+                <div class="dest-city">Cairo</div>
+                <div class="dest-country">Egypt</div>
+            </div>
+            <div class="dest-badge">New Route</div>
+        </div>
+        <div class="dest-card">
+            <img src="~/images/dubai.jpg" alt="Dubai" />
+            <div class="dest-label">
+                <div class="dest-city">Dubai</div>
+                <div class="dest-country">United Arab Emirates</div>
+            </div>
+        </div>
+        <div class="dest-card">
+            <img src="~/images/london.jpg" alt="London" />
+            <div class="dest-label">
+                <div class="dest-city">London</div>
+                <div class="dest-country">United Kingdom</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="promo-section">
+    <div class="promo-banner">
+        <div class="promo-text">
+            <div class="promo-eyebrow">Limited Time Offer</div>
+            <div class="promo-heading">
+                Early Bird Fares<br><span>Starting This Season</span>
+            </div>
+            <p class="promo-desc">Book your next journey 30 days in advance and unlock exclusive discounts on Business and First Class seats across all routes.</p>
+        </div>
+        <div class="promo-cta">
+            <div class="promo-discount">30%</div>
+            <div class="promo-discount-sub">Off Selected Routes</div>
+            <a href="/" class="btn-promo">View Offers</a>
+        </div>
+    </div>
+</div>
+<div class="trust-strip">
+    <div class="trust-item">
+        <div class="trust-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+            </svg>
+        </div>
+        <div class="trust-text">
+            <strong>Best Airline 2024</strong>
+            <span>Skytrax World Awards</span>
+        </div>
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+        <div class="trust-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+            </svg>
+        </div>
+        <div class="trust-text">
+            <strong>2M+ Passengers</strong>
+            <span>Trusted annually</span>
+        </div>
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+        <div class="trust-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="2" y1="12" x2="22" y2="12" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+            </svg>
+        </div>
+        <div class="trust-text">
+            <strong>200+ Routes</strong>
+            <span>Across 6 continents</span>
+        </div>
+    </div>
+    <div class="trust-divider"></div>
+    <div class="trust-item">
+        <div class="trust-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+        </div>
+        <div class="trust-text">
+            <strong>24/7 Support</strong>
+            <span>Always available</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    let index = 0;
+    const slides = document.getElementById("slides");
+    const total = slides.children.length;
+    const dots = document.querySelectorAll('.dot');
+
+    function goTo(i) {
+        index = (i + total) % total;
+        slides.style.transform = `translateX(-${index * 100}%)`;
+        dots.forEach(d => d.classList.remove('active'));
+        dots[index].classList.add('active');
+    }
+
+    dots.forEach(dot => dot.addEventListener('click', () => goTo(parseInt(dot.dataset.index))));
+    setInterval(() => goTo(index + 1), 5500);
+
+    const radios = document.querySelectorAll('input[name="tripType"]');
+    const returnGroup = document.getElementById("returnDateGroup");
+
+    radios.forEach(radio => {
+        radio.addEventListener("change", function () {
+            returnGroup.style.opacity = this.value === "oneway" ? "0.3" : "1";
+            returnGroup.style.pointerEvents = this.value === "oneway" ? "none" : "auto";
+        });
+    });
+</script>

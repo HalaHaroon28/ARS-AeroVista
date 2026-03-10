@@ -1,0 +1,200 @@
+﻿@model AeroVista.Models.Booking
+
+@{
+    ViewData["Title"] = "Ticket Status";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --gold: #C6A75E;
+        --gold-dim: rgba(198,167,94,0.12);
+        --gold-border: rgba(198,167,94,0.22);
+        --muted: #6a7f95;
+        --text-light: #c8d4e0;
+    }
+
+    .page-background {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(108deg, #0f2841 0%, #0b1c2d 100%);
+    }
+
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(198,167,94,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.03) 1px, transparent 1px);
+        background-size: 72px 72px;
+    }
+
+    .payment-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 100px 20px;
+        min-height: 85vh;
+    }
+
+    .payment-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--gold-border);
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+
+    .payment-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .payment-header h2 {
+            font-family: 'Orbitron';
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .payment-header p {
+            color: var(--muted);
+            font-size: 13px;
+            font-family: 'DM Sans';
+        }
+
+    .summary-box {
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .summary-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: var(--muted);
+        margin-bottom: 4px;
+    }
+
+    .summary-value {
+        font-family: 'Orbitron';
+        font-size: 16px;
+        color: var(--gold);
+    }
+
+    .details-list {
+        list-style: none;
+        padding: 0;
+        margin: 20px 0;
+        border-top: 1px solid var(--gold-border);
+    }
+
+        .details-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(198,167,94,0.1);
+            font-size: 13px;
+            color: white;
+        }
+
+        .details-list span {
+            color: var(--muted);
+        }
+
+    .btn-group {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+    }
+
+    .btn-submit {
+        flex: 1;
+        padding: 15px;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Orbitron';
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: 0.3s;
+        text-align: center;
+        text-decoration: none;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--gold) 0%, #d9be80 100%);
+        color: var(--navy);
+    }
+
+    .btn-outline {
+        background: rgba(255,255,255,0.05);
+        color: white;
+        border: 1px solid var(--gold-border);
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    }
+</style>
+
+<div class="page-background"><div class="hero-grid"></div></div>
+
+<div class="payment-container">
+    <div class="payment-card">
+        <div class="payment-header">
+            <h2>Booking <span style="color: var(--gold)">Status</span></h2>
+            <p>Real-time reservation telemetry</p>
+        </div>
+
+        <div class="summary-box">
+            <div>
+                <div class="summary-label">Reference ID</div>
+                <div class="summary-value">AV-REF-@Model.Id</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="summary-label">Verification</div>
+                <div style="color: @(Model.Status == "Cancelled" ? "#ff4d4d" : "#00ff88"); font-family: 'Orbitron'; font-size: 11px; letter-spacing: 1px;">
+                    @Model.Status.ToUpper()
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-details">
+            <ul class="details-list">
+                <li><span>Itinerary:</span> <strong>@Model.Flight.FromCity.CityName → @Model.Flight.ToCity.CityName</strong></li>
+                <li><span>Departure:</span> <strong>@Model.Flight.DepartureTime.ToString("dd MMM yyyy HH:mm")</strong></li>
+                <li><span>Class:</span> <strong>@Model.TravelClass</strong></li>
+                <li><span>Passengers:</span> <strong>@(Model.Adults + Model.Children)</strong></li>
+                <li><span>Fare Total:</span> <strong>Rs. @Model.TotalPrice.ToString("N0")</strong></li>
+            </ul>
+        </div>
+
+        <div class="btn-group">
+            @if (Model.Status != "Cancelled")
+            {
+                <a asp-action="Reschedule" asp-route-id="@Model.Id" class="btn-submit btn-primary">Reschedule</a>
+                <a asp-action="Cancel" asp-route-id="@Model.Id" class="btn-submit btn-outline">Void Trip</a>
+            }
+            else
+            {
+                <a asp-action="MyBookings" class="btn-submit btn-primary" style="flex:1">Back to My Bookings</a>
+            }
+        </div>
+    </div>
+</div>

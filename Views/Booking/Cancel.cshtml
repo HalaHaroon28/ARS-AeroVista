@@ -1,0 +1,212 @@
+﻿@model AeroVista.Models.Booking
+
+@{
+    ViewData["Title"] = "Cancel Reservation";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --gold: #C6A75E;
+        --gold-border: rgba(198,167,94,0.22);
+        --muted: #6a7f95;
+        --danger: #ff4d4d;
+    }
+
+    .page-background {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(108deg, #0f2841 0%, #0b1c2d 100%);
+    }
+
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(198,167,94,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.03) 1px, transparent 1px);
+        background-size: 72px 72px;
+    }
+
+    .payment-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 100px 20px;
+        min-height: 85vh;
+    }
+
+    .payment-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid rgba(255, 77, 77, 0.3);
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    }
+
+    .payment-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .payment-header h2 {
+            font-family: 'Orbitron';
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: var(--danger);
+            margin-bottom: 8px;
+        }
+
+        .payment-header p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+    .summary-box {
+        background: rgba(255, 77, 77, 0.08);
+        border: 1px solid rgba(255, 77, 77, 0.2);
+        border-radius: 12px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+    }
+
+    .summary-label {
+        font-size: 10px;
+        text-transform: uppercase;
+        color: var(--danger);
+        margin-bottom: 4px;
+        font-family: 'Orbitron';
+    }
+
+    .summary-value {
+        font-family: 'Orbitron';
+        font-size: 16px;
+        color: white;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--muted);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+    .form-control {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--gold-border);
+        color: white;
+        border-radius: 8px;
+        padding: 14px;
+        width: 100%;
+        outline: none;
+        appearance: none;
+    }
+
+        .form-control option {
+            background: #0b1c2d;
+            color: white;
+            padding: 10px;
+        }
+
+    select.form-control {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23C6A75E' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C2.185 5.355 2.408 4.86 2.812 4.86h9.576a.79.79 0 0 1 .607 1.296l-4.796 5.484a.79.79 0 0 1-1.206 0z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: calc(100% - 15px) center;
+    }
+
+    .warning-text {
+        font-size: 12px;
+        color: var(--muted);
+        text-align: center;
+        margin-bottom: 25px;
+        line-height: 1.6;
+    }
+
+    .btn-submit {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Orbitron';
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: 0.3s;
+        background: linear-gradient(135deg, var(--danger) 0%, #b30000 100%);
+        color: white;
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 77, 77, 0.3);
+        }
+
+    .retain-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: var(--gold);
+        text-decoration: none;
+        font-size: 11px;
+        font-family: 'Orbitron';
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+</style>
+
+<div class="page-background"><div class="hero-grid"></div></div>
+
+<div class="payment-container">
+    <div class="payment-card">
+        <div class="payment-header">
+            <h2>Void <span style="color: white">Itinerary</span></h2>
+            <p>Protocol for permanent reservation removal</p>
+        </div>
+
+        <div class="summary-box">
+            <div>
+                <div class="summary-label">Refund Credit</div>
+                <div class="summary-value">Rs. @((Model.TotalPrice * 0.80m).ToString("N0"))</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="summary-label">Deduction</div>
+                <div style="font-family: 'Orbitron'; font-size: 12px; color: var(--danger);">20% FEE</div>
+            </div>
+        </div>
+
+        <form asp-action="ConfirmCancellation" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="id" value="@Model.Id" />
+
+            <div class="form-group">
+                <label>Reason for Cancellation</label>
+                <select name="reason" required class="form-control">
+                    <option value="Schedule Conflict">Schedule Conflict</option>
+                    <option value="Health Issues">Health Issues</option>
+                    <option value="Personal Reasons">Personal Reasons</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+
+            <p class="warning-text">By clicking confirm, your seat will be released back into the global pool immediately. This action is irreversible.</p>
+
+            <button type="submit" class="btn-submit">Confirm Void Sequence</button>
+            <a asp-action="MyBookings" class="retain-link">Retain Booking</a>
+        </form>
+    </div>
+</div>

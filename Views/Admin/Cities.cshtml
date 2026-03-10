@@ -1,0 +1,559 @@
+﻿@model IEnumerable<AeroVista.Models.City>
+
+@{
+    ViewData["Title"] = "Cities Management";
+}
+
+<style>
+    .page-container {
+        padding: 30px;
+        background: var(--off-white);
+        min-height: 100vh;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+        .page-title span {
+            color: var(--gold);
+        }
+
+    .btn-create {
+        background: var(--gold);
+        color: var(--navy);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+        .btn-create:hover {
+            background: var(--navy);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+    /* Stats Cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        border: 1px solid rgba(198,167,94,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold-border);
+            box-shadow: 0 8px 25px rgba(198,167,94,0.15);
+        }
+
+    .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .stat-title {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        font-weight: 500;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--gold-dim);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+    }
+
+    .stat-value {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+    /* Search and Filter */
+    .search-section {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid rgba(198,167,94,0.1);
+        margin-bottom: 25px;
+    }
+
+    .search-box {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        min-width: 250px;
+    }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(198,167,94,0.1);
+        }
+
+    .filter-select {
+        padding: 12px 15px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 8px;
+        font-size: 14px;
+        color: var(--navy);
+        background: white;
+        cursor: pointer;
+    }
+
+    /* Cities Table */
+    .table-section {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        border: 1px solid rgba(198,167,94,0.1);
+        overflow-x: auto;
+    }
+
+    .cities-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .cities-table th {
+            text-align: left;
+            padding: 15px 12px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            font-weight: 600;
+            border-bottom: 2px solid rgba(198,167,94,0.2);
+        }
+
+        .cities-table td {
+            padding: 15px 12px;
+            font-size: 14px;
+            color: var(--navy);
+            border-bottom: 1px solid rgba(198,167,94,0.05);
+            vertical-align: middle;
+        }
+
+        .cities-table tr:hover td {
+            background: rgba(198,167,94,0.02);
+        }
+
+    /* Airport Code Badge */
+    .airport-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        background: var(--gold-dim);
+        color: var(--gold);
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        font-family: monospace;
+        letter-spacing: 1px;
+    }
+
+    /* Country with Flag (Optional) */
+    .country-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .flag-icon {
+        width: 24px;
+        height: 16px;
+        background: var(--gold-dim);
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 8px;
+    }
+
+    .action-btn {
+        padding: 6px 10px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 6px;
+        color: var(--navy);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 12px;
+        background: white;
+    }
+
+        .action-btn:hover {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.edit:hover {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .action-btn.details:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .action-btn.delete:hover {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+        color: var(--muted);
+    }
+
+        .empty-state svg {
+            width: 60px;
+            height: 60px;
+            color: var(--gold-dim);
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .page-item {
+        padding: 8px 12px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 6px;
+        color: var(--navy);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .page-item:hover,
+        .page-item.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--navy);
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .page-container {
+            padding: 20px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .search-box {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .search-input, .filter-select {
+            width: 100%;
+        }
+
+        .cities-table {
+            font-size: 13px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">
+            Cities <span>Management</span>
+        </h1>
+        <a asp-action="AddCities" class="btn-create">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="16" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Add New City
+        </a>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Total Cities</span>
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 2v4M12 22v-4M4 12H2M22 12h-2M19.07 4.93l-2.83 2.83M4.93 19.07l2.83-2.83M19.07 19.07l-2.83-2.83M4.93 4.93l2.83 2.83" />
+                    </svg>
+                </div>
+            </div>
+            <div class="stat-value">@Model.Count()</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Countries</span>
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M12 2a14 14 0 0 0 0 20 14 14 0 0 0 0-20" />
+                        <path d="M2 12h20" />
+                    </svg>
+                </div>
+            </div>
+            <div class="stat-value">@Model.Select(c => c.Country).Distinct().Count()</div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Airports</span>
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 10a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                </div>
+            </div>
+            <div class="stat-value">@Model.Count()</div>
+        </div>
+    </div>
+
+    <!-- Search Section -->
+    <div class="search-section">
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search cities by name, code or country...">
+            <select class="filter-select" id="countryFilter">
+                <option value="">All Countries</option>
+                @foreach (var country in Model.Select(c => c.Country).Distinct().OrderBy(c => c))
+                {
+                    <option value="@country">@country</option>
+                }
+            </select>
+        </div>
+    </div>
+
+    <!-- Cities Table -->
+    <div class="table-section">
+        <table class="cities-table" id="citiesTable">
+            <thead>
+                <tr>
+                    <th>City</th>
+                    <th>Airport Code</th>
+                    <th>Country</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <div style="display: flex; align-items: center; gap: 10px;">
+                                <div style="width: 32px; height: 32px; background: var(--gold-dim); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gold);">
+                                    🏙️
+                                </div>
+                                <strong>@item.CityName</strong>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="airport-badge">@item.AirportCode</span>
+                        </td>
+                        <td>
+                            <div class="country-cell">
+                                <span class="flag-icon">🌍</span>
+                                @item.Country
+                            </div>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a asp-action="UpdateCities" asp-route-id="@item.CityId" class="action-btn edit" title="Edit City">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                                    </svg>
+                                    Edit
+                                </a>
+                                <a asp-action="DeleteCities" asp-route-id="@item.CityId" class="action-btn delete" title="Delete City">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6" />
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
+                                    </svg>
+                                    Delete
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="8" x2="12" y2="12" />
+                    <line x1="12" y1="16" x2="12.01" y2="16" />
+                </svg>
+                <h3>No Cities Found</h3>
+                <p style="color: var(--muted);">Get started by adding your first city.</p>
+                <a asp-action="AddCities" class="btn-create" style="display: inline-flex; margin-top: 15px;">
+                    Add New City
+                </a>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination (if needed) -->
+    @if (Model.Count() > 10)
+    {
+        <div class="pagination">
+            <a href="#" class="page-item">←</a>
+            <a href="#" class="page-item active">1</a>
+            <a href="#" class="page-item">2</a>
+            <a href="#" class="page-item">3</a>
+            <a href="#" class="page-item">→</a>
+        </div>
+    }
+</div>
+
+<script>
+    // Search functionality
+    document.getElementById('searchInput').addEventListener('keyup', function() {
+        let searchText = this.value.toLowerCase();
+        let countryFilter = document.getElementById('countryFilter').value.toLowerCase();
+        let tableRows = document.querySelectorAll('#citiesTable tbody tr');
+
+        tableRows.forEach(row => {
+            let cityName = row.cells[0]?.textContent.toLowerCase() || '';
+            let airportCode = row.cells[1]?.textContent.toLowerCase() || '';
+            let country = row.cells[2]?.textContent.toLowerCase() || '';
+
+            let matchesSearch = cityName.includes(searchText) ||
+                               airportCode.includes(searchText) ||
+                               country.includes(searchText);
+
+            let matchesCountry = countryFilter === '' || country.includes(countryFilter);
+
+            if (matchesSearch && matchesCountry) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    // Country filter
+    document.getElementById('countryFilter').addEventListener('change', function() {
+        let searchText = document.getElementById('searchInput').value.toLowerCase();
+        let countryFilter = this.value.toLowerCase();
+        let tableRows = document.querySelectorAll('#citiesTable tbody tr');
+
+        tableRows.forEach(row => {
+            let cityName = row.cells[0]?.textContent.toLowerCase() || '';
+            let airportCode = row.cells[1]?.textContent.toLowerCase() || '';
+            let country = row.cells[2]?.textContent.toLowerCase() || '';
+
+            let matchesSearch = cityName.includes(searchText) ||
+                               airportCode.includes(searchText) ||
+                               country.includes(searchText);
+
+            let matchesCountry = countryFilter === '' || country.includes(countryFilter);
+
+            if (matchesSearch && matchesCountry) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    // Auto uppercase for airport code in add form (if on that page)
+    if (document.getElementById('AirportCode')) {
+        document.getElementById('AirportCode').addEventListener('input', function() {
+            this.value = this.value.toUpperCase();
+        });
+    }
+</script>

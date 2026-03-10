@@ -1,0 +1,366 @@
+﻿@model List<AeroVista.Models.Booking>
+
+@{
+    ViewData["Title"] = "My Bookings";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --navy-light: #1a3350;
+        --gold: #C6A75E;
+        --gold-light: #d9be80;
+        --gold-dim: rgba(198,167,94,0.1);
+        --gold-border: rgba(198,167,94,0.2);
+        --muted: #6a7f95;
+        --text-light: #c8d4e0;
+        --white: #ffffff;
+        --danger: #ff4d4d;
+        --success: #28a745;
+        --warning: #ffc107;
+    }
+
+    body {
+        background: var(--navy);
+        font-family: 'DM Sans', sans-serif;
+        color: var(--white);
+        margin: 0;
+        overflow-x: hidden;
+    }
+
+    .page-background {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(108deg, rgba(15, 40, 65, 1) 0%, rgba(11, 28, 45, 1) 100%);
+    }
+
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(198,167,94,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.035) 1px, transparent 1px);
+        background-size: 72px 72px;
+        animation: gridDrift 22s linear infinite;
+    }
+
+    @@keyframes gridDrift {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 72px 72px;
+        }
+    }
+
+    .page-wrapper {
+        padding: 80px 6vw;
+        max-width: 1200px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 48px;
+    }
+
+    .section-tag {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        letter-spacing: 3px;
+        color: var(--gold);
+        text-transform: uppercase;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        padding: 8px 16px;
+        border-radius: 4px;
+    }
+
+    .section-rule {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, rgba(198,167,94,0.3), transparent);
+    }
+
+    .page-title h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(32px, 5vw, 48px);
+        font-weight: 900;
+        color: var(--white);
+        margin-bottom: 10px;
+        letter-spacing: -1px;
+    }
+
+    .page-title p {
+        color: var(--muted);
+        font-weight: 300;
+        margin-bottom: 40px;
+    }
+
+    .bookings-list {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .booking-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--gold-border);
+        border-radius: 18px;
+        padding: 35px;
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr 1.2fr 1fr;
+        align-items: center;
+        gap: 30px;
+        position: relative;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s ease;
+    }
+
+        .booking-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--gold);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+
+    .location-group {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .city-code {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 22px;
+        font-weight: 800;
+        color: var(--white);
+        letter-spacing: 1px;
+    }
+
+    .city-full {
+        font-size: 10px;
+        color: var(--gold);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 500;
+    }
+
+    .time-display {
+        font-size: 13px;
+        color: var(--text-light);
+        margin-top: 4px;
+    }
+
+    .flight-path {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .path-line {
+        width: 100%;
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold), transparent);
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .path-plane {
+        color: var(--gold);
+        background: var(--navy-mid);
+        padding: 0 10px;
+        position: absolute;
+    }
+
+    .dynamic-status {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 700;
+    }
+
+    .status-pending {
+        color: var(--warning);
+    }
+
+    .status-confirmed {
+        color: var(--success);
+    }
+
+    .status-cancelled {
+        color: var(--danger);
+    }
+
+    .status-rescheduled {
+        color: #17a2b8;
+    }
+
+    .booking-details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 12px;
+    }
+
+    .status-badge {
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        color: var(--gold);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        padding: 6px 14px;
+        border-radius: 6px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .ref-number {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 11px;
+        color: var(--muted);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 100px 20px;
+        background: rgba(255,255,255,0.02);
+        border: 1px dashed var(--gold-border);
+        border-radius: 20px;
+    }
+
+    .btn-action-base {
+        padding: 10px 18px;
+        text-decoration: none !important;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        letter-spacing: 1px;
+        border-radius: 6px;
+        transition: all 0.3s ease;
+        display: inline-block;
+        border: 1px solid transparent;
+        text-align: center;
+    }
+
+    .btn-status {
+        background: var(--navy-light);
+        border: 1px solid var(--gold-border);
+        color: var(--gold);
+    }
+
+        .btn-status:hover {
+            background: var(--gold-dim);
+            transform: translateY(-3px);
+        }
+
+    .btn-reschedule {
+        background: var(--navy-light);
+        color: white;
+        border: 1px solid var(--gold-border);
+    }
+
+        .btn-reschedule:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+    .btn-cancel {
+        background: rgba(255,0,0,0.1);
+        color: #ff4d4d;
+        border: 1px solid rgba(255,0,0,0.2);
+    }
+
+        .btn-cancel:hover {
+            background: rgba(255,0,0,0.2);
+            transform: translateY(-3px);
+        }
+</style>
+
+<div class="page-background">
+    <div class="hero-grid"></div>
+</div>
+
+<div class="page-wrapper">
+    <div class="section-header">
+        <div class="section-tag">Member Portal</div>
+        <div class="section-rule"></div>
+    </div>
+
+    <div class="page-title">
+        <h1>My <span style="color: var(--gold)">Reservations</span></h1>
+        <p>Review and manage your upcoming AeroVista voyages.</p>
+    </div>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-state">
+            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--gold-border)" stroke-width="1">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.9 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.82 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+            </svg>
+            <h3 style="font-family: 'Orbitron'; margin-top: 20px;">No Active Itineraries</h3>
+            <p>Your sky-bound journey awaits. Start by selecting a destination.</p>
+            <a href="/" class="btn-action">Find a Flight</a>
+        </div>
+    }
+    else
+    {
+        <div class="bookings-list">
+            @foreach (var booking in Model)
+            {
+                <div class="booking-card">
+                    <div class="location-group">
+                        <div class="city-full">Origin</div>
+                        <div class="city-code">@booking.Flight.FromCity.CityName</div>
+                        <div class="time-display">@booking.Flight.DepartureTime.ToString("HH:mm") | @booking.Flight.DepartureTime.ToString("dd MMM")</div>
+                    </div>
+
+                    <div class="flight-path">
+                        <div class="path-line">
+                            <div class="path-plane">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
+                                </svg>
+                            </div>
+                        </div>
+                        <div class="dynamic-status status-@booking.Status.ToLower()">
+                            @booking.Status
+                        </div>
+                    </div>
+
+                    <div class="location-group">
+                        <div class="city-full">Destination</div>
+                        <div class="city-code">@booking.Flight.ToCity.CityName</div>
+                        <div class="time-display">@booking.Flight.ArrivalTime.ToString("HH:mm") | @booking.Flight.ArrivalTime.ToString("dd MMM")</div>
+                    </div>
+
+                    <div class="booking-details">
+                        <div class="status-badge">
+                            @((booking.Adults + booking.Children) == 1 ? "1 Passenger" : (booking.Adults + booking.Children) + " Passengers")
+                        </div>
+                        <div class="ref-number">REF: AV-@((1000 + booking.Id).ToString())</div>
+
+                        <div style="display:flex; gap:8px; margin-top:10px;">
+                            <a asp-action="Status" asp-route-id="@booking.Id" class="btn-action-base btn-status">Info</a>
+
+                            @if (booking.Status != "Cancelled")
+                            {
+                                <a asp-action="Reschedule" asp-route-id="@booking.Id" class="btn-action-base btn-reschedule">Modify</a>
+                                <a asp-action="Cancel" asp-route-id="@booking.Id" class="btn-action-base btn-cancel">Void</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

@@ -1,0 +1,446 @@
+﻿@model AeroVista.Models.Flights
+
+@{
+    ViewData["Title"] = "Flight Details";
+}
+
+<style>
+    .page-container {
+        padding: 30px;
+        background: var(--off-white);
+        min-height: 100vh;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+        .page-title span {
+            color: var(--gold);
+        }
+
+    .btn-back {
+        background: transparent;
+        color: var(--navy);
+        border: 1px solid var(--gold-border);
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+        .btn-back:hover {
+            background: var(--gold-dim);
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+    /* Details Container */
+    .details-container {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        border: 1px solid rgba(198,167,94,0.1);
+        max-width: 800px;
+        margin: 0 auto;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+    }
+
+    /* Route Header */
+    .route-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .route-cities {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        margin-bottom: 15px;
+    }
+
+    .city-display {
+        text-align: center;
+    }
+
+    .city-code {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 5px;
+    }
+
+    .city-name {
+        font-size: 14px;
+        color: var(--muted);
+    }
+
+    .route-arrow-large {
+        color: var(--gold);
+        font-size: 24px;
+    }
+
+    .flight-id {
+        display: inline-block;
+        padding: 8px 16px;
+        background: var(--gold-dim);
+        color: var(--gold);
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+    }
+
+    /* Details Grid */
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+
+    .detail-card {
+        background: var(--off-white);
+        border-radius: 8px;
+        padding: 20px;
+    }
+
+        .detail-card.full-width {
+            grid-column: span 2;
+        }
+
+    .detail-card-title {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        font-weight: 500;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .time-detail {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .time-label {
+        color: var(--muted);
+        font-size: 14px;
+    }
+
+    .time-value {
+        font-weight: 600;
+        color: var(--navy);
+    }
+
+    .date-value {
+        font-size: 13px;
+        color: var(--muted);
+        margin-top: 2px;
+    }
+
+    .price-large {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--gold);
+        text-align: center;
+        margin: 10px 0;
+    }
+
+    .seats-progress {
+        margin-top: 15px;
+    }
+
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: rgba(198,167,94,0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 10px 0;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background: var(--gold);
+        border-radius: 4px;
+        transition: width 0.3s ease;
+    }
+
+    .seats-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 13px;
+        color: var(--muted);
+    }
+
+    .seats-available {
+        color: #10b981;
+        font-weight: 600;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 15px;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .btn-edit {
+        background: var(--gold);
+        color: var(--navy);
+        border: none;
+        padding: 14px 30px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        flex: 1;
+        justify-content: center;
+    }
+
+        .btn-edit:hover {
+            background: var(--navy);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+    .btn-delete-nav {
+        background: transparent;
+        color: #ef4444;
+        border: 1px solid #ef4444;
+        padding: 14px 30px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        flex: 1;
+        justify-content: center;
+    }
+
+        .btn-delete-nav:hover {
+            background: #ef4444;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .page-container {
+            padding: 20px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .details-container {
+            padding: 20px;
+        }
+
+        .route-cities {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .route-arrow-large {
+            transform: rotate(90deg);
+        }
+
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .detail-card.full-width {
+            grid-column: span 1;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">
+            Flight <span>Details</span>
+        </h1>
+        <a asp-action="Index" class="btn-back">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="19" y1="12" x2="5" y2="12" />
+                <polyline points="12 19 5 12 12 5" />
+            </svg>
+            Back to List
+        </a>
+    </div>
+
+    <!-- Details Container -->
+    <div class="details-container">
+        <!-- Route Header -->
+        <div class="route-header">
+            <div class="route-cities">
+                <div class="city-display">
+                    <div class="city-code">@Model.FromCity?.AirportCode</div>
+                    <div class="city-name">@Model.FromCity?.CityName</div>
+                </div>
+                <div class="route-arrow-large">→</div>
+                <div class="city-display">
+                    <div class="city-code">@Model.ToCity?.AirportCode</div>
+                    <div class="city-name">@Model.ToCity?.CityName</div>
+                </div>
+            </div>
+            <span class="flight-id">Flight ID: #@Model.Id</span>
+        </div>
+
+        <!-- Details Grid -->
+        <div class="details-grid">
+            <!-- Departure Card -->
+            <div class="detail-card">
+                <div class="detail-card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    Departure
+                </div>
+                <div class="time-detail">
+                    <span class="time-label">Time:</span>
+                    <span class="time-value">@Model.DepartureTime.ToString("HH:mm")</span>
+                </div>
+                <div class="date-value">@Model.DepartureTime.ToString("dddd, dd MMMM yyyy")</div>
+            </div>
+
+            <!-- Arrival Card -->
+            <div class="detail-card">
+                <div class="detail-card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 8 14" />
+                    </svg>
+                    Arrival
+                </div>
+                <div class="time-detail">
+                    <span class="time-label">Time:</span>
+                    <span class="time-value">@Model.ArrivalTime.ToString("HH:mm")</span>
+                </div>
+                <div class="date-value">@Model.ArrivalTime.ToString("dddd, dd MMMM yyyy")</div>
+            </div>
+
+            <!-- Duration Card -->
+            <div class="detail-card">
+                <div class="detail-card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                    Duration
+                </div>
+                @{
+                    var duration = Model.ArrivalTime - Model.DepartureTime;
+                    var hours = (int)duration.TotalHours;
+                    var minutes = duration.Minutes;
+                }
+                <div class="time-value" style="font-size: 20px;">@hours @($"{minutes}min")</div>
+            </div>
+
+            <!-- Price Card -->
+            <div class="detail-card">
+                <div class="detail-card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                    Price
+                </div>
+                <div class="price-large">$@Model.Price.ToString("N0")</div>
+            </div>
+
+            <!-- Seats Card (Full Width) -->
+            <div class="detail-card full-width">
+                <div class="detail-card-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M5.5 20v-4a6.5 6.5 0 0 1 13 0v4" />
+                    </svg>
+                    Seat Availability
+                </div>
+                <div class="seats-progress">
+                    @{
+                        var totalSeats = 180; // Assuming typical plane capacity
+                        var bookedSeats = totalSeats - Model.SeatsAvailable;
+                        var percentage = (bookedSeats * 100) / totalSeats;
+                    }
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: @percentage%"></div>
+                    </div>
+                    <div class="seats-stats">
+                        <span>Total Capacity: <strong>@totalSeats</strong></span>
+                        <span>Booked: <strong>@bookedSeats</strong></span>
+                        <span class="seats-available">Available: <strong>@Model.SeatsAvailable</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <a asp-action="EditFlight" asp-route-id="@Model.Id" class="btn-edit">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                </svg>
+                Edit Flight
+            </a>
+            <a asp-action="DeleteFlight" asp-route-id="@Model.Id" class="btn-delete-nav" onclick="return confirm('Are you sure you want to delete this flight?')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="3 6 5 6 21 6" />
+                    <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
+                </svg>
+                Delete Flight
+            </a>
+        </div>
+    </div>
+</div>

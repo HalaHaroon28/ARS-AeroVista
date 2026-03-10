@@ -1,0 +1,363 @@
+﻿@page
+@model AeroVista.Areas.Identity.Pages.Account.LoginModel
+@using AeroVista.Areas.Identity.Pages.Account
+
+@{
+    ViewData["Title"] = "Log in";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --gold: #C6A75E;
+        --gold-light: #d9be80;
+        --gold-dim: rgba(198,167,94,0.1);
+        --gold-border: rgba(198,167,94,0.22);
+        --muted: #6a7f95;
+        --text-light: #c8d4e0;
+        --white: #ffffff;
+    }
+
+    .register-wrapper {
+        display: flex;
+        min-height: 100vh;
+        width: 100%;
+        overflow-x: hidden;
+    }
+
+    .register-bg {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+        display: none;
+    }
+
+    @@media (min-width: 900px) {
+        .register-bg {
+            display: block;
+        }
+    }
+
+    .register-bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: brightness(0.45) saturate(0.8);
+    }
+
+    .register-bg-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(to right, transparent 40%, var(--navy) 100%), linear-gradient(to top, rgba(11,28,45,0.7) 0%, transparent 50%);
+    }
+
+    .register-bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(198,167,94,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.04) 1px, transparent 1px);
+        background-size: 64px 64px;
+    }
+
+    .register-bg-text {
+        position: absolute;
+        bottom: 52px;
+        left: 52px;
+        z-index: 2;
+    }
+
+        .register-bg-text h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--white);
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+            .register-bg-text h3 span {
+                color: var(--gold);
+            }
+
+        .register-bg-text p {
+            font-size: 13px;
+            font-weight: 300;
+            color: rgba(255,255,255,0.45);
+            max-width: 280px;
+            line-height: 1.7;
+        }
+
+    .register-panel {
+        width: 100%;
+        max-width: 580px;
+        flex-shrink: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px 44px;
+        background: var(--navy);
+        position: relative;
+        z-index: 1;
+        border-left: 1px solid var(--gold-border);
+    }
+
+        .register-panel::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(198,167,94,0.055) 0%, transparent 65%);
+            pointer-events: none;
+        }
+
+    .register-card {
+        width: 100%;
+        max-width: 480px;
+        animation: cardIn 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    @@keyframes cardIn {
+        from {
+            opacity: 0;
+            transform: translateY(24px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .card-top-bar {
+        height: 3px;
+        background: linear-gradient(to right, var(--gold), transparent);
+        margin-bottom: 36px;
+    }
+
+    .card-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .card-eyebrow-line {
+        width: 28px;
+        height: 1px;
+        background: var(--gold);
+        opacity: 0.7;
+    }
+
+    .card-eyebrow-text {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 9px;
+        font-weight: 600;
+        letter-spacing: 3.5px;
+        color: var(--gold);
+        text-transform: uppercase;
+    }
+
+    .card-header {
+        margin-bottom: 32px;
+    }
+
+        .card-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--white);
+            letter-spacing: -0.5px;
+            margin-bottom: 8px;
+        }
+
+        .card-header p {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            font-weight: 600;
+            margin-bottom: 9px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+        }
+
+        .form-group input {
+            padding: 13px 15px;
+            border: 1px solid rgba(198,167,94,0.14);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 400;
+            background: rgba(255,255,255,0.04);
+            color: var(--white);
+            outline: none;
+            transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
+        }
+
+            .form-group input::placeholder {
+                color: rgba(255,255,255,0.18);
+            }
+
+            .form-group input:focus {
+                border-color: var(--gold);
+                background: rgba(198,167,94,0.05);
+                box-shadow: 0 0 0 3px rgba(198,167,94,0.09);
+            }
+
+    .options-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 28px;
+    }
+
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+        .checkbox-group input[type="checkbox"] {
+            accent-color: var(--gold);
+            width: 14px;
+            height: 14px;
+            cursor: pointer;
+        }
+
+        .checkbox-group label {
+            font-size: 12px;
+            color: var(--muted);
+            cursor: pointer;
+            font-weight: 400;
+            margin-bottom: 0;
+            text-transform: none;
+            letter-spacing: normal;
+        }
+
+    .forgot-link {
+        font-size: 12px;
+        color: var(--gold);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s;
+    }
+
+    .btn-register {
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+        background-size: 200% 200%;
+        color: var(--navy);
+        height: 50px;
+        width: 100%;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        font-size: 11px;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        margin-top: 24px;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .login-footer {
+        text-align: center;
+        margin-top: 28px;
+        font-size: 13px;
+        color: var(--muted);
+        padding-top: 24px;
+        border-top: 1px solid rgba(198,167,94,0.08);
+    }
+
+        .login-footer a {
+            color: var(--gold);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+    .text-danger {
+        font-size: 11px;
+        color: #e07070;
+        margin-top: 5px;
+    }
+</style>
+
+<div class="register-wrapper">
+    <div class="register-bg">
+        <img src="~/images/City1.jpg" alt="Background" />
+        <div class="register-bg-overlay"></div>
+        <div class="register-bg-grid"></div>
+        <div class="register-bg-text">
+            <h3>The World<br><span>Awaits You.</span></h3>
+            <p>Premium flights to over 200 destinations — book with confidence.</p>
+        </div>
+    </div>
+
+    <div class="register-panel">
+        <div class="register-card">
+            <div class="card-top-bar"></div>
+
+            <div class="card-eyebrow">
+                <div class="card-eyebrow-line"></div>
+                <span class="card-eyebrow-text">AeroVista Airlines</span>
+            </div>
+
+            <div class="card-header">
+                <h2>Welcome Back</h2>
+                <p>Sign in to manage your bookings and reservations.</p>
+            </div>
+
+            <form id="account" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Email">Email Address</label>
+                    <input asp-for="Input.Email" placeholder="name@example.com" />
+                    <span asp-validation-for="Input.Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Input.Password">Password</label>
+                    <input asp-for="Input.Password" type="password" placeholder="••••••••" />
+                    <span asp-validation-for="Input.Password" class="text-danger"></span>
+                </div>
+
+                <div class="options-row">
+                    <div class="checkbox-group">
+                        <input asp-for="Input.RememberMe" />
+                        <label asp-for="Input.RememberMe">Remember me</label>
+                    </div>
+                    <a id="forgot-password" class="forgot-link" asp-page="./ForgotPassword">Forgot password?</a>
+                </div>
+
+                <button id="login-submit" type="submit" class="btn-register">Sign In</button>
+            </form>
+
+            <div class="login-footer">
+                Don't have an account? <a asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">Create one</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

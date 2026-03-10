@@ -1,0 +1,255 @@
+﻿
+@model AeroVista.Models.Booking
+
+@{
+    ViewData["Title"] = "Secure Payment";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --gold: #C6A75E;
+        --gold-light: #d9be80;
+        --gold-dim: rgba(198,167,94,0.1);
+        --gold-border: rgba(198,167,94,0.2);
+        --muted: #6a7f95;
+        --white: #ffffff;
+    }
+
+    body {
+        background: var(--navy);
+        font-family: 'DM Sans', sans-serif;
+        color: var(--white);
+        margin: 0;
+    }
+
+    .page-background {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(108deg, #0f2841 0%, #0b1c2d 100%);
+    }
+
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(198,167,94,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.03) 1px, transparent 1px);
+        background-size: 60px 60px;
+    }
+
+    .payment-container {
+        max-width: 580px;
+        margin: 60px auto;
+        position: relative;
+        z-index: 10;
+        padding: 0 20px;
+    }
+
+    .payment-card {
+        background: rgba(17, 34, 54, 0.6);
+        backdrop-filter: blur(12px);
+        border: 1px solid var(--gold-border);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    }
+
+    .payment-header {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+        .payment-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            color: var(--white);
+        }
+
+        .payment-header p {
+            color: var(--muted);
+            font-size: 13px;
+            font-weight: 300;
+        }
+
+    .summary-box {
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .summary-label {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 9px;
+        color: var(--gold);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+    }
+
+    .summary-value {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--white);
+    }
+
+    .payment-details {
+        background: rgba(255,255,255,0.03);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 30px;
+        border-left: 3px solid var(--gold);
+    }
+
+    .details-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        color: var(--muted);
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+    }
+
+    .details-list {
+        list-style: none;
+        padding: 0;
+    }
+
+        .details-list li {
+            font-size: 14px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .details-list strong {
+            color: var(--gold-light);
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+    .form-control {
+        width: 100%;
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--gold-border);
+        border-radius: 8px;
+        padding: 14px;
+        color: var(--white);
+        font-family: 'DM Sans', sans-serif;
+        outline: none;
+        transition: all 0.3s ease;
+    }
+
+        .form-control:focus {
+            border-color: var(--gold);
+            background: rgba(198,167,94,0.05);
+        }
+
+    select.form-control option {
+        background: var(--navy-mid);
+        color: var(--white);
+    }
+
+    .btn-submit {
+        width: 100%;
+        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+        color: var(--navy);
+        border: none;
+        padding: 18px;
+        border-radius: 10px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 11px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-top: 10px;
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 35px rgba(198,167,94,0.3);
+        }
+</style>
+
+<div class="page-background">
+    <div class="hero-grid"></div>
+</div>
+
+<div class="payment-container">
+    <div class="payment-card">
+        <div class="payment-header">
+            <h2>Secure <span style="color: var(--gold)">Gateway</span></h2>
+            <p>Verification Required to Finalize Reservation</p>
+        </div>
+
+        <div class="summary-box">
+            <div>
+                <div class="summary-label">Route Itinerary (@Model.TravelClass)</div>
+                <div style="font-size: 13px; font-weight: 500;">@Model.Flight.FromCity.CityName → @Model.Flight.ToCity.CityName</div>
+            </div>
+            <div style="text-align: right;">
+                <div class="summary-label">Total Due</div>
+                <div class="summary-value">Rs. @Model.TotalPrice.ToString("N0")</div>
+            </div>
+        </div>
+
+        <div class="payment-details">
+            <div class="details-title">Official Receiving Accounts</div>
+            <ul class="details-list">
+                <li><span>Mobile Wallet:</span> <strong>0300-1234567</strong></li>
+                <li><span>Account Title:</span> <strong>AeroVista Payments</strong></li>
+                <li><span>International:</span> <strong>pay@aerovista.com</strong></li>
+            </ul>
+        </div>
+
+        <form asp-action="SubmitPayment" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="flightId" value="@Model.FlightId" />
+            <input type="hidden" name="adults" value="@Model.Adults" />
+            <input type="hidden" name="children" value="@Model.Children" />
+            <input type="hidden" name="travelClass" value="@Model.TravelClass" />
+            <input type="hidden" name="totalPrice" value="@Model.TotalPrice" />
+
+            <div class="form-group">
+                <label>Network Protocol</label>
+                <select name="paymentMethod" required class="form-control">
+                    <option value="JazzCash">JazzCash</option>
+                    <option value="EasyPaisa">EasyPaisa</option>
+                    <option value="PayPal">PayPal</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Transaction Hash (TID)</label>
+                <input type="text" name="transactionId" required class="form-control" placeholder="X-778-009-XXXX" />
+            </div>
+
+            <button type="submit" class="btn-submit">Authorize Payment</button>
+        </form>
+    </div>
+</div>

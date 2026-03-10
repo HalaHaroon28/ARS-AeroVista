@@ -1,0 +1,366 @@
+﻿@{
+    var username = "Guest";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>AeroVista Airlines</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --navy: #0B1C2D;
+            --navy-mid: #112236;
+            --navy-light: #1a3350;
+            --gold: #C6A75E;
+            --gold-dim: rgba(198,167,94,0.12);
+            --gold-border: rgba(198,167,94,0.22);
+            --muted: #6a7f95;
+            --text-light: #c8d4e0;
+            --off-white: #F5F5F5;
+            --sidebar-w: 220px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--off-white);
+            color: var(--navy);
+        }
+
+        .layout {
+            display: flex;
+        }
+
+        .sidebar {
+            width: var(--sidebar-w);
+            height: 100vh;
+            background: var(--navy);
+            position: fixed;
+            left: 0;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            padding: 0;
+            z-index: 100;
+            border-right: 1px solid var(--gold-border);
+            overflow: hidden;
+        }
+
+            .sidebar::before {
+                content: '';
+                position: absolute;
+                top: -60px;
+                left: -60px;
+                width: 200px;
+                height: 200px;
+                background: radial-gradient(circle, rgba(198,167,94,0.08) 0%, transparent 70%);
+                pointer-events: none;
+            }
+
+        .sidebar-top-bar {
+            height: 3px;
+            background: linear-gradient(to right, var(--gold), transparent);
+            flex-shrink: 0;
+        }
+
+        .sidebar-logo {
+            padding: 28px 24px 24px;
+            border-bottom: 1px solid rgba(198,167,94,0.1);
+            flex-shrink: 0;
+            text-decoration: none;
+            display: block;
+        }
+
+        .logo-wordmark {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: #fff;
+            line-height: 1;
+        }
+
+            .logo-wordmark span {
+                color: var(--gold);
+            }
+
+        .logo-sub {
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--muted);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        .sidebar-account {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(198,167,94,0.1);
+            flex-shrink: 0;
+        }
+
+        .account-label {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 10px;
+        }
+
+        .account-auth-links {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+            .account-auth-links a, .account-auth-links button {
+                display: block;
+                font-size: 13px;
+                font-weight: 500;
+                color: var(--text-light);
+                text-decoration: none;
+                padding: 8px 12px;
+                border-radius: 6px;
+                border: 1px solid transparent;
+                transition: all 0.25s ease;
+                letter-spacing: 0.3px;
+                background: none;
+                text-align: left;
+                width: 100%;
+                cursor: pointer;
+            }
+
+                .account-auth-links a.primary {
+                    border-color: var(--gold-border);
+                    color: var(--gold);
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
+
+        .view-profile-btn {
+            font-size: 10px !important;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted) !important;
+            margin-top: -4px;
+        }
+
+        .account-auth-links a:hover, .account-auth-links button:hover {
+            background: var(--gold-dim);
+            color: var(--gold);
+            border-color: var(--gold-border);
+        }
+
+        .sidebar-nav {
+            padding: 24px 16px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            overflow-y: auto;
+        }
+
+        .nav-section-label {
+            font-size: 9px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            padding: 0 8px;
+            margin-bottom: 8px;
+        }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-light);
+            font-size: 13px;
+            font-weight: 400;
+            padding: 10px 12px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            transition: all 0.22s ease;
+            letter-spacing: 0.2px;
+        }
+
+            .nav-link svg {
+                opacity: 0.5;
+                flex-shrink: 0;
+            }
+
+            .nav-link:hover {
+                background: var(--gold-dim);
+                color: var(--gold);
+                border-color: var(--gold-border);
+            }
+
+                .nav-link:hover svg {
+                    opacity: 1;
+                }
+
+        .sidebar-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(198,167,94,0.08);
+            flex-shrink: 0;
+        }
+
+            .sidebar-footer span {
+                font-size: 10px;
+                color: var(--muted);
+                letter-spacing: 1px;
+                font-family: 'Orbitron', sans-serif;
+            }
+
+        .main-content {
+            margin-left: var(--sidebar-w);
+            flex-grow: 1;
+            min-height: 100vh;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="layout">
+
+        <aside class="sidebar">
+            <div class="sidebar-top-bar"></div>
+
+            <a asp-controller="Home" asp-action="Index" class="sidebar-logo">
+                <div class="logo-wordmark">Aero<span>Vista</span></div>
+                <div class="logo-sub">Airlines</div>
+            </a>
+
+            <div class="sidebar-account">
+                <div class="account-label">Account</div>
+                <div class="account-auth-links">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <a asp-controller="Profile" asp-action="UserDetails" class="primary">@User.Identity.Name</a>
+                        <a asp-controller="Profile" asp-action="UserDetails" class="view-profile-btn">View Profile</a>
+
+                        <form id="logoutForm" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" style="display:none;"></form>
+                        <button type="button" onclick="document.getElementById('logoutForm').submit();">Sign Out</button>
+                    }
+                    else
+                    {
+                        <a asp-area="Identity" asp-page="/Account/Login" class="primary">Sign In</a>
+                        <a asp-area="Identity" asp-page="/Account/Register">Register</a>
+                    }
+                </div>
+            </div>
+
+            <!-- CONDITIONAL SIDEBAR NAVIGATION START -->
+            @if (User.IsInRole("Admin"))
+            {
+                
+                <nav class="sidebar-nav">
+                    <div class="nav-section-label">Admin Panel</div>
+
+                    <a asp-controller="Admin" asp-action="AdminDashboard" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                        Dashboard
+                    </a>
+
+                    <a asp-controller="Admin" asp-action="Users" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+                        Users Management
+                    </a>
+
+                    <a asp-controller="Admin" asp-action="Bookings" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+                        All Bookings
+                    </a>
+
+                    <a asp-controller="Admin" asp-action="Flights" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M12 2v4M12 22v-4M4 12H2M22 12h-2M19.07 4.93l-2.83 2.83M4.93 19.07l2.83-2.83M19.07 19.07l-2.83-2.83M4.93 4.93l2.83 2.83" /></svg>
+                        Flights
+                    </a>
+
+                    <a asp-controller="Admin" asp-action="Cities" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h7" /><polyline points="15 2 21 8 15 8" /><line x1="3" y1="10" x2="21" y2="10" /></svg>
+                        Cities
+                    </a>
+
+                    <a asp-controller="Admin" asp-action="Settings" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H5.78a1.65 1.65 0 0 0-1.51 1 1.65 1.65 0 0 0 .33 1.82l.02.02A10 10 0 0 0 12 17.66a10 10 0 0 0 6.36-2.64z" /></svg>
+                        Settings
+                    </a>
+
+                    <div class="nav-section-label" style="margin-top: 15px;">Support</div>
+
+                    <a asp-controller="Help" asp-action="ContactUs" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                        Contact Us
+                    </a>
+                </nav>
+            }
+            else
+            {
+                <!-- USER SIDEBAR - Regular user menu -->
+                <nav class="sidebar-nav">
+                    <div class="nav-section-label">Navigate</div>
+
+                    <a asp-controller="Home" asp-action="Index" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
+                        Home
+                    </a>
+
+                    <a asp-controller="Booking" asp-action="MyBookings" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z" /><line x1="3" y1="6" x2="21" y2="6" /><path d="M16 10a4 4 0 0 1-8 0" /></svg>
+                        My Bookings
+                    </a>
+
+                    <a asp-controller="Booking" asp-action="Status" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" /><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2" /><line x1="12" y1="12" x2="12" y2="16" /><line x1="10" y1="14" x2="14" y2="14" /></svg>
+                        Ticket Status
+                    </a>
+
+                    <a asp-controller="Booking" asp-action="Reschedule" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" /><polyline points="21 3 21 8 16 8" /></svg>
+                        Reschedule
+                    </a>
+
+                    <a asp-controller="Booking" asp-action="Cancel" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><line x1="15" y1="9" x2="9" y2="15" /><line x1="9" y1="9" x2="15" y2="15" /></svg>
+                        Cancel Ticket
+                    </a>
+
+                    <div class="nav-section-label" style="margin-top: 15px;">Support</div>
+
+                    <a asp-controller="Help" asp-action="ContactUs" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
+                        Contact Us
+                    </a>
+
+                    <a asp-controller="Help" asp-action="PrivacyPolicy" class="nav-link">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+                        Privacy Policy
+                    </a>
+                </nav>
+            }
+            <!-- CONDITIONAL SIDEBAR NAVIGATION END -->
+
+            <div class="sidebar-footer">
+                <span>v2.0 · 2026</span>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            @RenderBody()
+        </main>
+
+    </div>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

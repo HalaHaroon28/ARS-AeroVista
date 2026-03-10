@@ -1,0 +1,183 @@
+﻿@model AeroVista.Models.Booking
+
+@{
+    ViewData["Title"] = "Modify Flight";
+}
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --gold: #C6A75E;
+        --gold-dim: rgba(198,167,94,0.12);
+        --gold-border: rgba(198,167,94,0.22);
+        --muted: #6a7f95;
+    }
+
+    .page-background {
+        position: fixed;
+        inset: 0;
+        z-index: -1;
+        background: linear-gradient(108deg, #0f2841 0%, #0b1c2d 100%);
+    }
+
+    .hero-grid {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(198,167,94,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.03) 1px, transparent 1px);
+        background-size: 72px 72px;
+    }
+
+    .payment-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 100px 20px;
+        min-height: 85vh;
+    }
+
+    .payment-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--gold-border);
+        border-radius: 24px;
+        padding: 40px;
+        width: 100%;
+        max-width: 500px;
+        box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    }
+
+    .payment-header {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+
+        .payment-header h2 {
+            font-family: 'Orbitron';
+            font-size: 24px;
+            letter-spacing: 2px;
+            color: white;
+            margin-bottom: 8px;
+        }
+
+        .payment-header p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--gold);
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-family: 'Orbitron';
+        }
+
+    .form-control {
+        background: rgba(255,255,255,0.05);
+        border: 1px solid var(--gold-border);
+        color: white;
+        border-radius: 8px;
+        padding: 14px;
+        width: 100%;
+        outline: none;
+        font-family: 'DM Sans';
+    }
+
+        .form-control:focus {
+            border-color: var(--gold);
+            background: rgba(255,255,255,0.08);
+        }
+
+    .note-box {
+        background: var(--gold-dim);
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 30px;
+        border: 1px solid var(--gold-border);
+    }
+
+        .note-box p {
+            font-size: 11px;
+            color: var(--gold);
+            margin: 0;
+            line-height: 1.5;
+        }
+
+    .btn-submit {
+        width: 100%;
+        padding: 16px;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Orbitron';
+        font-size: 12px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: 0.3s;
+        background: linear-gradient(135deg, var(--gold) 0%, #d9be80 100%);
+        color: var(--navy);
+    }
+
+        .btn-submit:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(198,167,94,0.3);
+        }
+
+    .abort-link {
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 11px;
+        font-family: 'Orbitron';
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+        .abort-link:hover {
+            color: white;
+        }
+</style>
+
+<div class="page-background"><div class="hero-grid"></div></div>
+
+<div class="payment-container">
+    <div class="payment-card">
+        <div class="payment-header">
+            <h2>Modify <span style="color: var(--gold)">Voyage</span></h2>
+            <p>Update your departure vector</p>
+        </div>
+
+        <form asp-action="ProcessReschedule" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="bookingId" value="@Model.Id" />
+
+            <div class="form-group">
+                <label>Current Departure</label>
+                <div class="form-control" style="opacity: 0.6;">@Model.Flight.DepartureTime.ToString("dd MMMM yyyy")</div>
+            </div>
+
+            <div class="form-group">
+                <label>New Selected Date</label>
+                <input type="date" name="newDate" required class="form-control" min="@DateTime.Now.ToString("yyyy-MM-dd")" />
+            </div>
+
+            <div class="note-box">
+                <p>SYSTEM NOTE: Rescheduling is subject to availability. A protocol fee of Rs. 2,500 will be added to your final manifest.</p>
+            </div>
+
+            <button type="submit" class="btn-submit">Update Itinerary</button>
+            <a asp-action="Status" asp-route-id="@Model.Id" class="abort-link">Abort Protocol</a>
+        </form>
+    </div>
+</div>
