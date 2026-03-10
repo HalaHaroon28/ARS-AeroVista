@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace AeroVista.Controllers
@@ -36,7 +38,10 @@ namespace AeroVista.Controllers
             return View(users);
         }
 
-        [HttpGet]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
@@ -49,6 +54,14 @@ namespace AeroVista.Controllers
                     return RedirectToAction("Users");
                 }
 
+                // Check for related bookings
+                var relatedBookings = await _context.Bookings.AnyAsync(b => b.UserId == id);
+                if (relatedBookings)
+                {
+                    TempData["Error"] = "Cannot delete user because they have existing bookings. Please delete bookings first.";
+                    return RedirectToAction("Users");
+                }
+
                 var result = await _userManager.DeleteAsync(user);
 
                 if (result.Succeeded)
@@ -57,7 +70,8 @@ namespace AeroVista.Controllers
                 }
                 else
                 {
-                    TempData["Error"] = $"Failed to delete user: {string.Join(", ", result.Errors.Select(e => e.Description))}";
+                    var errors = string.Join(", ", result.Errors.Select(e => e.Description));
+                    TempData["Error"] = $"Failed to delete user: {errors}";
                 }
 
                 return RedirectToAction("Users");
@@ -297,6 +311,85 @@ namespace AeroVista.Controllers
             if (flight == null) return NotFound();
 
             return View(flight);
+        }
+        
+        //bookings 
+        public async Task<IActionResult> Bookings()
+        {
+            var bookings = await _context.Bookings
+                .Include(b => b.Flight)
+                .Include(b => b.User)
+                .ToListAsync();
+
+            return View(bookings);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteBooking(int id)
+        {
+            try
+            {
+                var booking = await _context.Bookings.FindAsync(id);
+
+                if (booking == null)
+                {
+                    TempData["Error"] = "Booking not found";
+                    return RedirectToAction("Bookings");
+                }
+
+                _context.Bookings.Remove(booking);
+                await _context.SaveChangesAsync();
+
+                TempData["Success"] = "Booking deleted successfully";
+                return RedirectToAction("Bookings");
+            }
+            catch (Exception ex)
+            {
+                TempData["Error"] = $"Error deleting booking: {ex.Message}";
+                return RedirectToAction("Bookings");
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(int id, string status)
+        {
+            var booking = await _context.Bookings
+                .Include(b => b.User)
+                .FirstOrDefaultAsync(b => b.Id == id);
+
+            if (booking == null)
+                return NotFound();
+
+            booking.Status = status;
+
+            await _context.SaveChangesAsync();
+
+            // Email send
+            await SendBookingStatusEmail(booking);
+
+            return RedirectToAction("Bookings");
+        }
+        public async Task SendBookingStatusEmail(Booking booking)
+        {
+            var userEmail = booking.User.Email;
+
+            var subject = "Flight Booking Status Updated";
+
+            var message = $"Hello,\n\nYour flight booking status is now: {booking.Status}.\n\nThank you.";
+
+            using (var smtp = new SmtpClient("smtp.gmail.com", 587))
+            {
+                smtp.Credentials = new NetworkCredential("haladawood2828@gmail.com", "lultezlmrhiuvnbd");
+                smtp.EnableSsl = true;
+
+                var mail = new MailMessage();
+                mail.From = new MailAddress("haladawood2828@gmail.com");
+                mail.To.Add(userEmail);
+                mail.Subject = subject;
+                mail.Body = message;
+
+                await smtp.SendMailAsync(mail);
+            }
         }
     }
 }

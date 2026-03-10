@@ -865,3 +865,4 @@ C:\Users\Hp\source\repos\AirlineSystem\obj\Debug\net10.0\refint\AeroVista.dll
 C:\Users\Hp\source\repos\AirlineSystem\obj\Debug\net10.0\AeroVista.pdb
 C:\Users\Hp\source\repos\AirlineSystem\obj\Debug\net10.0\AeroVista.genruntimeconfig.cache
 C:\Users\Hp\source\repos\AirlineSystem\obj\Debug\net10.0\ref\AeroVista.dll
+C:\Users\Hp\source\repos\AirlineSystem\obj\Debug\net10.0\AeroVista.sourcelink.json

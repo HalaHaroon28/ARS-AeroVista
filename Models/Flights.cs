@@ -18,11 +18,10 @@ namespace AeroVista.Models
 
         [ForeignKey("ToCityId")]
         public City ToCity { get; set; } = default!;
-
         public DateTime DepartureTime { get; set; }
         public DateTime ArrivalTime { get; set; }
-
         public decimal Price { get; set; }
         public int SeatsAvailable { get; set; }
+
     }
 }

@@ -1,0 +1,1013 @@
+﻿@model IEnumerable<AeroVista.Models.Booking>
+
+@{
+    ViewData["Title"] = "Bookings Management";
+}
+
+<style>
+    /* Status Form Styling */
+    .status-form {
+        margin: 0;
+        padding: 0;
+        display: inline-block;
+        width: 140px;
+    }
+
+    .status-select-wrapper {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+    }
+
+    .status-select {
+        width: 100%;
+        padding: 8px 12px;
+        padding-right: 30px; /* Space for arrow */
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 20px; /* Pill shape */
+        font-size: 12px;
+        font-weight: 600;
+        cursor: pointer;
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background: white;
+        transition: all 0.3s ease;
+        font-family: inherit;
+        letter-spacing: 0.3px;
+    }
+
+        .status-select:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(198,167,94,0.1);
+        }
+
+        .status-select:hover {
+            border-color: var(--gold);
+            transform: translateY(-1px);
+        }
+
+        /* Status-specific colors */
+        .status-select.pending {
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border-color: #f59e0b;
+        }
+
+        .status-select.confirmed {
+            background: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+            border-color: #10b981;
+        }
+
+        .status-select.cancelled {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-color: #ef4444;
+        }
+
+    /* Custom dropdown arrow */
+    .select-arrow {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--gold);
+        pointer-events: none;
+        font-size: 12px;
+        opacity: 0.8;
+    }
+
+    /* Option styling (works in some browsers) */
+    .status-option-pending {
+        background-color: #fff3e0;
+        color: #f59e0b;
+    }
+
+    .status-option-confirmed {
+        background-color: #e0f2e9;
+        color: #10b981;
+    }
+
+    .status-option-cancelled {
+        background-color: #fee9e9;
+        color: #ef4444;
+    }
+
+    /* Hover effect on wrapper */
+    .status-select-wrapper:hover .select-arrow {
+        opacity: 1;
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    /* Animation for status change */
+    .status-select {
+        transition: all 0.3s ease;
+    }
+
+        .status-select:active {
+            transform: scale(0.98);
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .status-form {
+            width: 120px;
+        }
+
+        .status-select {
+            font-size: 11px;
+            padding: 6px 10px;
+            padding-right: 25px;
+        }
+    }
+
+    .page-container {
+        padding: 30px;
+        background: var(--off-white);
+        min-height: 100vh;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+        .page-title span {
+            color: var(--gold);
+        }
+
+    .btn-create {
+        background: var(--gold);
+        color: var(--navy);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+        .btn-create:hover {
+            background: var(--navy);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+    /* Stats Cards */
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
+        border: 1px solid rgba(198,167,94,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold-border);
+            box-shadow: 0 8px 25px rgba(198,167,94,0.15);
+        }
+
+    .stat-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+
+    .stat-title {
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        color: var(--muted);
+        font-weight: 500;
+    }
+
+    .stat-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--gold-dim);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+    }
+
+    .stat-value {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+    .stat-sub {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 5px;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .trend-up {
+        color: #10b981;
+    }
+
+    .trend-down {
+        color: #ef4444;
+    }
+
+    /* Search and Filter */
+    .search-section {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid rgba(198,167,94,0.1);
+        margin-bottom: 25px;
+    }
+
+    .search-box {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+
+    .search-input {
+        flex: 1;
+        padding: 12px 15px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 8px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        min-width: 250px;
+    }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(198,167,94,0.1);
+        }
+
+    .filter-select {
+        padding: 12px 15px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 8px;
+        font-size: 14px;
+        color: var(--navy);
+        background: white;
+        cursor: pointer;
+        min-width: 150px;
+    }
+
+    .date-range {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        background: white;
+        padding: 5px 10px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 8px;
+    }
+
+    .date-input {
+        padding: 8px;
+        border: none;
+        font-size: 14px;
+    }
+
+        .date-input:focus {
+            outline: none;
+        }
+
+    /* Bookings Table */
+    .table-section {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        border: 1px solid rgba(198,167,94,0.1);
+        overflow-x: auto;
+    }
+
+    .bookings-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+        .bookings-table th {
+            text-align: left;
+            padding: 15px 12px;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            font-weight: 600;
+            border-bottom: 2px solid rgba(198,167,94,0.2);
+        }
+
+        .bookings-table td {
+            padding: 15px 12px;
+            font-size: 14px;
+            color: var(--navy);
+            border-bottom: 1px solid rgba(198,167,94,0.05);
+            vertical-align: middle;
+        }
+
+        .bookings-table tr:hover td {
+            background: rgba(198,167,94,0.02);
+        }
+
+    /* Booking ID Badge */
+    .booking-id {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gold);
+    }
+
+    /* Flight Info */
+    .flight-info {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .flight-route {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 8px;
+        background: var(--gold-dim);
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        color: var(--gold);
+    }
+
+    .flight-time {
+        font-size: 11px;
+        color: var(--muted);
+    }
+
+    /* Passenger Info */
+    .passenger-count {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .passenger-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        padding: 4px 8px;
+        background: rgba(198,167,94,0.05);
+        border-radius: 12px;
+        font-size: 11px;
+        color: var(--navy);
+    }
+
+    /* Travel Class Badge */
+    .class-badge {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+
+    .class-economy {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+    }
+
+    .class-business {
+        background: rgba(198, 167, 94, 0.1);
+        color: var(--gold);
+    }
+
+    .class-first {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+    }
+
+    /* Price Display */
+    .price-cell {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 600;
+        color: var(--gold);
+        font-size: 15px;
+    }
+
+    /* Payment Method */
+    .payment-method {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .payment-icon {
+        width: 24px;
+        height: 24px;
+        background: var(--gold-dim);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+        font-size: 12px;
+    }
+
+    /* Status Badge */
+    .status-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .status-confirmed {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    .status-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+    }
+
+    .status-cancelled {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+    }
+
+    .status-completed {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+    }
+
+    /* User Info */
+    .user-info {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .user-avatar {
+        width: 28px;
+        height: 28px;
+        background: var(--gold-dim);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+        display: flex;
+        gap: 6px;
+    }
+
+    .action-btn {
+        padding: 6px 8px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 6px;
+        color: var(--navy);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 11px;
+        background: white;
+    }
+
+        .action-btn:hover {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+        .action-btn.view:hover {
+            border-color: #3b82f6;
+            background: rgba(59, 130, 246, 0.1);
+            color: #3b82f6;
+        }
+
+        .action-btn.edit:hover {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            color: var(--gold);
+        }
+
+        .action-btn.delete:hover {
+            border-color: #ef4444;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+        }
+
+    /* Transaction ID */
+    .transaction-id {
+        font-family: monospace;
+        font-size: 11px;
+        color: var(--muted);
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Empty State */
+    .empty-state {
+        text-align: center;
+        padding: 50px 20px;
+        color: var(--muted);
+    }
+
+        .empty-state svg {
+            width: 60px;
+            height: 60px;
+            color: var(--gold-dim);
+            margin-bottom: 15px;
+        }
+
+        .empty-state h3 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+    /* Pagination */
+    .pagination {
+        display: flex;
+        justify-content: flex-end;
+        gap: 8px;
+        margin-top: 20px;
+    }
+
+    .page-item {
+        padding: 8px 12px;
+        border: 1px solid rgba(198,167,94,0.2);
+        border-radius: 6px;
+        color: var(--navy);
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+        .page-item:hover,
+        .page-item.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: var(--navy);
+        }
+
+    /* Responsive */
+    @@media (max-width: 1024px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .page-container {
+            padding: 20px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .search-box {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .date-range {
+            flex-direction: column;
+            align-items: stretch;
+        }
+
+        .filter-select {
+            width: 100%;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+    }
+</style>
+
+<div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">
+            Bookings <span>Management</span>
+        </h1>
+        <a asp-action="Create" class="btn-create">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <line x1="12" y1="8" x2="12" y2="16" />
+                <line x1="8" y1="12" x2="16" y2="12" />
+            </svg>
+            Create New Booking
+        </a>
+    </div>
+
+    <!-- Stats Cards -->
+    @{
+        var totalBookings = Model.Count();
+        var totalRevenue = Model.Sum(b => b.TotalPrice);
+        var confirmedBookings = Model.Count(b => b.Status == "Confirmed");
+        var pendingBookings = Model.Count(b => b.Status == "Pending");
+        var uniqueUsers = Model.Select(b => b.UserId).Distinct().Count();
+    }
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Total Bookings</span>
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                    </svg>
+                </div>
+            </div>
+            <div class="stat-value">@totalBookings</div>
+            <div class="stat-sub">
+                <span class="trend-up">↑ 12%</span> from last month
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Total Revenue</span>
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                </div>
+            </div>
+            <div class="stat-value">$@totalRevenue.ToString("N0")</div>
+            <div class="stat-sub">
+                <span class="trend-up">↑ 8%</span> vs last month
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Confirmed</span>
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
+                    </svg>
+                </div>
+            </div>
+            <div class="stat-value">@confirmedBookings</div>
+            <div class="stat-sub">
+                @((totalBookings > 0 ? (confirmedBookings * 100 / totalBookings) : 0))% of total
+            </div>
+        </div>
+
+        <div class="stat-card">
+            <div class="stat-header">
+                <span class="stat-title">Unique Customers</span>
+                <div class="stat-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+            </div>
+            <div class="stat-value">@uniqueUsers</div>
+            <div class="stat-sub">
+                <span class="trend-up">↑ 5</span> new this month
+            </div>
+        </div>
+    </div>
+
+    <!-- Search and Filter Section -->
+    <div class="search-section">
+        <div class="search-box">
+            <input type="text" class="search-input" id="searchInput" placeholder="Search by booking ID, customer, flight...">
+            <div class="date-range">
+                <input type="date" class="date-input" id="dateFrom" placeholder="From Date">
+                <span style="color: var(--muted);">to</span>
+                <input type="date" class="date-input" id="dateTo" placeholder="To Date">
+            </div>
+            <select class="filter-select" id="statusFilter">
+                <option value="">All Status</option>
+                <option value="Confirmed">Confirmed</option>
+                <option value="Pending">Pending</option>
+                <option value="Cancelled">Cancelled</option>
+                <option value="Completed">Completed</option>
+            </select>
+            <select class="filter-select" id="classFilter">
+                <option value="">All Classes</option>
+                <option value="Economy">Economy</option>
+                <option value="Business">Business</option>
+                <option value="First">First Class</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- Bookings Table -->
+    <div class="table-section">
+        <table class="bookings-table" id="bookingsTable">
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Flight</th>
+                    <th>Passengers</th>
+                    <th>Class</th>
+                    <th>Total Price</th>
+                    <th>Booking Date</th>
+                    <th>Customer</th>
+                    <th>Payment</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    var statusClass = item.Status?.ToLower() switch
+                    {
+                        "confirmed" => "status-confirmed",
+                        "pending" => "status-pending",
+                        "cancelled" => "status-cancelled",
+                        "completed" => "status-completed",
+                        _ => "status-pending"
+                    };
+
+                    var classClass = item.TravelClass?.ToLower() switch
+                    {
+                        "economy" => "class-economy",
+                        "business" => "class-business",
+                        "first" => "class-first",
+                        _ => "class-economy"
+                    };
+
+                    <tr>
+                        <td>
+                            <span class="booking-id">#@item.Id.ToString().PadLeft(6, '0')</span>
+                        </td>
+                        <td>
+                            <div class="flight-info">
+                                <span class="flight-route">
+                                    <span>@(item.Flight?.FromCity?.AirportCode ?? "---")</span>
+                                    <span>→</span>
+                                    <span>@(item.Flight?.ToCity?.AirportCode ?? "---")</span>
+                                </span>
+                                <span class="flight-time">
+                                    @(item.Flight?.DepartureTime.ToString("dd MMM HH:mm") ?? "N/A")
+                                </span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="passenger-count">
+                                <span class="passenger-badge">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                        <circle cx="12" cy="7" r="4" />
+                                    </svg>
+                                    @item.Adults A
+                                </span>
+                                @if (item.Children > 0)
+                                {
+                                    <span class="passenger-badge">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <circle cx="12" cy="8" r="4" />
+                                            <path d="M5.5 20v-4a6.5 6.5 0 0 1 13 0v4" />
+                                        </svg>
+                                        @item.Children C
+                                    </span>
+                                }
+                            </div>
+                        </td>
+                        <td>
+                            <span class="class-badge @classClass">@item.TravelClass</span>
+                        </td>
+                        <td>
+                            <span class="price-cell">$@item.TotalPrice.ToString("N0")</span>
+                        </td>
+                        <td>
+                            <div class="time-cell">
+                                <span class="time-main">@item.BookingDate.ToString("dd MMM")</span>
+                                <span class="time-sub">@item.BookingDate.ToString("HH:mm")</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="user-info">
+                                <div class="user-avatar">
+                                    @(item.User?.Email?.Substring(0, 1).ToUpper() ?? "?")
+                                </div>
+                                <div style="font-size: 12px;">@(item.User?.Email ?? "N/A")</div>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="payment-method">
+                                <div class="payment-icon">
+                                    @(item.PaymentMethod?.Substring(0, 1) ?? "?")
+                                </div>
+                                <div style="display: flex; flex-direction: column;">
+                                    <span style="font-size: 12px; font-weight: 500;">@item.PaymentMethod</span>
+                                    <span class="transaction-id">@item.TransactionId</span>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <form asp-action="ChangeStatus" method="post" class="status-form"
+                                  onsubmit="return confirmStatusChange(this)">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@item.Id" />
+
+                                <div class="status-select-wrapper">
+                                    <select name="status" class="status-select @item.Status.ToLower()"
+                                            onchange="this.form.submit()">
+                                        <option value="Pending" class="status-option-pending"
+                                                selected="@(item.Status == "Pending")">⏳ Pending</option>
+                                        <option value="Confirmed" class="status-option-confirmed"
+                                                selected="@(item.Status == "Confirmed")">✓ Confirmed</option>
+                                        <option value="Cancelled" class="status-option-cancelled"
+                                                selected="@(item.Status == "Cancelled")">✗ Cancelled</option>
+                                    </select>
+                                    <span class="select-arrow">▼</span>
+                                </div>
+                            </form>
+                        </td>
+                        <td>
+                            <div class="action-buttons">
+                                <a asp-action="Details" asp-route-id="@item.Id" class="action-btn view" title="View Details">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <line x1="12" y1="16" x2="12" y2="12" />
+                                        <circle cx="12" cy="8" r="1" fill="currentColor" />
+                                    </svg>
+                                    View
+                                </a>
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="action-btn edit" title="Edit Booking">
+                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                                    </svg>
+                                    Edit
+                                </a>
+                                <!-- Delete Form -->
+                                <form asp-action="DeleteBooking" method="post" style="display: inline;"
+                                      onsubmit="return confirm('Are you sure you want to delete this booking?')">
+                                    @Html.AntiForgeryToken()
+                                    <input type="hidden" name="id" value="@item.Id" />
+                                    <button type="submit" class="action-btn delete" title="Delete Booking">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6" />
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Any())
+        {
+            <div class="empty-state">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                    <line x1="16" y1="2" x2="16" y2="6" />
+                    <line x1="8" y1="2" x2="8" y2="6" />
+                    <line x1="3" y1="10" x2="21" y2="10" />
+                </svg>
+                <h3>No Bookings Found</h3>
+                <p style="color: var(--muted);">Get started by creating your first booking.</p>
+                <a asp-action="Create" class="btn-create" style="display: inline-flex; margin-top: 15px;">
+                    Create New Booking
+                </a>
+            </div>
+        }
+    </div>
+
+    <!-- Pagination (if needed) -->
+    @if (Model.Count() > 10)
+    {
+        <div class="pagination">
+            <a href="#" class="page-item">←</a>
+            <a href="#" class="page-item active">1</a>
+            <a href="#" class="page-item">2</a>
+            <a href="#" class="page-item">3</a>
+            <a href="#" class="page-item">→</a>
+        </div>
+    }
+</div>
+
+<script>
+    // Search and filter functionality
+    document.getElementById('searchInput')?.addEventListener('keyup', filterTable);
+    document.getElementById('statusFilter')?.addEventListener('change', filterTable);
+    document.getElementById('classFilter')?.addEventListener('change', filterTable);
+    document.getElementById('dateFrom')?.addEventListener('change', filterTable);
+    document.getElementById('dateTo')?.addEventListener('change', filterTable);
+
+    function filterTable() {
+        let searchText = document.getElementById('searchInput')?.value.toLowerCase() || '';
+        let statusFilter = document.getElementById('statusFilter')?.value.toLowerCase() || '';
+        let classFilter = document.getElementById('classFilter')?.value.toLowerCase() || '';
+        let dateFrom = document.getElementById('dateFrom')?.value;
+        let dateTo = document.getElementById('dateTo')?.value;
+
+        let tableRows = document.querySelectorAll('#bookingsTable tbody tr');
+
+        tableRows.forEach(row => {
+            let bookingId = row.cells[0]?.textContent.toLowerCase() || '';
+            let flightInfo = row.cells[1]?.textContent.toLowerCase() || '';
+            let customerInfo = row.cells[6]?.textContent.toLowerCase() || '';
+            let status = row.cells[8]?.textContent.toLowerCase() || '';
+            let travelClass = row.cells[3]?.textContent.toLowerCase() || '';
+            let bookingDate = row.cells[5]?.querySelector('.time-main')?.textContent || '';
+
+            // Search filter
+            let matchesSearch = bookingId.includes(searchText) ||
+                               flightInfo.includes(searchText) ||
+                               customerInfo.includes(searchText);
+
+            // Status filter
+            let matchesStatus = statusFilter === '' || status.includes(statusFilter);
+
+            // Class filter
+            let matchesClass = classFilter === '' || travelClass.includes(classFilter);
+
+            // Date filter (simplified)
+            let matchesDate = true;
+            if (dateFrom && dateTo) {
+                // Add proper date comparison if needed
+            }
+
+            if (matchesSearch && matchesStatus && matchesClass && matchesDate) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    // Export functionality (optional)
+    function exportToCSV() {
+        // Add export logic here
+        alert('Export functionality will be implemented here');
+    }
+
+        function confirmStatusChange(form) {
+        var select = form.querySelector('select');
+        var newStatus = select.value;
+        var currentStatus = select.options[select.selectedIndex].text;
+
+        return confirm(`Are you sure you want to change status to "${newStatus}"?`);
+    }
+</script>
