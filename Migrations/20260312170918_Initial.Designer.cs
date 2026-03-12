@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AeroVista.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20260301163247_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20260312170918_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

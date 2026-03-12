@@ -474,7 +474,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="stat-value">@Model.Count()</div>
+            <div class="stat-value">@(Model.Count())</div>
             <div class="stat-trend">
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="18 15 12 9 6 15" />
@@ -493,7 +493,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="stat-value">@Model.Sum(f => f.SeatsAvailable)</div>
+            <div class="stat-value">@(Model.Any() ? Model.Sum(f => f.SeatsAvailable) : 0)</div>
         </div>
 
         <div class="stat-card">
@@ -506,7 +506,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="stat-value">$@(Model.Average(f => f.Price).ToString("F0"))</div>
+            <div class="stat-value">$@(Model.Any() ? Model.Average(f => f.Price).ToString("F0") : "0")</div>
         </div>
 
         <div class="stat-card">

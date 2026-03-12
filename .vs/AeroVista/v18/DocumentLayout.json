@@ -1,22 +1,50 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\",
+  "WorkspaceRootPath": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\views\\admin\\flights.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\flights.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\bookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\models\\city.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:models\\city.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\views\\admin\\bookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\bookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\flights.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\flights.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\std1\\source\\repos\\airlinesystem\\models\\flights.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:models\\flights.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\std1\\source\\repos\\AirlineSystem\\Migrations\\20260312170918_Initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20260312170918_Initial.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\std1\\source\\repos\\AirlineSystem\\Migrations\\20260312170846_New.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:Migrations\\20260312170846_New.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +54,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -38,11 +66,102 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAABgAAAAAAAAAAAAAAAEAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-12T17:26:58.435Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "City.cs",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Models\\City.cs",
+              "RelativeDocumentMoniker": "Models\\City.cs",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Models\\City.cs",
+              "RelativeToolTip": "Models\\City.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T17:19:21.942Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "Flights.cs",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Models\\Flights.cs",
+              "RelativeDocumentMoniker": "Models\\Flights.cs",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Models\\Flights.cs",
+              "RelativeToolTip": "Models\\Flights.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABEAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T17:19:13.211Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Program.cs*",
+              "RelativeToolTip": "Program.cs*",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAowBIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T17:08:20.05Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "20260312170918_Initial.cs",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Migrations\\20260312170918_Initial.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260312170918_Initial.cs",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Migrations\\20260312170918_Initial.cs",
+              "RelativeToolTip": "Migrations\\20260312170918_Initial.cs",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T17:09:18.498Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "20260312170846_New.cs",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Migrations\\20260312170846_New.cs",
+              "RelativeDocumentMoniker": "Migrations\\20260312170846_New.cs",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Migrations\\20260312170846_New.cs",
+              "RelativeToolTip": "Migrations\\20260312170846_New.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-12T17:08:46.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-12T16:56:28.115Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "Bookings.cshtml",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Bookings.cshtml",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Admin\\Bookings.cshtml",
               "RelativeDocumentMoniker": "Views\\Admin\\Bookings.cshtml",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Bookings.cshtml",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Admin\\Bookings.cshtml",
               "RelativeToolTip": "Views\\Admin\\Bookings.cshtml",
               "ViewState": "AgIAAL0DAAAAAAAAAAAiwLUDAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
@@ -51,39 +170,39 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 6,
               "Title": "Users.cshtml",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Users.cshtml",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Admin\\Users.cshtml",
               "RelativeDocumentMoniker": "Views\\Admin\\Users.cshtml",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Users.cshtml",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Admin\\Users.cshtml",
               "RelativeToolTip": "Views\\Admin\\Users.cshtml",
-              "ViewState": "AgIAAAYCAAAAAAAAAAAiwDYCAAAkAAAAAAAAAA==",
+              "ViewState": "AgIAAOUBAAAAAAAAAAAiwPoBAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-03-10T21:35:57.916Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
               "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
               "RelativeToolTip": "Controllers\\AdminController.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAIwFMAAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAJ0AAAAAAAAAAADwv9AAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-10T21:25:18.127Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "Flights.cshtml",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Flights.cshtml",
+              "DocumentMoniker": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Admin\\Flights.cshtml",
               "RelativeDocumentMoniker": "Views\\Admin\\Flights.cshtml",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Flights.cshtml",
+              "ToolTip": "C:\\Users\\std1\\source\\repos\\AirlineSystem\\Views\\Admin\\Flights.cshtml",
               "RelativeToolTip": "Views\\Admin\\Flights.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
+              "ViewState": "AgIAABICAAAAAAAAAAAAAP4BAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
               "WhenOpened": "2026-03-10T21:23:03.629Z",
               "EditorCaption": ""

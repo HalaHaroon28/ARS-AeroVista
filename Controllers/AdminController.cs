@@ -40,8 +40,6 @@ namespace AeroVista.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
@@ -214,7 +212,7 @@ namespace AeroVista.Controllers
             ViewBag.FromCityId = new SelectList(cities, "CityId", "CityName");
             ViewBag.ToCityId = new SelectList(cities, "CityId", "CityName");
 
-            // Fetch all flights with city info
+            //// Fetch all flights with city info
             var flights = await _context.Flights
                 .Include(f => f.FromCity)
                 .Include(f => f.ToCity)

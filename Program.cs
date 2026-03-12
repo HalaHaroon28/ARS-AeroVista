@@ -17,6 +17,21 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 }).AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    // Path to the login page (Default: /Account/Login)
+    options.LoginPath = "/Identity/Account/Login";
+
+    // Path to the logout page (Default: /Account/Logout)
+    options.LogoutPath = "/Identity/Account/Logout";
+
+    // Path for unauthorized access (Default: /Account/AccessDenied)
+    options.AccessDeniedPath = "/Identity/Account/AccessDenied";
+
+    // Optional: expire cookie after 60 minutes
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(60);
+});
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
