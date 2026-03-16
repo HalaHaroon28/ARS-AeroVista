@@ -103,22 +103,29 @@
         font-size: 24px;
     }
 
-    .flight-id {
+    .flight-info-badges {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .info-badge {
         display: inline-block;
-        padding: 8px 16px;
+        padding: 6px 14px;
         background: var(--gold-dim);
         color: var(--gold);
         border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
+        font-size: 11px;
+        font-weight: 700;
         letter-spacing: 1px;
+        text-transform: uppercase;
     }
 
     /* Details Grid */
     .details-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 25px;
+        gap: 20px;
         margin-bottom: 30px;
     }
 
@@ -133,79 +140,64 @@
         }
 
     .detail-card-title {
-        font-size: 13px;
+        font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 1px;
         color: var(--muted);
-        font-weight: 500;
-        margin-bottom: 15px;
+        font-weight: 600;
+        margin-bottom: 12px;
         display: flex;
         align-items: center;
         gap: 8px;
     }
 
-    .time-detail {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
-
-    .time-label {
-        color: var(--muted);
-        font-size: 14px;
-    }
-
     .time-value {
-        font-weight: 600;
+        font-weight: 700;
         color: var(--navy);
+        font-size: 18px;
     }
 
-    .date-value {
+    .date-subtext {
         font-size: 13px;
         color: var(--muted);
-        margin-top: 2px;
+        margin-top: 4px;
     }
 
-    .price-large {
+    .price-display {
         font-family: 'Orbitron', sans-serif;
-        font-size: 36px;
+        font-size: 28px;
         font-weight: 700;
         color: var(--gold);
+    }
+
+    /* Seat Inventory Design */
+    .inventory-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+    }
+
+    .inventory-item {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        border: 1px solid var(--gold-border);
         text-align: center;
-        margin: 10px 0;
     }
 
-    .seats-progress {
-        margin-top: 15px;
-    }
-
-    .progress-bar {
-        width: 100%;
-        height: 8px;
-        background: rgba(198,167,94,0.1);
-        border-radius: 4px;
-        overflow: hidden;
-        margin: 10px 0;
-    }
-
-    .progress-fill {
-        height: 100%;
-        background: var(--gold);
-        border-radius: 4px;
-        transition: width 0.3s ease;
-    }
-
-    .seats-stats {
-        display: flex;
-        justify-content: space-between;
-        font-size: 13px;
+    .inventory-label {
+        font-size: 11px;
         color: var(--muted);
+        text-transform: uppercase;
+        margin-bottom: 5px;
+        display: block;
     }
 
-    .seats-available {
-        color: #10b981;
-        font-weight: 600;
+    .inventory-count {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--navy);
     }
 
     /* Action Buttons */
@@ -220,19 +212,17 @@
     .btn-edit {
         background: var(--gold);
         color: var(--navy);
-        border: none;
         padding: 14px 30px;
         border-radius: 8px;
         font-size: 14px;
         font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         text-decoration: none;
         flex: 1;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        gap: 8px;
+        transition: 0.3s;
     }
 
         .btn-edit:hover {
@@ -241,7 +231,7 @@
             transform: translateY(-2px);
         }
 
-    .btn-delete-nav {
+    .btn-delete-outline {
         background: transparent;
         color: #ef4444;
         border: 1px solid #ef4444;
@@ -249,52 +239,32 @@
         border-radius: 8px;
         font-size: 14px;
         font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
         text-decoration: none;
         flex: 1;
+        display: flex;
+        align-items: center;
         justify-content: center;
+        gap: 8px;
+        transition: 0.3s;
     }
 
-        .btn-delete-nav:hover {
+        .btn-delete-outline:hover {
             background: #ef4444;
             color: white;
             transform: translateY(-2px);
         }
 
-    /* Responsive */
     @@media (max-width: 768px) {
-        .page-container {
-            padding: 20px;
-        }
-
-        .page-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .details-container {
-            padding: 20px;
-        }
-
-        .route-cities {
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .route-arrow-large {
-            transform: rotate(90deg);
-        }
-
         .details-grid {
             grid-template-columns: 1fr;
         }
 
         .detail-card.full-width {
             grid-column: span 1;
+        }
+
+        .inventory-grid {
+            grid-template-columns: 1fr;
         }
 
         .action-buttons {
@@ -304,12 +274,11 @@
 </style>
 
 <div class="page-container">
-    <!-- Page Header -->
     <div class="page-header">
         <h1 class="page-title">
             Flight <span>Details</span>
         </h1>
-        <a asp-action="Index" class="btn-back">
+        <a asp-action="Flights" asp-controller="Admin" class="btn-back">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
@@ -318,9 +287,7 @@
         </a>
     </div>
 
-    <!-- Details Container -->
     <div class="details-container">
-        <!-- Route Header -->
         <div class="route-header">
             <div class="route-cities">
                 <div class="city-display">
@@ -333,113 +300,105 @@
                     <div class="city-name">@Model.ToCity?.CityName</div>
                 </div>
             </div>
-            <span class="flight-id">Flight ID: #@Model.Id</span>
+            <div class="flight-info-badges">
+                <span class="info-badge">ID: #@Model.Id</span>
+                <span class="info-badge">Flight: @Model.FlightNumber</span>
+            </div>
         </div>
 
-        <!-- Details Grid -->
         <div class="details-grid">
-            <!-- Departure Card -->
             <div class="detail-card">
                 <div class="detail-card-title">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 6 12 12 16 14" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M17.8 19.2L16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.7 5.2c.3.4.8.5 1.3.3l.5-.3c.4-.2.6-.6.5-1.1z" />
                     </svg>
                     Departure
                 </div>
-                <div class="time-detail">
-                    <span class="time-label">Time:</span>
-                    <span class="time-value">@Model.DepartureTime.ToString("HH:mm")</span>
-                </div>
-                <div class="date-value">@Model.DepartureTime.ToString("dddd, dd MMMM yyyy")</div>
+                <div class="time-value">@Model.DepartureTime.ToString("HH:mm")</div>
+                <div class="date-subtext">@Model.DepartureTime.ToString("ddd, dd MMM yyyy")</div>
             </div>
 
-            <!-- Arrival Card -->
             <div class="detail-card">
                 <div class="detail-card-title">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <polyline points="12 6 12 12 8 14" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                        <path d="M21 18L3 18M13 4l3.5 3.5c1.5 1.5 2 3.5 1.5 4.5-.5 1-2.5.5-3.5-1L11 8 13 4zM3 16.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 22l11-11c.5-.5.5-1.3 0-1.8l-1.4-1.4c-.5-.5-1.3-.5-1.8 0L9 15l-6 1.2z" />
                     </svg>
                     Arrival
                 </div>
-                <div class="time-detail">
-                    <span class="time-label">Time:</span>
-                    <span class="time-value">@Model.ArrivalTime.ToString("HH:mm")</span>
-                </div>
-                <div class="date-value">@Model.ArrivalTime.ToString("dddd, dd MMMM yyyy")</div>
+                <div class="time-value">@Model.ArrivalTime.ToString("HH:mm")</div>
+                <div class="date-subtext">@Model.ArrivalTime.ToString("ddd, dd MMM yyyy")</div>
             </div>
 
-            <!-- Duration Card -->
             <div class="detail-card">
                 <div class="detail-card-title">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
                         <polyline points="12 6 12 12 16 14" />
                     </svg>
-                    Duration
+                    Flight Duration
                 </div>
                 @{
                     var duration = Model.ArrivalTime - Model.DepartureTime;
                     var hours = (int)duration.TotalHours;
                     var minutes = duration.Minutes;
                 }
-                <div class="time-value" style="font-size: 20px;">@hours @($"{minutes}min")</div>
+                <div class="time-value">@hours h @minutes m</div>
             </div>
 
-            <!-- Price Card -->
             <div class="detail-card">
                 <div class="detail-card-title">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <line x1="12" y1="1" x2="12" y2="23" />
                         <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
                     </svg>
-                    Price
+                    Base Fare
                 </div>
-                <div class="price-large">$@Model.Price.ToString("N0")</div>
+                <div class="price-display">Rs. @Model.Price.ToString("N0")</div>
             </div>
 
-            <!-- Seats Card (Full Width) -->
             <div class="detail-card full-width">
                 <div class="detail-card-title">
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="8" r="4" />
-                        <path d="M5.5 20v-4a6.5 6.5 0 0 1 13 0v4" />
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M7 6V3a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v3" />
+                        <path d="M3 12h18" />
+                        <path d="M4 21V11a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10" />
+                        <path d="M2 13h20" />
                     </svg>
-                    Seat Availability
+                    Seat Inventory Status
                 </div>
-                <div class="seats-progress">
-                    @{
-                        var totalSeats = 180; // Assuming typical plane capacity
-                        var bookedSeats = totalSeats - Model.SeatsAvailable;
-                        var percentage = (bookedSeats * 100) / totalSeats;
-                    }
-                    <div class="progress-bar">
-                        <div class="progress-fill" style="width: @percentage%"></div>
+                <div class="inventory-grid">
+                    <div class="inventory-item">
+                        <span class="inventory-label">Economy</span>
+                        <span class="inventory-count">@Model.EconomySeats</span>
                     </div>
-                    <div class="seats-stats">
-                        <span>Total Capacity: <strong>@totalSeats</strong></span>
-                        <span>Booked: <strong>@bookedSeats</strong></span>
-                        <span class="seats-available">Available: <strong>@Model.SeatsAvailable</strong></span>
+                    <div class="inventory-item">
+                        <span class="inventory-label">Business</span>
+                        <span class="inventory-count">@Model.BusinessSeats</span>
+                    </div>
+                    <div class="inventory-item">
+                        <span class="inventory-label">First Class</span>
+                        <span class="inventory-count">@Model.FirstClassSeats</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Action Buttons -->
         <div class="action-buttons">
-            <a asp-action="EditFlight" asp-route-id="@Model.Id" class="btn-edit">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+            <a asp-action="UpdateFlight" asp-controller="Admin" asp-route-id="@Model.Id" class="btn-edit">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" />
+                    <path d="M18.5 2.5a2.121 2.121 0 1 1 3 3L12 15l-4 1 1-4 9.5-9.5z" />
                 </svg>
-                Edit Flight
+                Modify Flight
             </a>
-            <a asp-action="DeleteFlight" asp-route-id="@Model.Id" class="btn-delete-nav" onclick="return confirm('Are you sure you want to delete this flight?')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <a asp-action="DeleteFlight" asp-controller="Admin" asp-route-id="@Model.Id" class="btn-delete-outline" onclick="return confirm('Are you sure you want to delete this flight?');">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <polyline points="3 6 5 6 21 6" />
                     <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
+                    <line x1="10" y1="11" x2="10" y2="17" />
+                    <line x1="14" y1="11" x2="14" y2="17" />
                 </svg>
-                Delete Flight
+                Remove Flight
             </a>
         </div>
     </div>

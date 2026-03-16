@@ -643,14 +643,6 @@
         <h1 class="page-title">
             Bookings <span>Management</span>
         </h1>
-        <a asp-action="Create" class="btn-create">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10" />
-                <line x1="12" y1="8" x2="12" y2="16" />
-                <line x1="8" y1="12" x2="16" y2="12" />
-            </svg>
-            Create New Booking
-        </a>
     </div>
 
     <!-- Stats Cards -->
@@ -691,7 +683,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="stat-value">$@totalRevenue.ToString("N0")</div>
+            <div class="stat-value">PKR.@totalRevenue.ToString("N0")</div>
             <div class="stat-sub">
                 <span class="trend-up">↑ 8%</span> vs last month
             </div>
@@ -833,7 +825,7 @@
                             <span class="class-badge @classClass">@item.TravelClass</span>
                         </td>
                         <td>
-                            <span class="price-cell">$@item.TotalPrice.ToString("N0")</span>
+                            <span class="price-cell">PKR.@item.TotalPrice.ToString("N0")</span>
                         </td>
                         <td>
                             <div class="time-cell">
@@ -882,19 +874,13 @@
                         </td>
                         <td>
                             <div class="action-buttons">
-                                <a asp-action="Details" asp-route-id="@item.Id" class="action-btn view" title="View Details">
+                                <a asp-action="BookingDetails" asp-route-id="@item.Id" class="action-btn view" title="View Details">
                                     <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="12" cy="12" r="10" />
                                         <line x1="12" y1="16" x2="12" y2="12" />
                                         <circle cx="12" cy="8" r="1" fill="currentColor" />
                                     </svg>
                                     View
-                                </a>
-                                <a asp-action="Edit" asp-route-id="@item.Id" class="action-btn edit" title="Edit Booking">
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
-                                    </svg>
-                                    Edit
                                 </a>
                                 <!-- Delete Form -->
                                 <form asp-action="DeleteBooking" method="post" style="display: inline;"
@@ -927,9 +913,6 @@
                 </svg>
                 <h3>No Bookings Found</h3>
                 <p style="color: var(--muted);">Get started by creating your first booking.</p>
-                <a asp-action="Create" class="btn-create" style="display: inline-flex; margin-top: 15px;">
-                    Create New Booking
-                </a>
             </div>
         }
     </div>
@@ -1008,6 +991,6 @@
         var newStatus = select.value;
         var currentStatus = select.options[select.selectedIndex].text;
 
-        return confirm(`Are you sure you want to change status to "${newStatus}"?`);
+        return confirm(`Are you sure you want to change status to "{newStatus}"?`);
     }
 </script>

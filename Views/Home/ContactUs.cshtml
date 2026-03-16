@@ -1,0 +1,800 @@
+﻿@model AeroVista.Models.Feedback
+
+@{
+    ViewData["Title"] = "Contact Us";
+}
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --navy-light: #1a3350;
+        --gold: #C6A75E;
+        --gold-light: #d9be80;
+        --gold-dim: rgba(198,167,94,0.1);
+        --gold-border: rgba(198,167,94,0.2);
+        --muted: #6a7f95;
+        --text-light: #c8d4e0;
+        --off-white: #F5F5F5;
+        --white: #ffffff;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: var(--off-white);
+        font-family: 'DM Sans', sans-serif;
+        overflow-x: hidden;
+    }
+
+    .contact-hero {
+        position: relative;
+        height: 40vh;
+        min-height: 320px;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        margin-bottom: 40px;
+    }
+
+    .contact-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background-image: url('~/images/contact-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.4) saturate(0.7);
+    }
+
+    .contact-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(108deg, rgba(15, 40, 65, 0.94) 0%, rgba(12, 37, 62, 0.55) 55%, rgba(16, 31, 46, 0.1) 100%);
+    }
+
+    .contact-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        background-image: linear-gradient(rgba(198,167,94,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.035) 1px, transparent 1px);
+        background-size: 72px 72px;
+        animation: gridDrift 22s linear infinite;
+    }
+
+    @@keyframes gridDrift {
+        0% {
+            background-position: 0 0;
+        }
+
+        100% {
+            background-position: 72px 72px;
+        }
+    }
+
+    .contact-hero-content {
+        position: relative;
+        z-index: 5;
+        padding: 0 6vw;
+        width: 100%;
+        animation: heroIn 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    @@keyframes heroIn {
+        from {
+            opacity: 0;
+            transform: translateY(28px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .contact-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .contact-eyebrow-line {
+        width: 36px;
+        height: 1px;
+        background: var(--gold);
+    }
+
+    .contact-eyebrow-text {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: var(--gold);
+        text-transform: uppercase;
+    }
+
+    .contact-hero h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(38px, 5vw, 60px);
+        font-weight: 900;
+        color: var(--white);
+        line-height: 1.08;
+        letter-spacing: -0.5px;
+        margin-bottom: 18px;
+    }
+
+        .contact-hero h1 .accent {
+            color: var(--gold);
+            display: block;
+        }
+
+    .contact-hero-sub {
+        font-size: 15px;
+        font-weight: 300;
+        color: var(--muted);
+        max-width: 540px;
+        line-height: 1.75;
+    }
+
+    .contact-main {
+        padding: 0 6vw 60px;
+        position: relative;
+        z-index: 10;
+    }
+
+    .contact-grid-container {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr;
+        gap: 30px;
+        margin-top: -60px;
+    }
+
+    .contact-info-card {
+        background: var(--navy-light);
+        border: 1px solid var(--gold-border);
+        border-radius: 18px;
+        padding: 40px 35px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 32px 80px rgba(0,0,0,0.32);
+        height: fit-content;
+    }
+
+        .contact-info-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle at top right, rgba(198,167,94,0.06), transparent 65%);
+            pointer-events: none;
+        }
+
+    .contact-info-header {
+        margin-bottom: 30px;
+    }
+
+        .contact-info-header .section-tag {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            padding: 6px 14px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .contact-info-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 15px;
+        }
+
+        .contact-info-header p {
+            color: var(--text-light);
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+    .contact-details {
+        margin: 35px 0;
+    }
+
+    .contact-detail-item {
+        display: flex;
+        gap: 18px;
+        margin-bottom: 25px;
+        align-items: flex-start;
+    }
+
+    .detail-icon {
+        width: 44px;
+        height: 44px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        color: var(--gold);
+    }
+
+    .detail-text h4 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--gold);
+        margin-bottom: 5px;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+    }
+
+    .detail-text p {
+        color: var(--text-light);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .detail-text a {
+        color: var(--text-light);
+        text-decoration: none;
+        transition: color 0.25s;
+    }
+
+        .detail-text a:hover {
+            color: var(--gold);
+        }
+
+    .office-hours {
+        border-top: 1px solid var(--gold-border);
+        padding-top: 25px;
+        margin-top: 10px;
+    }
+
+        .office-hours h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+    .hours-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+    }
+
+    .hours-day {
+        color: var(--text-light);
+        font-size: 13px;
+    }
+
+    .hours-time {
+        color: var(--white);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .contact-form-card {
+        background: var(--navy-light);
+        border: 1px solid var(--gold-border);
+        border-radius: 18px;
+        padding: 40px 35px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 32px 80px rgba(0,0,0,0.32);
+    }
+
+        .contact-form-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 240px;
+            height: 240px;
+            background: radial-gradient(circle at top right, rgba(198,167,94,0.06), transparent 65%);
+            pointer-events: none;
+        }
+
+    .form-header {
+        margin-bottom: 30px;
+    }
+
+        .form-header .section-tag {
+            display: inline-block;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            letter-spacing: 3px;
+            color: var(--gold);
+            text-transform: uppercase;
+            background: var(--gold-dim);
+            border: 1px solid var(--gold-border);
+            padding: 6px 14px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .form-header h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+    .contact-form {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+    }
+
+    .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .contact-form .form-group {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+        .contact-form .form-group label {
+            font-size: 9px;
+            font-weight: 600;
+            font-family: 'Orbitron', sans-serif;
+            margin-bottom: 9px;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1.8px;
+        }
+
+        .contact-form .form-group input,
+        .contact-form .form-group select,
+        .contact-form .form-group textarea {
+            padding: 12px 15px;
+            border: 1px solid rgba(198,167,94,0.14);
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            background: rgba(255,255,255,0.035);
+            color: var(--white);
+            width: 100%;
+            outline: none;
+            transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
+        }
+
+        .contact-form .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+            .contact-form .form-group input:focus,
+            .contact-form .form-group select:focus,
+            .contact-form .form-group textarea:focus {
+                border-color: var(--gold);
+                background: rgba(198,167,94,0.05);
+                box-shadow: 0 0 0 3px rgba(198,167,94,0.09);
+            }
+
+        .contact-form .form-group input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+            .contact-form .form-group input[type="number"]::-webkit-outer-spin-button,
+            .contact-form .form-group input[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+
+    .btn-submit {
+        background: linear-gradient(135deg, #C6A75E 0%, #d9be80 50%, #C6A75E 100%);
+        background-size: 200% 200%;
+        color: var(--navy);
+        height: 48px;
+        width: 100%;
+        border: none;
+        font-weight: 700;
+        font-size: 11px;
+        font-family: 'Orbitron', sans-serif;
+        letter-spacing: 2.5px;
+        text-transform: uppercase;
+        border-radius: 8px;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.25s ease, box-shadow 0.25s ease;
+        margin-top: 10px;
+    }
+
+        .btn-submit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-submit:hover::before {
+            left: 100%;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(198,167,94,0.3);
+        }
+
+    .validation-summary-errors {
+        background: rgba(220, 53, 69, 0.1);
+        border: 1px solid rgba(220, 53, 69, 0.3);
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        color: #ff6b6b;
+        font-size: 13px;
+    }
+
+    .field-validation-error {
+        color: #ff6b6b;
+        font-size: 11px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .input-validation-error {
+        border-color: #ff6b6b !important;
+    }
+
+    .back-link {
+        margin-top: 30px;
+        text-align: center;
+    }
+
+        .back-link a {
+            color: var(--muted);
+            text-decoration: none;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            transition: color 0.25s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+            .back-link a:hover {
+                color: var(--gold);
+            }
+
+        .back-link svg {
+            transition: transform 0.25s;
+        }
+
+        .back-link a:hover svg {
+            transform: translateX(-5px);
+        }
+
+    .map-section {
+        padding: 0 6vw 60px;
+    }
+
+    .map-container {
+        background: var(--navy-light);
+        border: 1px solid var(--gold-border);
+        border-radius: 18px;
+        padding: 30px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .map-placeholder {
+        width: 100%;
+        height: 350px;
+        background: var(--navy-mid);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 14px;
+        letter-spacing: 2px;
+        border: 1px solid var(--gold-border);
+        position: relative;
+    }
+
+        .map-placeholder::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 65%, rgba(198,167,94,0.05) 100%);
+            pointer-events: none;
+        }
+
+    .faq-preview {
+        padding: 0 6vw 60px;
+    }
+
+    .faq-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+        margin-top: 30px;
+    }
+
+    .faq-item {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 25px;
+        border: 1px solid rgba(0,0,0,0.055);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: default;
+    }
+
+        .faq-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 48px rgba(11,28,45,0.1);
+        }
+
+        .faq-item h4 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .faq-item p {
+            font-size: 13px;
+            color: #7a8a99;
+            line-height: 1.7;
+        }
+
+    @@media (max-width: 1024px) {
+        .contact-grid-container {
+            grid-template-columns: 1fr;
+        }
+
+        .form-row {
+            grid-template-columns: 1fr;
+        }
+
+        .faq-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<div class="contact-hero">
+    <div class="contact-bg"></div>
+    <div class="contact-overlay"></div>
+    <div class="contact-grid"></div>
+
+    <div class="contact-hero-content">
+        <div class="contact-eyebrow">
+            <div class="contact-eyebrow-line"></div>
+            <span class="contact-eyebrow-text">Get In Touch</span>
+        </div>
+        <h1>
+            We're Here to Help.
+            <span class="accent">Reach Out Anytime.</span>
+        </h1>
+        <p class="contact-hero-sub">Whether you have a question about your booking, need assistance with a reservation, or just want to share feedback — our team is ready to assist you 24/7.</p>
+    </div>
+</div>
+
+<div class="contact-main">
+    <div class="contact-grid-container">
+        <!-- Contact Information Card -->
+        <div class="contact-info-card">
+            <div class="contact-info-header">
+                <span class="section-tag">Contact Info</span>
+                <h2>Let's Connect</h2>
+                <p>Choose the most convenient way to reach us. Our aviation support specialists are standing by.</p>
+            </div>
+
+            <div class="contact-details">
+                <div class="contact-detail-item">
+                    <div class="detail-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                    </div>
+                    <div class="detail-text">
+                        <h4>Phone Support</h4>
+                        <p><a href="tel:+18001234567">+1 (800) 123-4567</a></p>
+                        <p style="font-size: 12px; color: var(--muted);">24/7 Global Support</p>
+                    </div>
+                </div>
+
+                <div class="contact-detail-item">
+                    <div class="detail-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                    </div>
+                    <div class="detail-text">
+                        <h4>Email</h4>
+                        <p><a href="mailto:support@aerovista.com">support@aerovista.com</a></p>
+                        <p><a href="mailto:reservations@aerovista.com">reservations@aerovista.com</a></p>
+                    </div>
+                </div>
+
+                <div class="contact-detail-item">
+                    <div class="detail-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                    </div>
+                    <div class="detail-text">
+                        <h4>Headquarters</h4>
+                        <p>Aviation Tower, 550 5th Ave<br>New York, NY 10036<br>United States</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="office-hours">
+                <h4>Office Hours</h4>
+                <div class="hours-grid">
+                    <div>
+                        <div class="hours-day">Monday - Friday</div>
+                        <div class="hours-time">9:00 AM - 8:00 PM</div>
+                    </div>
+                    <div>
+                        <div class="hours-day">Saturday</div>
+                        <div class="hours-time">10:00 AM - 6:00 PM</div>
+                    </div>
+                    <div>
+                        <div class="hours-day">Sunday</div>
+                        <div class="hours-time">Closed</div>
+                    </div>
+                    <div>
+                        <div class="hours-day">Emergency</div>
+                        <div class="hours-time">24/7 Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form Card -->
+        <div class="contact-form-card">
+            <div class="form-header">
+                <span class="section-tag">Send a Message</span>
+                <h2>We'd Love to Hear From You</h2>
+            </div>
+
+            <form asp-action="ContactUs" method="post" class="contact-form">
+                <div asp-validation-summary="ModelOnly" class="validation-summary-errors"></div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="FirstName">First Name</label>
+                        <input asp-for="FirstName" class="form-control" placeholder="John" />
+                        <span asp-validation-for="FirstName" class="field-validation-error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="LastName">Last Name</label>
+                        <input asp-for="LastName" class="form-control" placeholder="Doe" />
+                        <span asp-validation-for="LastName" class="field-validation-error"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ContactNo">Contact Number</label>
+                    <input asp-for="ContactNo" class="form-control" placeholder="+1 234 567 8900" />
+                    <span asp-validation-for="ContactNo" class="field-validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Subject">Subject</label>
+                    <input asp-for="Subject" class="form-control" placeholder="How can we help you?" />
+                    <span asp-validation-for="Subject" class="field-validation-error"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Message">Message</label>
+                    <textarea asp-for="Message" class="form-control" placeholder="Please provide details about your inquiry..."></textarea>
+                    <span asp-validation-for="Message" class="field-validation-error"></span>
+                </div>
+
+                <button type="submit" class="btn-submit">
+                    Send Message
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-left: 8px; display: inline-block; vertical-align: middle;">
+                        <line x1="22" y1="2" x2="11" y2="13" />
+                        <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                    </svg>
+                </button>
+            </form>
+
+            <div class="back-link">
+                <a asp-action="Index">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="19" y1="12" x2="5" y2="12" />
+                        <polyline points="12 19 5 12 12 5" />
+                    </svg>
+                    Return to Home
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="map-section">
+    <div class="section-header" style="margin-bottom: 25px;">
+        <span class="section-tag">Our Location</span>
+        <div class="section-rule"></div>
+    </div>
+    <div class="map-container">
+        <div class="map-placeholder">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="1.5" style="margin-right: 10px;">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+            </svg>
+            INTERACTIVE MAP — NEW YORK HEADQUARTERS
+        </div>
+    </div>
+</div>
+
+<div class="faq-preview">
+    <div class="section-header" style="margin-bottom: 25px;">
+        <span class="section-tag">Quick Answers</span>
+        <div class="section-rule"></div>
+    </div>
+
+    <div class="faq-grid">
+        <div class="faq-item">
+            <h4>How do I change my flight?</h4>
+            <p>You can manage your booking online through "My Trips" or contact our support team for assistance with changes.</p>
+        </div>
+        <div class="faq-item">
+            <h4>What's your baggage policy?</h4>
+            <p>Baggage allowances vary by fare class. Check your e-ticket or visit our Baggage Information page.</p>
+        </div>
+        <div class="faq-item">
+            <h4>Do you offer refunds?</h4>
+            <p>Refund eligibility depends on your fare type. Contact us with your booking reference for specific details.</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Form validation styling enhancement
+        document.querySelectorAll('.input-validation-error').forEach(function(element) {
+            element.classList.add('error-field');
+        });
+    </script>
+}

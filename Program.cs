@@ -40,6 +40,11 @@ using (var scope = app.Services.CreateScope())
     }
 }
 
+using (var scope = app.Services.CreateScope())
+{
+    await SeedData.Initialize(scope.ServiceProvider);
+}
+
 
 if (!app.Environment.IsDevelopment())
 {

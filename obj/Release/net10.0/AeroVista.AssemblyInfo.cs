@@ -11,10 +11,11 @@
 using System;
 using System.Reflection;
 
+[assembly: Microsoft.AspNetCore.Identity.UI.UIFrameworkAttribute("Bootstrap5")]
 [assembly: System.Reflection.AssemblyCompanyAttribute("AeroVista")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a6fc4f8431952f1459cc51573e0a0a5ede99963e")]
 [assembly: System.Reflection.AssemblyProductAttribute("AeroVista")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AeroVista")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

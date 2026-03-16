@@ -19,101 +19,153 @@ build_property.TargetFrameworkIdentifier = .NETCoreApp
 build_property.TargetFrameworkVersion = v10.0
 build_property.RootNamespace = AeroVista
 build_property.RootNamespace = AeroVista
-build_property.ProjectDir = C:\Users\Hp\Downloads\AirlineSystem\AirlineSystem\
+build_property.ProjectDir = C:\Users\pcs\Desktop\AirlineSystem\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 9.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\Hp\Downloads\AirlineSystem\AirlineSystem
+build_property.MSBuildProjectDirectory = C:\Users\pcs\Desktop\AirlineSystem
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Areas/Identity/Pages/Account/Login.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Areas/Identity/Pages/Account/Login.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Areas/Identity/Pages/Account/Logout.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Areas/Identity/Pages/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxMb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Areas/Identity/Pages/Account/Register.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Areas/Identity/Pages/Account/Register.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Areas/Identity/Pages/Account/_ViewImports.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Areas/Identity/Pages/Account/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcQWNjb3VudFxfVmlld0ltcG9ydHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Areas/Identity/Pages/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZhbGlkYXRpb25TY3JpcHRzUGFydGlhbC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Areas/Identity/Pages/_ViewImports.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Areas/Identity/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Areas/Identity/Pages/_ViewStart.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Areas/Identity/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXNcSWRlbnRpdHlcUGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Booking/Cancel.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/AddCities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkQ2l0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/AddFlight.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkRmxpZ2h0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/AdminDashboard.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRtaW5EYXNoYm9hcmQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/Bookings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQm9va2luZ3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/Cities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ2l0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/DeleteCities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlQ2l0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/DeleteFlight.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRGVsZXRlRmxpZ2h0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/FlightDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRmxpZ2h0RGV0YWlscy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/Flights.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRmxpZ2h0cy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/UpdateCities.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXBkYXRlQ2l0aWVzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/UpdateFlight.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXBkYXRlRmxpZ2h0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/UserDetails.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlckRldGFpbHMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Admin/Users.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Booking/Cancel.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xDYW5jZWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Booking/Confirmation.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Booking/Confirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xDb25maXJtYXRpb24uY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Booking/MyBookings.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Booking/MyBookings.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xNeUJvb2tpbmdzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Booking/Reschedule.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Booking/Reschedule.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xSZXNjaGVkdWxlLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Booking/Status.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Booking/Status.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQm9va2luZ1xTdGF0dXMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Flights/Results.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Flights/Results.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRmxpZ2h0c1xSZXN1bHRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Home/Index.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Home/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Home/Privacy.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Profile/UserDetails.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Profile/UserDetails.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUHJvZmlsZVxVc2VyRGV0YWlscy5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Shared/Error.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Shared/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Shared/_LoginPartial.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Shared/_LoginPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9Mb2dpblBhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/_ViewImports.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/_ViewStart.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Hp/Downloads/AirlineSystem/AirlineSystem/Views/Shared/_Layout.cshtml]
+[C:/Users/pcs/Desktop/AirlineSystem/Views/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-w3hgubc6gy

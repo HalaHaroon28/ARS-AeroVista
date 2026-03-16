@@ -3,20 +3,24 @@
   "WorkspaceRootPath": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\users.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\bookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\bookings.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\models\\flights.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:models\\flights.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\flights.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\flights.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\flightdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\flightdetails.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\deleteflight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\deleteflight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|c:\\users\\hp\\source\\repos\\airlinesystem\\views\\admin\\addflight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{9E9843B5-3E01-0C0E-67C1-1B113E2730AD}|AeroVista.csproj|solutionrelative:views\\admin\\addflight.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 5,
           "Children": [
             {
               "$type": "Bookmark",
@@ -39,53 +43,64 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "Bookings.cshtml",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Bookings.cshtml",
-              "RelativeDocumentMoniker": "Views\\Admin\\Bookings.cshtml",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Bookings.cshtml",
-              "RelativeToolTip": "Views\\Admin\\Bookings.cshtml",
-              "ViewState": "AgIAAL0DAAAAAAAAAAAiwLUDAAAIAAAAAAAAAA==",
+              "Title": "FlightDetails.cshtml",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\FlightDetails.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\FlightDetails.cshtml",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\FlightDetails.cshtml",
+              "RelativeToolTip": "Views\\Admin\\FlightDetails.cshtml",
+              "ViewState": "AgIAAH0BAAAAAAAAAAAiwIwBAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-10T21:42:26.407Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Users.cshtml",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Users.cshtml",
-              "RelativeDocumentMoniker": "Views\\Admin\\Users.cshtml",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Users.cshtml",
-              "RelativeToolTip": "Views\\Admin\\Users.cshtml",
-              "ViewState": "AgIAAAYCAAAAAAAAAAAiwDYCAAAkAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-10T21:35:57.916Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
-              "RelativeToolTip": "Controllers\\AdminController.cs",
-              "ViewState": "AgIAADoAAAAAAAAAAAAIwFMAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-10T21:25:18.127Z",
+              "WhenOpened": "2026-03-16T01:37:56.868Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "Flights.cshtml",
-              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Flights.cshtml",
-              "RelativeDocumentMoniker": "Views\\Admin\\Flights.cshtml",
-              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\Flights.cshtml",
-              "RelativeToolTip": "Views\\Admin\\Flights.cshtml",
-              "ViewState": "AgIAACQAAAAAAAAAAAAAAAcAAAAYAAAAAAAAAA==",
+              "Title": "DeleteFlight.cshtml",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\DeleteFlight.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\DeleteFlight.cshtml",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\DeleteFlight.cshtml",
+              "RelativeToolTip": "Views\\Admin\\DeleteFlight.cshtml",
+              "ViewState": "AgIAAEQBAAAAAAAAAAAiwFsBAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-03-10T21:23:03.629Z",
+              "WhenOpened": "2026-03-16T01:37:50.409Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "AddFlight.cshtml",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\AddFlight.cshtml",
+              "RelativeDocumentMoniker": "Views\\Admin\\AddFlight.cshtml",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Views\\Admin\\AddFlight.cshtml",
+              "RelativeToolTip": "Views\\Admin\\AddFlight.cshtml",
+              "ViewState": "AgIAAEoBAAAAAAAAAAAiwGEBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-03-16T01:37:27.533Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "AdminController.cs",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
+              "RelativeDocumentMoniker": "Controllers\\AdminController.cs",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Controllers\\AdminController.cs",
+              "RelativeToolTip": "Controllers\\AdminController.cs",
+              "ViewState": "AgIAAD8BAAAAAAAAAAAiwFYBAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T01:34:55.135Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Flights.cs",
+              "DocumentMoniker": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Models\\Flights.cs",
+              "RelativeDocumentMoniker": "Models\\Flights.cs",
+              "ToolTip": "C:\\Users\\Hp\\source\\repos\\AirlineSystem\\Models\\Flights.cs",
+              "RelativeToolTip": "Models\\Flights.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA2wCMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-16T01:32:27.536Z",
               "EditorCaption": ""
             }
           ]

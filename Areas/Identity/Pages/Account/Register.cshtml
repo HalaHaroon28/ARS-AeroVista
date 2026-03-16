@@ -1,470 +1,438 @@
 ﻿@page
 @model AeroVista.Areas.Identity.Pages.Account.RegisterModel
-@using AeroVista.Areas.Identity.Pages.Account
-
 @{
     ViewData["Title"] = "Join AeroVista";
+
+    Layout = "/Views/Shared/_Layout.cshtml";
+
 }
 
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
-
-<style>
-    :root {
-        --navy: #0B1C2D;
-        --navy-mid: #112236;
-        --gold: #C6A75E;
-        --gold-light: #d9be80;
-        --gold-dim: rgba(198,167,94,0.1);
-        --gold-border: rgba(198,167,94,0.22);
-        --muted: #6a7f95;
-        --text-light: #c8d4e0;
-        --white: #ffffff;
-    }
-
-    .register-wrapper {
-        display: flex;
-        min-height: 100vh;
-        width: 100%;
-        overflow-x: hidden;
-    }
-
-    .register-bg {
-        flex: 1;
-        position: relative;
-        overflow: hidden;
-        display: none;
-    }
-
-    @@media (min-width: 900px) {
-        .register-bg {
-            display: block;
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AeroVista</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --navy: #0B1C2D;
+            --navy-mid: #112236;
+            --gold: #C6A75E;
+            --gold-light: #d9be80;
+            --gold-dim: rgba(198,167,94,0.1);
+            --gold-border: rgba(198,167,94,0.22);
+            --muted: #6a7f95;
+            --white: #ffffff;
         }
-    }
 
-    .register-bg img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: brightness(0.45) saturate(0.8);
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    .register-bg-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to right, transparent 40%, var(--navy) 100%), linear-gradient(to top, rgba(11,28,45,0.7) 0%, transparent 50%);
-    }
-
-    .register-bg-grid {
-        position: absolute;
-        inset: 0;
-        background-image: linear-gradient(rgba(198,167,94,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.04) 1px, transparent 1px);
-        background-size: 64px 64px;
-    }
-
-    .register-bg-text {
-        position: absolute;
-        bottom: 52px;
-        left: 52px;
-        z-index: 2;
-    }
-
-        .register-bg-text h3 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 28px;
-            font-weight: 900;
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            background: var(--navy);
+            font-family: 'DM Sans', sans-serif;
             color: var(--white);
-            line-height: 1.15;
-            margin-bottom: 10px;
+            overflow-x: hidden;
         }
 
-            .register-bg-text h3 span {
-                color: var(--gold);
+        .register-wrapper {
+            display: flex;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        .register-bg {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+            display: none;
+        }
+
+        @@media (min-width: 1100px) {
+            .register-bg {
+                display: block;
+            }
+        }
+
+        .register-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.45) saturate(0.8);
+        }
+
+        .register-bg-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to right, transparent 40%, var(--navy) 100%), linear-gradient(to top, rgba(11,28,45,0.7) 0%, transparent 50%);
+        }
+
+        .register-bg-grid {
+            position: absolute;
+            inset: 0;
+            background-image: linear-gradient(rgba(198,167,94,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.04) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        .register-bg-text {
+            position: absolute;
+            bottom: 52px;
+            left: 52px;
+            z-index: 2;
+        }
+
+            .register-bg-text h3 {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 28px;
+                font-weight: 900;
+                color: var(--white);
+                line-height: 1.15;
+                margin-bottom: 10px;
             }
 
-        .register-bg-text p {
-            font-size: 13px;
-            font-weight: 300;
-            color: rgba(255,255,255,0.45);
-            max-width: 280px;
-            line-height: 1.7;
+                .register-bg-text h3 span {
+                    color: var(--gold);
+                }
+
+            .register-bg-text p {
+                font-size: 13px;
+                font-weight: 300;
+                color: rgba(255,255,255,0.45);
+                max-width: 280px;
+                line-height: 1.7;
+            }
+
+        .register-panel {
+            width: 100%;
+            max-width: 650px;
+            flex-shrink: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px 44px;
+            background: var(--navy);
+            position: relative;
+            z-index: 1;
+            border-left: 1px solid var(--gold-border);
         }
 
-    .register-panel {
-        width: 100%;
-        max-width: 580px;
-        flex-shrink: 1;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 48px 44px;
-        background: var(--navy);
-        position: relative;
-        z-index: 1;
-        border-left: 1px solid var(--gold-border);
-    }
+            .register-panel::before {
+                content: '';
+                position: absolute;
+                top: -120px;
+                right: -120px;
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(circle, rgba(198,167,94,0.055) 0%, transparent 65%);
+                pointer-events: none;
+            }
 
-        .register-panel::before {
-            content: '';
-            position: absolute;
-            top: -120px;
-            right: -120px;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(198,167,94,0.055) 0%, transparent 65%);
-            pointer-events: none;
+        .register-card {
+            width: 100%;
+            max-width: 500px;
+            animation: cardIn 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
         }
 
-    .register-card {
-        width: 100%;
-        max-width: 480px;
-        animation: cardIn 0.8s cubic-bezier(0.22,1,0.36,1) forwards;
-    }
+        @@keyframes cardIn {
+            from {
+                opacity: 0;
+                transform: translateY(24px);
+            }
 
-    @@keyframes cardIn {
-        from {
-            opacity: 0;
-            transform: translateY(24px);
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-
-    .card-top-bar {
-        height: 3px;
-        background: linear-gradient(to right, var(--gold), transparent);
-        margin-bottom: 36px;
-    }
-
-    .card-eyebrow {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        margin-bottom: 16px;
-    }
-
-    .card-eyebrow-line {
-        width: 28px;
-        height: 1px;
-        background: var(--gold);
-        opacity: 0.7;
-    }
-
-    .card-eyebrow-text {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 9px;
-        font-weight: 600;
-        letter-spacing: 3.5px;
-        color: var(--gold);
-        text-transform: uppercase;
-    }
-
-    .card-header {
-        margin-bottom: 32px;
-    }
-
-        .card-header h2 {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 24px;
-            font-weight: 900;
-            color: var(--white);
-            letter-spacing: -0.5px;
-            margin-bottom: 8px;
+        .card-top-bar {
+            height: 3px;
+            background: linear-gradient(to right, var(--gold), transparent);
+            margin-bottom: 36px;
         }
 
-        .card-header p {
-            font-size: 13px;
-            font-weight: 300;
-            color: var(--muted);
-            line-height: 1.6;
+        .card-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
         }
 
-    .form-grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        gap: 18px;
-    }
+        .card-eyebrow-line {
+            width: 28px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.7;
+        }
 
-    .full-width {
-        grid-column: span 2;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-    }
-
-        .form-group label {
+        .card-eyebrow-text {
             font-family: 'Orbitron', sans-serif;
             font-size: 9px;
             font-weight: 600;
-            margin-bottom: 9px;
+            letter-spacing: 3.5px;
             color: var(--gold);
             text-transform: uppercase;
-            letter-spacing: 1.8px;
         }
 
-        .form-group input,
-        .form-group select {
-            padding: 13px 15px;
-            border: 1px solid rgba(198,167,94,0.14);
-            border-radius: 8px;
-            font-family: 'DM Sans', sans-serif;
-            font-size: 13px;
-            font-weight: 400;
-            background: rgba(255,255,255,0.04);
-            color: var(--white);
-            outline: none;
-            transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
-            -webkit-appearance: none;
-            appearance: none;
+        .card-header {
+            margin-bottom: 32px;
         }
 
-        .form-group select {
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='11' height='7' viewBox='0 0 11 7'%3E%3Cpath d='M1 1l4.5 4.5L10 1' stroke='%23C6A75E' stroke-width='1.4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 13px center;
-            padding-right: 34px;
-            cursor: pointer;
+            .card-header h2 {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 24px;
+                font-weight: 900;
+                color: var(--white);
+                letter-spacing: -0.5px;
+                margin-bottom: 8px;
+            }
+
+            .card-header p {
+                font-size: 13px;
+                font-weight: 300;
+                color: var(--muted);
+                line-height: 1.6;
+            }
+
+        .section-divider {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 9px;
+            color: var(--gold);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(198,167,94,0.15);
+            display: block;
+            opacity: 0.9;
         }
 
-            .form-group select option {
-                background: var(--navy-mid);
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 5px;
+        }
+
+            .form-group label {
+                font-family: 'Orbitron', sans-serif;
+                font-size: 8.5px;
+                font-weight: 600;
+                margin-bottom: 8px;
+                color: var(--gold);
+                text-transform: uppercase;
+                letter-spacing: 1.2px;
+            }
+
+            .form-group input, .form-group select {
+                padding: 12px 15px;
+                background: rgba(255,255,255,0.04);
+                border: 1px solid rgba(198,167,94,0.14);
+                border-radius: 8px;
+                color: white;
+                font-size: 13px;
+                outline: none;
+                transition: border-color 0.22s, background 0.22s, box-shadow 0.22s;
+            }
+
+                .form-group input::placeholder {
+                    color: rgba(255,255,255,0.18);
+                }
+
+                .form-group input:focus, .form-group select:focus {
+                    border-color: var(--gold);
+                    background: rgba(198,167,94,0.05);
+                    box-shadow: 0 0 0 3px rgba(198,167,94,0.09);
+                }
+
+            .form-group select {
                 color: var(--white);
             }
 
-        .form-group input::placeholder {
-            color: rgba(255,255,255,0.18);
+                .form-group select option {
+                    background: var(--navy);
+                    color: var(--white);
+                    padding: 10px;
+                }
+
+        .btn-register {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
+            background-size: 200% 200%;
+            color: var(--navy);
+            height: 50px;
+            width: 100%;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-top: 35px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
         }
 
-        .form-group input:focus,
-        .form-group select:focus {
-            border-color: var(--gold);
-            background: rgba(198,167,94,0.05);
-            box-shadow: 0 0 0 3px rgba(198,167,94,0.09);
+            .btn-register:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 15px 30px rgba(198,167,94,0.3);
+                filter: brightness(1.1);
+            }
+
+        .login-footer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 13px;
+            color: var(--muted);
+            padding-top: 24px;
+            border-top: 1px solid rgba(198,167,94,0.08);
         }
 
-        .form-group input[type="date"]::-webkit-calendar-picker-indicator {
-            filter: invert(1) opacity(0.35);
+            .login-footer a {
+                color: var(--gold);
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+        .text-danger {
+            font-size: 11px;
+            color: #e07070;
+            margin-top: 5px;
+            list-style: none;
+            padding: 0;
+        }
+
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1) sepia(100%) saturate(500%) hue-rotate(10deg);
             cursor: pointer;
         }
+    </style>
+</head>
+<body>
 
-    .btn-register {
-        background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 50%, var(--gold) 100%);
-        background-size: 200% 200%;
-        color: var(--navy);
-        height: 50px;
-        width: 100%;
-        border: none;
-        border-radius: 8px;
-        font-family: 'Orbitron', sans-serif;
-        font-weight: 700;
-        font-size: 11px;
-        letter-spacing: 2.5px;
-        text-transform: uppercase;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-        margin-top: 24px;
-        transition: transform 0.25s ease, box-shadow 0.25s ease;
-    }
-
-        .btn-register::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn-register:hover::before {
-            left: 100%;
-        }
-
-        .btn-register:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 12px 30px rgba(198,167,94,0.35);
-        }
-
-    .card-divider {
-        display: flex;
-        align-items: center;
-        gap: 14px;
-        margin: 28px 0;
-    }
-
-    .card-divider-line {
-        flex: 1;
-        height: 1px;
-        background: rgba(198,167,94,0.1);
-    }
-
-    .card-divider span {
-        font-size: 10px;
-        color: var(--muted);
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        white-space: nowrap;
-    }
-
-    .external-login-btn {
-        background: rgba(255,255,255,0.04);
-        border: 1px solid rgba(198,167,94,0.14);
-        padding: 12px;
-        border-radius: 8px;
-        width: 100%;
-        cursor: pointer;
-        font-family: 'DM Sans', sans-serif;
-        font-weight: 500;
-        font-size: 13px;
-        color: var(--text-light);
-        transition: background 0.22s, border-color 0.22s;
-        margin-bottom: 8px;
-    }
-
-        .external-login-btn:hover {
-            background: var(--gold-dim);
-            border-color: var(--gold-border);
-            color: var(--white);
-        }
-
-    .login-footer {
-        text-align: center;
-        margin-top: 28px;
-        font-size: 13px;
-        color: var(--muted);
-        padding-top: 24px;
-        border-top: 1px solid rgba(198,167,94,0.08);
-    }
-
-        .login-footer a {
-            color: var(--gold);
-            font-weight: 600;
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-
-            .login-footer a:hover {
-                color: var(--gold-light);
-            }
-
-    .text-danger {
-        font-size: 11px;
-        color: #e07070;
-        margin-top: 5px;
-    }
-</style>
-
-<div class="register-wrapper">
-    <div class="register-bg">
-        <img src="~/images/bgimage.jpg" alt="Background" />
-        <div class="register-bg-overlay"></div>
-        <div class="register-bg-grid"></div>
-        <div class="register-bg-text">
-            <h3>Your Journey<br><span>Starts Here.</span></h3>
-            <p>Create your AeroVista account and take off in minutes.</p>
+    <div class="register-wrapper">
+        <div class="register-bg">
+            <img src="~/images/bgimage.jpg" alt="AeroVista Background" />
+            <div class="register-bg-overlay"></div>
+            <div class="register-bg-grid"></div>
+            <div class="register-bg-text">
+                <h3>Begin Your<br><span>Journey.</span></h3>
+                <p>Join AeroVista and experience premium travel to over 200 destinations worldwide.</p>
+            </div>
         </div>
-    </div>
 
-    <div class="register-panel">
-        <div class="register-card">
-            <div class="card-top-bar"></div>
-            <div class="card-eyebrow">
-                <div class="card-eyebrow-line"></div>
-                <span class="card-eyebrow-text">AeroVista Airlines</span>
-            </div>
-            <div class="card-header">
-                <h2>Create Account</h2>
-                <p>Join AeroVista to manage your flights and bookings.</p>
-            </div>
+        <div class="register-panel">
+            <div class="register-card">
+                <div class="card-top-bar"></div>
 
-            <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label asp-for="Input.FirstName">First Name</label>
-                        <input asp-for="Input.FirstName" placeholder="John" />
-                        <span asp-validation-for="Input.FirstName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.LastName">Last Name</label>
-                        <input asp-for="Input.LastName" placeholder="Doe" />
-                        <span asp-validation-for="Input.LastName" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Sex">Gender</label>
-                        <select asp-for="Input.Sex">
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                        <span asp-validation-for="Input.Sex" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.DateOfBirth">Date of Birth</label>
-                        <input asp-for="Input.DateOfBirth" type="date" />
-                        <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Role">Role</label>
-                        <select asp-for="Input.Role">
-                            <option selected disabled>Select Role</option>
-                            <option value="Admin">Admin</option>
-                            <option value="User">User</option>
-                        </select>
-                        <span asp-validation-for="Input.Role" class="text-danger"></span>
-                    </div>
-                    <div class="form-group full-width">
-                        <label asp-for="Input.Email">Email Address</label>
-                        <input asp-for="Input.Email" placeholder="name@example.com" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.Password">Password</label>
-                        <input asp-for="Input.Password" type="password" placeholder="••••••••" />
-                        <span asp-validation-for="Input.Password" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="Input.ConfirmPassword">Confirm Password</label>
-                        <input asp-for="Input.ConfirmPassword" type="password" placeholder="••••••••" />
-                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                    </div>
+                <div class="card-eyebrow">
+                    <div class="card-eyebrow-line"></div>
+                    <span class="card-eyebrow-text">AeroVista Membership</span>
                 </div>
-                <button id="registerSubmit" type="submit" class="btn-register">Create Account</button>
-            </form>
 
-            @if ((Model.ExternalLogins?.Count ?? 0) > 0)
-            {
-                <div class="card-divider">
-                    <div class="card-divider-line"></div>
-                    <span>Or continue with</span>
-                    <div class="card-divider-line"></div>
+                <div class="card-header">
+                    <h2>Passenger Enrollment</h2>
+                    <p>Initialize your profile for priority boarding and SkyMiles access.</p>
                 </div>
-                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post">
-                    <div>
-                        @foreach (var provider in Model.ExternalLogins!)
-                        {
-                            <button type="submit" class="external-login-btn" name="provider" value="@provider.Name">
-                                Register with @provider.DisplayName
-                            </button>
-                        }
+
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <span class="section-divider">Manifest Identity</span>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label asp-for="Input.FirstName">First Name</label>
+                            <input asp-for="Input.FirstName" placeholder="John" />
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.LastName">Last Name</label>
+                            <input asp-for="Input.LastName" placeholder="Doe" />
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Sex">Gender</label>
+                            <select asp-for="Input.Sex">
+                                <option value="" disabled selected>Select</option>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <span asp-validation-for="Input.Sex" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.DateOfBirth">Birth Date</label>
+                            <input asp-for="Input.DateOfBirth" type="date" />
+                            <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
+                        </div>
                     </div>
+
+                    <span class="section-divider">Voyager Details</span>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label asp-for="Input.PhoneNumber">Phone Number</label>
+                            <input asp-for="Input.PhoneNumber" placeholder="+1 (555) 000-0000" />
+                            <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group full-width">
+                            <label asp-for="Input.Address">Permanent Address</label>
+                            <input asp-for="Input.Address" placeholder="Street, City, Postal Code" />
+                            <span asp-validation-for="Input.Address" class="text-danger"></span>
+                        </div>
+                        <div class="form-group full-width">
+                            <label asp-for="Input.PreferredCardNumber">Preferred Card Number</label>
+                            <input asp-for="Input.PreferredCardNumber" placeholder="Optional" />
+                        </div>
+                    </div>
+
+                    <span class="section-divider">Security Manifest</span>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label asp-for="Input.Email">Email Address</label>
+                            <input asp-for="Input.Email" placeholder="vanguard@aerovista.com" />
+                            <span asp-validation-for="Input.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.Password">Password</label>
+                            <input asp-for="Input.Password" type="password" placeholder="••••••••" />
+                            <span asp-validation-for="Input.Password" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Input.ConfirmPassword">Verify</label>
+                            <input asp-for="Input.ConfirmPassword" type="password" placeholder="••••••••" />
+                            <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-register">COMPLETE ENROLLMENT</button>
                 </form>
-            }
 
-            <div class="login-footer">
-                Already have an account? <a asp-page="./Login">Sign in</a>
+                <div class="login-footer">
+                    Returning passenger? <a asp-page="./Login">Sign in to your account</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <partial name="_ValidationScriptsPartial" />
-}
+</body>
+</html>

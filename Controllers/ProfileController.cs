@@ -29,7 +29,11 @@ namespace AeroVista.Controllers
                 LastName = user.LastName,
                 Sex = user.Sex,
                 DateOfBirth = user.DateOfBirth,
-                NewEmail = user.Email ?? ""
+                SkyMiles = user.SkyMiles,
+                NewEmail = user.Email ?? "",
+                Address = user.Address ?? "",
+                PhoneNumber = user.PhoneNumber ?? "",
+                PreferredCardNumber = user.PreferredCardNumber ?? ""
             };
 
             return View("UserDetails", model);
@@ -37,63 +41,57 @@ namespace AeroVista.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateEmail(ProfileViewModel model)
+        public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
 
-            if (!ModelState.IsValid)
-            {
-                model.FirstName = user.FirstName;
-                model.LastName = user.LastName;
-                model.Sex = user.Sex;
-                model.DateOfBirth = user.DateOfBirth;
-                return View("UserDetails", model);
-            }
-
+            // Check password before allowing any changes
             var passwordCheck = await _userManager.CheckPasswordAsync(user, model.ConfirmPassword);
             if (!passwordCheck)
             {
-                ModelState.AddModelError("ConfirmPassword", "Incorrect password. Changes not saved.");
-                model.FirstName = user.FirstName;
-                model.LastName = user.LastName;
-                model.Sex = user.Sex;
-                model.DateOfBirth = user.DateOfBirth;
-                return View("UserDetails", model);
+                ModelState.AddModelError("ConfirmPassword", "Incorrect password. Authorization failed.");
+                return await ResetViewModelAndReturn(user, model);
             }
 
+            // Update Email if changed
             if (user.Email != model.NewEmail)
             {
                 var existingUser = await _userManager.FindByEmailAsync(model.NewEmail);
                 if (existingUser != null && existingUser.Id != user.Id)
                 {
-                    ModelState.AddModelError("NewEmail", "This email is already taken by another aviator.");
-                    model.FirstName = user.FirstName;
-                    return View("UserDetails", model);
+                    ModelState.AddModelError("NewEmail", "This email is already taken.");
+                    return await ResetViewModelAndReturn(user, model);
                 }
-
                 user.Email = model.NewEmail;
                 user.UserName = model.NewEmail;
-                user.NormalizedEmail = model.NewEmail.ToUpper();
-                user.NormalizedUserName = model.NewEmail.ToUpper();
-
-                var result = await _userManager.UpdateAsync(user);
-
-                if (!result.Succeeded)
-                {
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                    model.FirstName = user.FirstName;
-                    return View("UserDetails", model);
-                }
-
-                await _signInManager.RefreshSignInAsync(user);
-                TempData["Success"] = "Email updated successfully!";
             }
 
-            return RedirectToAction(nameof(UserDetails));
+            // Update mutable fields
+            user.Address = model.Address;
+            user.PhoneNumber = model.PhoneNumber;
+            user.PreferredCardNumber = model.PreferredCardNumber;
+
+            var result = await _userManager.UpdateAsync(user);
+            if (result.Succeeded)
+            {
+                await _signInManager.RefreshSignInAsync(user);
+                TempData["Success"] = "Profile updated successfully!";
+                return RedirectToAction(nameof(UserDetails));
+            }
+
+            foreach (var error in result.Errors) ModelState.AddModelError("", error.Description);
+            return await ResetViewModelAndReturn(user, model);
+        }
+
+        private async Task<IActionResult> ResetViewModelAndReturn(ApplicationUser user, ProfileViewModel model)
+        {
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Sex = user.Sex;
+            model.DateOfBirth = user.DateOfBirth;
+            model.SkyMiles = user.SkyMiles;
+            return View("UserDetails", model);
         }
     }
 }

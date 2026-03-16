@@ -1,0 +1,1319 @@
+﻿@{
+    ViewData["Title"] = "About Us";
+}
+
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --navy-light: #1a3350;
+        --gold: #C6A75E;
+        --gold-light: #d9be80;
+        --gold-dim: rgba(198,167,94,0.1);
+        --gold-border: rgba(198,167,94,0.2);
+        --muted: #6a7f95;
+        --text-light: #c8d4e0;
+        --off-white: #F5F5F5;
+        --white: #ffffff;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: var(--off-white);
+        font-family: 'DM Sans', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .about-hero {
+        position: relative;
+        height: 60vh;
+        min-height: 500px;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .about-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background-image: url('~/images/about-hero.jpg');
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.35) saturate(0.8);
+    }
+
+    .about-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(108deg, rgba(15, 40, 65, 0.95) 0%, rgba(12, 37, 62, 0.65) 55%, rgba(16, 31, 46, 0.2) 100%);
+    }
+
+    .about-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        background-image: linear-gradient(rgba(198,167,94,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.035) 1px, transparent 1px);
+        background-size: 72px 72px;
+        animation: gridDrift 22s linear infinite;
+    }
+
+    @@keyframes gridDrift {
+        0% { background-position: 0 0; }
+        100% { background-position: 72px 72px; }
+    }
+
+    .about-scan {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        background: linear-gradient(to bottom, transparent, rgba(198,167,94,0.025) 50%, transparent);
+        background-size: 100% 180px;
+        animation: scanMove 9s linear infinite;
+        pointer-events: none;
+    }
+
+    @@keyframes scanMove {
+        0% { background-position: 0 -180px; }
+        100% { background-position: 0 100vh; }
+    }
+
+    .about-hero-content {
+        position: relative;
+        z-index: 5;
+        padding: 0 6vw;
+        width: 100%;
+        animation: heroIn 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    @@keyframes heroIn {
+        from { opacity: 0; transform: translateY(28px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .about-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .about-eyebrow-line {
+        width: 36px;
+        height: 1px;
+        background: var(--gold);
+    }
+
+    .about-eyebrow-text {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: var(--gold);
+        text-transform: uppercase;
+    }
+
+    .about-hero h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(42px, 6vw, 72px);
+        font-weight: 900;
+        color: var(--white);
+        line-height: 1.08;
+        letter-spacing: -0.5px;
+        margin-bottom: 18px;
+    }
+
+    .about-hero h1 .accent {
+        color: var(--gold);
+        display: block;
+    }
+
+    .about-hero-sub {
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--text-light);
+        max-width: 600px;
+        line-height: 1.75;
+        margin-bottom: 30px;
+    }
+
+    .hero-stats-compact {
+        display: flex;
+        gap: 40px;
+    }
+
+    .hero-stat-item {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-stat-number {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--gold);
+        line-height: 1;
+    }
+
+    .hero-stat-label {
+        font-size: 10px;
+        font-weight: 500;
+        color: var(--muted);
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-top: 5px;
+    }
+
+    .scroll-hint {
+        position: absolute;
+        bottom: 36px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 6;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 7px;
+        color: rgba(255,255,255,0.25);
+        font-size: 9px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        animation: scrollBounce 2.4s ease-in-out infinite;
+    }
+
+    @@keyframes scrollBounce {
+        0%, 100% { transform: translateX(-50%) translateY(0); }
+        50% { transform: translateX(-50%) translateY(7px); }
+    }
+
+    /* Story Section */
+    .story-section {
+        padding: 80px 6vw 0;
+        position: relative;
+        z-index: 10;
+        margin-top: -40px;
+    }
+
+    .story-card {
+        background: var(--white);
+        border-radius: 24px;
+        padding: 60px;
+        box-shadow: 0 32px 80px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .story-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(198,167,94,0.03), transparent 70%);
+        border-radius: 50%;
+    }
+
+    .story-grid {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 50px;
+        align-items: center;
+    }
+
+    .story-content .section-tag {
+        display: inline-block;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 9px;
+        letter-spacing: 3px;
+        color: var(--gold);
+        text-transform: uppercase;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        padding: 6px 14px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+
+    .story-content h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--navy);
+        line-height: 1.2;
+        margin-bottom: 25px;
+    }
+
+    .story-content h2 span {
+        color: var(--gold);
+    }
+
+    .story-content p {
+        font-size: 15px;
+        color: #5a6f82;
+        line-height: 1.8;
+        margin-bottom: 20px;
+    }
+
+    .story-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+        margin-top: 35px;
+    }
+
+    .story-stat {
+        text-align: center;
+        padding: 20px;
+        background: var(--off-white);
+        border-radius: 12px;
+        border: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .story-stat .number {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--gold);
+        display: block;
+    }
+
+    .story-stat .label {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .story-image {
+        position: relative;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    .story-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: transform 0.6s ease;
+    }
+
+    .story-image:hover img {
+        transform: scale(1.05);
+    }
+
+    .story-image-caption {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 20px;
+        background: linear-gradient(to top, rgba(11,28,45,0.9), transparent);
+        color: var(--white);
+        font-size: 12px;
+        font-style: italic;
+    }
+
+    /* Mission Vision Section */
+    .mission-section {
+        padding: 80px 6vw 0;
+    }
+
+    .mission-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
+    }
+
+    .mission-card {
+        background: var(--navy);
+        border: 1px solid var(--gold-border);
+        border-radius: 18px;
+        padding: 40px;
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease;
+    }
+
+    .mission-card:hover {
+        transform: translateY(-8px);
+    }
+
+    .mission-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(circle, rgba(198,167,94,0.06), transparent 70%);
+    }
+
+    .mission-icon {
+        width: 60px;
+        height: 60px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 25px;
+        color: var(--gold);
+    }
+
+    .mission-card h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 15px;
+    }
+
+    .mission-card p {
+        color: var(--text-light);
+        font-size: 14px;
+        line-height: 1.7;
+        opacity: 0.9;
+    }
+
+    /* Values Section */
+    .values-section {
+        padding: 80px 6vw 0;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 36px;
+    }
+
+    .section-tag {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 9px;
+        letter-spacing: 3px;
+        color: var(--gold);
+        text-transform: uppercase;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        padding: 6px 14px;
+        border-radius: 4px;
+        white-space: nowrap;
+    }
+
+    .section-rule {
+        flex: 1;
+        height: 1px;
+        background: linear-gradient(to right, rgba(198,167,94,0.25), transparent);
+    }
+
+    .section-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-top: 10px;
+    }
+
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-top: 30px;
+    }
+
+    .value-card {
+        background: var(--white);
+        border-radius: 14px;
+        padding: 30px 25px;
+        border: 1px solid rgba(0,0,0,0.055);
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: default;
+    }
+
+    .value-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 18px 48px rgba(11,28,45,0.1);
+    }
+
+    .value-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 2px;
+        background: linear-gradient(to right, var(--gold), transparent);
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform 0.4s ease;
+    }
+
+    .value-card:hover::after {
+        transform: scaleX(1);
+    }
+
+    .value-icon-wrap {
+        width: 44px;
+        height: 44px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 18px;
+        color: var(--gold);
+    }
+
+    .value-card h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .value-card p {
+        font-size: 13px;
+        color: #7a8a99;
+        line-height: 1.7;
+    }
+
+    /* Why Choose Us */
+    .why-section {
+        padding: 80px 6vw 0;
+    }
+
+    .why-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .why-card {
+        background: var(--navy-light);
+        border: 1px solid var(--gold-border);
+        border-radius: 18px;
+        padding: 35px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .why-card:hover {
+        background: var(--navy);
+        transform: translateY(-5px);
+    }
+
+    .why-number {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 48px;
+        font-weight: 900;
+        color: rgba(198,167,94,0.1);
+        position: absolute;
+        top: 15px;
+        right: 20px;
+        line-height: 1;
+    }
+
+    .why-icon {
+        width: 50px;
+        height: 50px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+        color: var(--gold);
+    }
+
+    .why-card h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 12px;
+    }
+
+    .why-card p {
+        color: var(--text-light);
+        font-size: 13px;
+        line-height: 1.7;
+        opacity: 0.8;
+    }
+
+    /* Leadership Section */
+    .leadership-section {
+        padding: 80px 6vw 0;
+    }
+
+    .leadership-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-top: 30px;
+    }
+
+    .leader-card {
+        background: var(--white);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+
+    .leader-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(11,28,45,0.15);
+    }
+
+    .leader-image {
+        height: 220px;
+        overflow: hidden;
+    }
+
+    .leader-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+
+    .leader-card:hover .leader-image img {
+        transform: scale(1.1);
+    }
+
+    .leader-info {
+        padding: 20px;
+        text-align: center;
+    }
+
+    .leader-info h4 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 5px;
+    }
+
+    .leader-info .title {
+        color: var(--gold);
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+    }
+
+    .leader-info .bio {
+        font-size: 12px;
+        color: #7a8a99;
+        line-height: 1.5;
+    }
+
+    /* Achievements Strip */
+    .achievements-strip {
+        padding: 60px 6vw;
+        background: var(--navy);
+        margin-top: 80px;
+        border-top: 1px solid var(--gold-border);
+        border-bottom: 1px solid var(--gold-border);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .achievements-strip::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(45deg, transparent 30%, rgba(198,167,94,0.02) 50%, transparent 70%);
+        animation: shimmer 3s infinite;
+    }
+
+    @@keyframes shimmer {
+        0% { transform: translateX(-100%); }
+        100% { transform: translateX(100%); }
+    }
+
+    .achievements-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .achievement-item {
+        text-align: center;
+        color: var(--white);
+    }
+
+    .achievement-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 15px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+    }
+
+    .achievement-number {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 32px;
+        font-weight: 700;
+        color: var(--gold);
+        line-height: 1.2;
+    }
+
+    .achievement-label {
+        font-size: 11px;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        color: var(--text-light);
+        opacity: 0.8;
+    }
+
+    /* Timeline Section */
+    .timeline-section {
+        padding: 80px 6vw;
+    }
+
+    .timeline {
+        position: relative;
+        max-width: 900px;
+        margin: 40px auto 0;
+    }
+
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(to bottom, transparent, var(--gold-border), var(--gold-border), transparent);
+    }
+
+    .timeline-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 40px;
+        position: relative;
+    }
+
+    .timeline-item:nth-child(even) {
+        flex-direction: row-reverse;
+    }
+
+    .timeline-year {
+        width: 100px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--gold);
+        background: var(--white);
+        padding: 8px 0;
+        text-align: center;
+        border-radius: 30px;
+        border: 1px solid var(--gold-border);
+        box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        position: relative;
+        z-index: 2;
+    }
+
+    .timeline-content {
+        width: calc(50% - 60px);
+        background: var(--white);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        border: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .timeline-content h4 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 14px;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 5px;
+    }
+
+    .timeline-content p {
+        font-size: 12px;
+        color: #7a8a99;
+        line-height: 1.6;
+    }
+
+    .timeline-dot {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 12px;
+        height: 12px;
+        background: var(--gold);
+        border-radius: 50%;
+        border: 2px solid var(--white);
+        z-index: 2;
+    }
+
+    /* CTA Section */
+    .cta-section {
+        padding: 0 6vw 60px;
+    }
+
+    .cta-banner {
+        background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+        border: 1px solid var(--gold-border);
+        border-radius: 24px;
+        padding: 60px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-banner::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(rgba(198,167,94,0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.02) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+
+    .cta-banner h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 36px;
+        font-weight: 700;
+        color: var(--white);
+        margin-bottom: 15px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .cta-banner h2 span {
+        color: var(--gold);
+    }
+
+    .cta-banner p {
+        font-size: 16px;
+        color: var(--text-light);
+        max-width: 600px;
+        margin: 0 auto 30px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .btn-cta {
+        display: inline-block;
+        padding: 14px 32px;
+        background: var(--gold);
+        color: var(--navy);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        border-radius: 8px;
+        text-decoration: none;
+        border: 1px solid var(--gold);
+        transition: all 0.25s ease;
+        position: relative;
+        z-index: 1;
+    }
+
+    .btn-cta:hover {
+        background: transparent;
+        color: var(--gold);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(198,167,94,0.2);
+    }
+
+    /* Responsive */
+    @@media (max-width: 1024px) {
+        .story-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .values-grid,
+        .leadership-grid,
+        .achievements-grid,
+        .why-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .timeline::before {
+            left: 30px;
+        }
+
+        .timeline-item {
+            flex-direction: column !important;
+            align-items: flex-start;
+            margin-left: 60px;
+        }
+
+        .timeline-year {
+            width: auto;
+            margin-bottom: 15px;
+        }
+
+        .timeline-content {
+            width: 100%;
+        }
+
+        .timeline-dot {
+            left: 30px;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .values-grid,
+        .leadership-grid,
+        .achievements-grid,
+        .why-grid,
+        .mission-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .story-card {
+            padding: 30px;
+        }
+
+        .cta-banner {
+            padding: 40px 20px;
+        }
+
+        .cta-banner h2 {
+            font-size: 28px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="about-hero">
+    <div class="about-bg"></div>
+    <div class="about-overlay"></div>
+    <div class="about-grid"></div>
+    <div class="about-scan"></div>
+
+    <div class="about-hero-content">
+        <div class="about-eyebrow">
+            <div class="about-eyebrow-line"></div>
+            <span class="about-eyebrow-text">Our Story</span>
+        </div>
+        <h1>
+            Beyond Flight.
+            <span class="accent">Beyond Expectations.</span>
+        </h1>
+        <p class="about-hero-sub">Since 1985, AeroVista has redefined air travel — combining precision engineering with genuine hospitality to create journeys that inspire.</p>
+
+        <div class="hero-stats-compact">
+            <div class="hero-stat-item">
+                <span class="hero-stat-number">39+</span>
+                <span class="hero-stat-label">Years Excellence</span>
+            </div>
+            <div class="hero-stat-item">
+                <span class="hero-stat-number">200+</span>
+                <span class="hero-stat-label">Destinations</span>
+            </div>
+            <div class="hero-stat-item">
+                <span class="hero-stat-number">28M</span>
+                <span class="hero-stat-label">Passengers/Yr</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="scroll-hint">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M12 5v14M5 12l7 7 7-7" />
+        </svg>
+        discover
+    </div>
+</div>
+
+<!-- Our Story Section -->
+<div class="story-section">
+    <div class="story-card">
+        <div class="story-grid">
+            <div class="story-content">
+                <span class="section-tag">Since 1985</span>
+                <h2>From Humble Beginnings <span>to Global Excellence</span></h2>
+                <p>AeroVista began with a single aircraft and a bold vision: to connect the world with precision, comfort, and integrity. What started as a regional carrier in the Pacific Northwest has grown into one of the world's most respected airlines, known for operational excellence and passenger-centric innovation.</p>
+                <p>Today, we operate a fleet of 180+ aircraft, serving over 200 destinations across 48 countries. But our philosophy remains unchanged — every passenger is a guest, every journey is an opportunity to exceed expectations.</p>
+
+                <div class="story-stats">
+                    <div class="story-stat">
+                        <span class="number">180+</span>
+                        <span class="label">Aircraft</span>
+                    </div>
+                    <div class="story-stat">
+                        <span class="number">48</span>
+                        <span class="label">Countries</span>
+                    </div>
+                    <div class="story-stat">
+                        <span class="number">12k</span>
+                        <span class="label">Employees</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="story-image">
+                <img src="~/images/first-plane.jpg" alt="Our first aircraft" />
+                <div class="story-image-caption">Our inaugural fleet, 1985</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Mission & Vision -->
+<div class="mission-section">
+    <div class="mission-grid">
+        <div class="mission-card">
+            <div class="mission-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="2" y1="12" x2="22" y2="12" />
+                    <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                </svg>
+            </div>
+            <h3>Our Mission</h3>
+            <p>To connect people and cultures through safe, reliable, and exceptional air travel. We strive to make every journey seamless, every moment comfortable, and every destination accessible — while continuously innovating to reduce our environmental footprint.</p>
+        </div>
+
+        <div class="mission-card">
+            <div class="mission-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 2L2 7l10 5 10-5-10-5z" />
+                    <path d="M2 17l10 5 10-5" />
+                    <path d="M2 12l10 5 10-5" />
+                </svg>
+            </div>
+            <h3>Our Vision</h3>
+            <p>To redefine global connectivity by 2030 — becoming the world's most admired airline through technological leadership, sustainability innovation, and a culture of genuine care that makes every passenger feel like the only passenger.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Our Values -->
+<div class="values-section">
+    <div class="section-header">
+        <span class="section-tag">Core Values</span>
+        <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">What Guides Us Every Day</h2>
+
+    <div class="values-grid">
+        <div class="value-card">
+            <div class="value-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+                </svg>
+            </div>
+            <h3>Safety Above All</h3>
+            <p>Uncompromising standards in every procedure, every flight, every day. Zero compromise on the wellbeing of our passengers and crew.</p>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="8" r="7" />
+                    <polyline points="8 21 12 17 16 21" />
+                </svg>
+            </div>
+            <h3>Elevate Every Moment</h3>
+            <p>From booking to baggage claim, we seek opportunities to surprise and delight. Excellence is in the details.</p>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                </svg>
+            </div>
+            <h3>Human Connection</h3>
+            <p>We see people, not seats. Every passenger deserves respect, empathy, and authentic care.</p>
+        </div>
+
+        <div class="value-card">
+            <div class="value-icon-wrap">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14" />
+                </svg>
+            </div>
+            <h3>Forward Thinking</h3>
+            <p>Embracing technology and sustainability to build the future of aviation, today.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Why Choose Us -->
+<div class="why-section">
+    <div class="section-header">
+        <span class="section-tag">Why AeroVista</span>
+        <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">The AeroVista Difference</h2>
+
+    <div class="why-grid">
+        <div class="why-card">
+            <span class="why-number">01</span>
+            <div class="why-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+                </svg>
+            </div>
+            <h3>Global Network</h3>
+            <p>Strategic hub connections in New York, London, Tokyo, and Dubai — offering seamless travel to over 200 cities worldwide.</p>
+        </div>
+
+        <div class="why-card">
+            <span class="why-number">02</span>
+            <div class="why-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <rect x="3" y="11" width="18" height="11" rx="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+            </div>
+            <h3>Industry-Leading Safety</h3>
+            <p>8-star Skytrax safety rating. Our fleet averages just 4.5 years — one of the youngest and most advanced in the industry.</p>
+        </div>
+
+        <div class="why-card">
+            <span class="why-number">03</span>
+            <div class="why-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <polygon points="12 2 15.5 9.5 23 10.5 17.5 16 19 23.5 12 19.5 5 23.5 6.5 16 1 10.5 8.5 9.5 12 2" />
+                </svg>
+            </div>
+            <h3>Award-Winning Service</h3>
+            <p>Best Airline 2024 (Skytrax), Best Business Class (World Travel Awards), and 5-star COVID-19 safety rating.</p>
+        </div>
+
+        <div class="why-card">
+            <span class="why-number">04</span>
+            <div class="why-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <line x1="12" y1="20" x2="12" y2="10" />
+                    <line x1="18" y1="20" x2="18" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="16" />
+                </svg>
+            </div>
+            <h3>Sustainability Commitment</h3>
+            <p>Carbon-neutral since 2022. Investing in SAF (Sustainable Aviation Fuel) and next-gen efficient aircraft.</p>
+        </div>
+
+        <div class="why-card">
+            <span class="why-number">05</span>
+            <div class="why-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                </svg>
+            </div>
+            <h3>24/7 Concierge Support</h3>
+            <p>Real-time assistance in 12 languages. Whether you're booking or en route, we're always here.</p>
+        </div>
+
+        <div class="why-card">
+            <span class="why-number">06</span>
+            <div class="why-icon">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <polygon points="12 2 22 7 22 17 12 22 2 17 2 7 12 2" />
+                    <line x1="12" y1="22" x2="12" y2="12" />
+                    <polyline points="22 7 12 12 2 7" />
+                    <polyline points="16 5 8 9" />
+                </svg>
+            </div>
+            <h3>Premium Connectivity</h3>
+            <p>High-speed WiFi, personal device streaming, and satellite communication on all long-haul flights.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Leadership Team -->
+<div class="leadership-section">
+    <div class="section-header">
+        <span class="section-tag">Leadership</span>
+        <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">The Team Behind the Vision</h2>
+
+    <div class="leadership-grid">
+        <div class="leader-card">
+            <div class="leader-image">
+                <img src="~/images/ceo.jpg" alt="CEO" />
+            </div>
+            <div class="leader-info">
+                <h4>Capt. Michael Chen</h4>
+                <div class="title">Chief Executive Officer</div>
+                <p class="bio">35 years aviation experience. Former Chief Pilot, leading AeroVista into its next era of innovation.</p>
+            </div>
+        </div>
+
+        <div class="leader-card">
+            <div class="leader-image">
+                <img src="~/images/coo.jpg" alt="COO" />
+            </div>
+            <div class="leader-info">
+                <h4>Sarah Williams</h4>
+                <div class="title">Chief Operating Officer</div>
+                <p class="bio">Architect of our operational excellence, overseeing global flight operations and safety standards.</p>
+            </div>
+        </div>
+
+        <div class="leader-card">
+            <div class="leader-image">
+                <img src="~/images/cfo.jpg" alt="CFO" />
+            </div>
+            <div class="leader-info">
+                <h4>James Rodriguez</h4>
+                <div class="title">Chief Financial Officer</div>
+                <p class="bio">Leading our sustainable growth strategy and fleet modernization investments.</p>
+            </div>
+        </div>
+
+        <div class="leader-card">
+            <div class="leader-image">
+                <img src="~/images/cmo.jpg" alt="CMO" />
+            </div>
+            <div class="leader-info">
+                <h4>Elena Petrova</h4>
+                <div class="title">Chief Marketing Officer</div>
+                <p class="bio">Driving brand innovation and passenger experience transformation across all touchpoints.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Achievements Strip -->
+<div class="achievements-strip">
+    <div class="achievements-grid">
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <polygon points="12 2 15.5 9.5 23 10.5 17.5 16 19 23.5 12 19.5 5 23.5 6.5 16 1 10.5 8.5 9.5 12 2" />
+                </svg>
+            </div>
+            <div class="achievement-number">47</div>
+            <div class="achievement-label">Industry Awards</div>
+        </div>
+
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <circle cx="12" cy="8" r="7" />
+                    <polyline points="8 21 12 17 16 21" />
+                </svg>
+            </div>
+            <div class="achievement-number">98%</div>
+            <div class="achievement-label">On-Time Performance</div>
+        </div>
+
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M2 12h20M12 2v20M4.93 4.93l14.14 14.14M4.93 19.07l14.14-14.14" />
+                </svg>
+            </div>
+            <div class="achievement-number">12</div>
+            <div class="achievement-label">Languages Support</div>
+        </div>
+
+        <div class="achievement-item">
+            <div class="achievement-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <line x1="12" y1="20" x2="12" y2="10" />
+                    <line x1="18" y1="20" x2="18" y2="4" />
+                    <line x1="6" y1="20" x2="6" y2="16" />
+                </svg>
+            </div>
+            <div class="achievement-number">45%</div>
+            <div class="achievement-label">Lower Emissions</div>
+        </div>
+    </div>
+</div>
+
+<!-- Our Journey Timeline -->
+<div class="timeline-section">
+    <div class="section-header">
+        <span class="section-tag">Our Journey</span>
+        <div class="section-rule"></div>
+    </div>
+    <h2 class="section-title">Milestones That Define Us</h2>
+
+    <div class="timeline">
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">1985</div>
+            <div class="timeline-content">
+                <h4>The First Flight</h4>
+                <p>AeroVista takes off with a single aircraft operating between Seattle and Portland. Founded by aviation pioneer Robert Chen with just 12 employees.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">1998</div>
+            <div class="timeline-content">
+                <h4>International Expansion</h4>
+                <p>First transatlantic route launched: New York to London. Marked our entry into global aviation with 10 destinations now served.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2008</div>
+            <div class="timeline-content">
+                <h4>Fleet Modernization</h4>
+                <p>Introduction of the Dreamliner fleet, setting new standards for passenger comfort and fuel efficiency across our long-haul network.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2017</div>
+            <div class="timeline-content">
+                <h4>Innovation Leader</h4>
+                <p>Launched industry-first biometric boarding and real-time baggage tracking. Named "Most Innovative Airline" by Air Transport World.</p>
+            </div>
+        </div>
+
+        <div class="timeline-item">
+            <div class="timeline-dot"></div>
+            <div class="timeline-year">2024</div>
+            <div class="timeline-content">
+                <h4>Present Day</h4>
+                <p>200+ destinations, 180+ aircraft, 12,000+ employees. Proudly carbon-neutral and committed to connecting the world responsibly.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- CTA Section -->
+<div class="cta-section">
+    <div class="cta-banner">
+        <h2>Ready to Experience <span>AeroVista?</span></h2>
+        <p>Join millions of satisfied travelers who choose us for their journey. Whether for business or leisure, we're ready to welcome you onboard.</p>
+        <a href="/" class="btn-cta">Book Your Flight</a>
+    </div>
+</div>

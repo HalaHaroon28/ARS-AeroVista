@@ -38,10 +38,9 @@ namespace AeroVista.Controllers
             return View(users);
         }
 
-        [HttpPost]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        
         public async Task<IActionResult> DeleteUser(string id)
         {
             try
@@ -177,35 +176,23 @@ namespace AeroVista.Controllers
             return View(city);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> DeleteCities(int id)
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteCities(int id)  // Accept id, not City object
         {
-            var city = await _context.Cities.FindAsync(id);
-
+            var city = await _context.Cities.FindAsync(id);  // Find the tracked entity
             if (city == null)
             {
                 return NotFound();
             }
 
-            return View(city);
+            _context.Cities.Remove(city);  // Remove the tracked entity
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "City deleted successfully!";
+            return RedirectToAction("Cities");
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteCities(City city)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Cities.Remove(city);
-                await _context.SaveChangesAsync();
-
-                return RedirectToAction("Cities");
-            }
-
-            return View(city);
-        }
-
-        //Flights 
         [HttpGet]
         public async Task<IActionResult> Flights()
         {
@@ -239,64 +226,106 @@ namespace AeroVista.Controllers
         {
             await _context.Flights.AddAsync(flight);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Flights");          
+            return RedirectToAction("Flights");
         }
 
         [HttpGet]
         public async Task<IActionResult> UpdateFlight(int id)
-        {
-            var flight = await _context.Flights.FindAsync(id);
-            if (flight == null) return NotFound();
-
-            var cities = await _context.Cities.ToListAsync();
-            ViewBag.FromCityId = new SelectList(cities, "CityId", "CityName", flight.FromCityId);
-            ViewBag.ToCityId = new SelectList(cities, "CityId", "CityName", flight.ToCityId);
-
-            return View(flight);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateFlight(Flights flight)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Flights.Update(flight);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Flights");
-            }
-
-            var cities = await _context.Cities.ToListAsync();
-            ViewBag.FromCityId = new SelectList(cities, "CityId", "CityName", flight.FromCityId);
-            ViewBag.ToCityId = new SelectList(cities, "CityId", "CityName", flight.ToCityId);
-
-            return View(flight);
-        }
-
-        [HttpGet]
-        public async Task<IActionResult> DeleteFlight(int id)
         {
             var flight = await _context.Flights
                 .Include(f => f.FromCity)
                 .Include(f => f.ToCity)
                 .FirstOrDefaultAsync(f => f.Id == id);
 
-            if (flight == null) return NotFound();
+            if (flight == null)
+            {
+                return NotFound();
+            }
+
+            // Load cities for dropdowns
+            var cities = await _context.Cities.ToListAsync();
+            ViewBag.FromCityId = new SelectList(cities, "CityId", "CityName", flight.FromCityId);
+            ViewBag.ToCityId = new SelectList(cities, "CityId", "CityName", flight.ToCityId);
 
             return View(flight);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteFlightConfirmed(int id)
+        public async Task<IActionResult> UpdateFlight(int id, Flights flight)
         {
-            var flight = await _context.Flights.FindAsync(id);
-            if (flight != null)
+            if (id != flight.Id)
             {
-                _context.Flights.Remove(flight);
-                await _context.SaveChangesAsync();
+                return NotFound();
             }
 
+            // Remove navigation properties from ModelState validation
+            ModelState.Remove("FromCity");
+            ModelState.Remove("ToCity");
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Get the existing flight
+                    var existingFlight = await _context.Flights.FindAsync(id);
+                    if (existingFlight == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update ALL properties
+                    existingFlight.FlightNumber = flight.FlightNumber;
+                    existingFlight.FromCityId = flight.FromCityId;
+                    existingFlight.ToCityId = flight.ToCityId;
+                    existingFlight.DepartureTime = flight.DepartureTime;
+                    existingFlight.ArrivalTime = flight.ArrivalTime;
+                    existingFlight.Price = flight.Price;
+                    existingFlight.EconomySeats = flight.EconomySeats;
+                    existingFlight.BusinessSeats = flight.BusinessSeats;
+                    existingFlight.FirstClassSeats = flight.FirstClassSeats;
+
+                    await _context.SaveChangesAsync();
+
+                    TempData["SuccessMessage"] = "Flight updated successfully!";
+                    return RedirectToAction("Flights");
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _context.Flights.AnyAsync(f => f.Id == id))
+                    {
+                        return NotFound();
+                    }
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    ModelState.AddModelError("", $"Error updating flight: {ex.Message}");
+                }
+            }
+
+            // If we got this far, something failed - reload dropdowns
+            var cities = await _context.Cities.ToListAsync();
+            ViewBag.FromCityId = new SelectList(cities, "CityId", "CityName", flight.FromCityId);
+            ViewBag.ToCityId = new SelectList(cities, "CityId", "CityName", flight.ToCityId);
+
+            return View(flight);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteFlight(int id)  // Change parameter name to id
+        {
+            var flight = await _context.Flights.FindAsync(id);
+            if (flight == null)
+            {
+                return NotFound();
+            }
+
+            _context.Flights.Remove(flight);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Flight deleted successfully!";
             return RedirectToAction("Flights");
         }
 
@@ -312,7 +341,6 @@ namespace AeroVista.Controllers
 
             return View(flight);
         }
-        
         //bookings 
         public async Task<IActionResult> Bookings()
         {
@@ -348,6 +376,13 @@ namespace AeroVista.Controllers
                 TempData["Error"] = $"Error deleting booking: {ex.Message}";
                 return RedirectToAction("Bookings");
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> BookingDetails(int id)
+        {        
+            var booking = await _context.Bookings.FindAsync(id);
+            return View(booking);
         }
 
         [HttpPost]
@@ -390,6 +425,30 @@ namespace AeroVista.Controllers
 
                 await smtp.SendMailAsync(mail);
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Feedbacks()
+        {
+            var feedbacks = await _context.Feedbacks.ToListAsync();
+            return View(feedbacks);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteFeedback(int id)
+        {
+            var feedbacks = await _context.Feedbacks.FindAsync(id);
+            return View(feedbacks);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteFeedback(Feedback feedback)  
+        {
+            _context.Feedbacks.Remove(feedback);
+            await _context.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Feedback deleted successfully!";
+            return RedirectToAction("Feedbacks");
         }
     }
 }

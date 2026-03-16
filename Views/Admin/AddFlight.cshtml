@@ -54,7 +54,6 @@
         transform: translateY(-2px);
     }
 
-    /* Form Container */
     .form-container {
         background: white;
         border-radius: 12px;
@@ -121,7 +120,6 @@
         display: block;
     }
 
-    /* Info Card */
     .info-card {
         background: var(--gold-dim);
         border-radius: 8px;
@@ -149,7 +147,6 @@
         font-size: 14px;
     }
 
-    /* Form Actions */
     .form-actions {
         display: flex;
         gap: 15px;
@@ -207,42 +204,33 @@
         transform: translateY(-2px);
     }
 
-    /* Responsive */
+    .seat-section-title {
+        grid-column: span 2;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 14px;
+        color: var(--gold);
+        border-bottom: 1px solid var(--gold-border);
+        padding-bottom: 8px;
+        margin: 10px 0;
+        letter-spacing: 1px;
+    }
+
     @@media (max-width: 768px) {
-        .page-container {
-            padding: 20px;
-        }
-
-        .page-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .form-container {
-            padding: 20px;
-        }
-
-        .form-grid {
-            grid-template-columns: 1fr;
-        }
-
-        .form-group.full-width {
-            grid-column: span 1;
-        }
-
-        .form-actions {
-            flex-direction: column;
-        }
+        .page-container { padding: 20px; }
+        .page-header { flex-direction: column; align-items: flex-start; }
+        .form-container { padding: 20px; }
+        .form-grid { grid-template-columns: 1fr; }
+        .form-group.full-width, .seat-section-title { grid-column: span 1; }
+        .form-actions { flex-direction: column; }
     }
 </style>
 
 <div class="page-container">
-    <!-- Page Header -->
     <div class="page-header">
         <h1 class="page-title">
             Add New <span>Flight</span>
         </h1>
-        <a asp-action="Index" class="btn-back">
+        <a asp-action="Flights" class="btn-back">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
@@ -251,9 +239,7 @@
         </a>
     </div>
 
-    <!-- Form Container -->
     <div class="form-container">
-        <!-- Info Card -->
         <div class="info-card">
             <div class="info-icon">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -269,6 +255,12 @@
             <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 20px; color: #ef4444;"></div>
 
             <div class="form-grid">
+                <div class="form-group full-width">
+                    <label asp-for="FlightNumber" class="form-label">Flight Number <span style="color: #ef4444;">*</span></label>
+                    <input asp-for="FlightNumber" class="form-control" placeholder="e.g. AV-102" />
+                    <span asp-validation-for="FlightNumber" class="validation-message"></span>
+                </div>
+
                 <div class="form-group">
                     <label asp-for="FromCityId" class="form-label">From City <span style="color: #ef4444;">*</span></label>
                     <select asp-for="FromCityId" class="form-control" asp-items="ViewBag.FromCityId">
@@ -297,16 +289,30 @@
                     <span asp-validation-for="ArrivalTime" class="validation-message"></span>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="Price" class="form-label">Price ($) <span style="color: #ef4444;">*</span></label>
+                <div class="form-group full-width">
+                    <label asp-for="Price" class="form-label">Base Price (Pkr) <span style="color: #ef4444;">*</span></label>
                     <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" placeholder="0.00" />
                     <span asp-validation-for="Price" class="validation-message"></span>
                 </div>
 
+                <h3 class="seat-section-title">Seat Inventory</h3>
+
                 <div class="form-group">
-                    <label asp-for="SeatsAvailable" class="form-label">Available Seats <span style="color: #ef4444;">*</span></label>
-                    <input asp-for="SeatsAvailable" class="form-control" type="number" min="0" placeholder="Enter number of seats" />
-                    <span asp-validation-for="SeatsAvailable" class="validation-message"></span>
+                    <label asp-for="EconomySeats" class="form-label">Economy Seats <span style="color: #ef4444;">*</span></label>
+                    <input asp-for="EconomySeats" class="form-control" type="number" min="0" placeholder="0" />
+                    <span asp-validation-for="EconomySeats" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="BusinessSeats" class="form-label">Business Seats <span style="color: #ef4444;">*</span></label>
+                    <input asp-for="BusinessSeats" class="form-control" type="number" min="0" placeholder="0" />
+                    <span asp-validation-for="BusinessSeats" class="validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="FirstClassSeats" class="form-label">First Class Seats <span style="color: #ef4444;">*</span></label>
+                    <input asp-for="FirstClassSeats" class="form-control" type="number" min="0" placeholder="0" />
+                    <span asp-validation-for="FirstClassSeats" class="validation-message"></span>
                 </div>
             </div>
 
@@ -319,7 +325,7 @@
                     </svg>
                     Create Flight
                 </button>
-                <a asp-action="Index" class="btn-cancel">
+                <a asp-action="Flights" class="btn-cancel">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
                         <line x1="18" y1="6" x2="6" y2="18" />
@@ -335,7 +341,6 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
-        // Validate that arrival time is after departure time
         document.querySelector('form').addEventListener('submit', function(e) {
             var departure = new Date(document.getElementById('DepartureTime').value);
             var arrival = new Date(document.getElementById('ArrivalTime').value);

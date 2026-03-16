@@ -13,17 +13,17 @@
         font-weight: 600;
         margin-left: 8px;
     }
-    
+
     .direct-flight {
         background: rgba(59, 130, 246, 0.1);
         color: #3b82f6;
     }
-    
+
     .connecting-flight {
         background: rgba(198, 167, 94, 0.1);
         color: var(--gold);
     }
-    
+
     .stopover-info {
         font-size: 11px;
         color: var(--muted);
@@ -78,7 +78,6 @@
             transform: translateY(-2px);
         }
 
-    /* Stats Cards */
     .stats-grid {
         display: grid;
         grid-template-columns: repeat(4, 1fr);
@@ -143,7 +142,6 @@
         gap: 4px;
     }
 
-    /* Search and Filter */
     .search-section {
         background: white;
         border-radius: 12px;
@@ -205,7 +203,6 @@
             outline: none;
         }
 
-    /* Flights Table */
     .table-section {
         background: white;
         border-radius: 12px;
@@ -242,7 +239,6 @@
             background: rgba(198,167,94,0.02);
         }
 
-    /* Route Badge */
     .route-badge {
         display: inline-flex;
         align-items: center;
@@ -260,7 +256,6 @@
         opacity: 0.5;
     }
 
-    /* Time Display */
     .time-cell {
         display: flex;
         flex-direction: column;
@@ -276,14 +271,12 @@
         color: var(--muted);
     }
 
-    /* Price Display */
     .price-cell {
         font-family: 'Orbitron', sans-serif;
         font-weight: 600;
         color: var(--gold);
     }
 
-    /* Seats Available */
     .seats-badge {
         display: inline-block;
         padding: 4px 8px;
@@ -307,7 +300,6 @@
         color: #ef4444;
     }
 
-    /* Action Buttons */
     .action-buttons {
         display: flex;
         gap: 8px;
@@ -352,7 +344,6 @@
             color: #ef4444;
         }
 
-    /* Status Indicator */
     .status-indicator {
         display: inline-block;
         width: 8px;
@@ -371,7 +362,6 @@
         box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
     }
 
-    /* Empty State */
     .empty-state {
         text-align: center;
         padding: 50px 20px;
@@ -392,7 +382,6 @@
             margin-bottom: 10px;
         }
 
-    /* Pagination */
     .pagination {
         display: flex;
         justify-content: flex-end;
@@ -416,7 +405,6 @@
             color: var(--navy);
         }
 
-    /* Responsive */
     @@media (max-width: 768px) {
         .page-container {
             padding: 20px;
@@ -448,12 +436,11 @@
 </style>
 
 <div class="page-container">
-    <!-- Page Header -->
     <div class="page-header">
         <h1 class="page-title">
             Flights <span>Management</span>
         </h1>
-        <a asp-action="AddFlight" class="btn-create">
+        <a asp-action="AddFlight" asp-controller="Admin" class="btn-create">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10" />
                 <line x1="12" y1="8" x2="12" y2="16" />
@@ -463,7 +450,6 @@
         </a>
     </div>
 
-    <!-- Stats Cards -->
     <div class="stats-grid">
         <div class="stat-card">
             <div class="stat-header">
@@ -493,7 +479,11 @@
                     </svg>
                 </div>
             </div>
-            <div class="stat-value">@Model.Sum(f => f.SeatsAvailable)</div>
+            <div class="stat-value" style="font-size: 1.1rem;">
+                E: @Model.Sum(f => f.EconomySeats) |
+                B: @Model.Sum(f => f.BusinessSeats) |
+                F: @Model.Sum(f => f.FirstClassSeats)
+            </div>
         </div>
 
         <div class="stat-card">
@@ -506,7 +496,7 @@
                     </svg>
                 </div>
             </div>
-            <div class="stat-value">$@(Model.Average(f => f.Price).ToString("F0"))</div>
+            <div class="stat-value">Rs. @(Model.Any() ? Model.Average(f => f.Price).ToString("N0") : "0")</div>
         </div>
 
         <div class="stat-card">
@@ -524,25 +514,24 @@
         </div>
     </div>
 
-    <!-- Search Section -->
     <div class="search-section">
         <div class="search-box">
             <input type="text" class="search-input" id="searchInput" placeholder="Search by route, city, or airport code...">
             <div class="date-range">
-                <input type="date" class="date-input" id="dateFrom" placeholder="From Date">
+                <input type="date" class="date-input" id="dateFrom">
                 <span style="color: var(--muted);">to</span>
-                <input type="date" class="date-input" id="dateTo" placeholder="To Date">
+                <input type="date" class="date-input" id="dateTo">
             </div>
             <select class="filter-select" id="priceFilter">
                 <option value="">All Prices</option>
-                <option value="0-500">Under $500</option>
-                <option value="500-1000">$500 - $1000</option>
-                <option value="1000+">$1000+</option>
+                <option value="0-20000">Under Rs. 20,000</option>
+                <option value="20000-50000">Rs. 20,000 - 50,000</option>
+                <option value="50000-100000">Rs. 50,000 - 100,000</option>
+                <option value="100000+">Rs. 100,000+</option>
             </select>
         </div>
     </div>
 
-    <!-- Flights Table -->
     <div class="table-section">
         <table class="flights-table" id="flightsTable">
             <thead>
@@ -551,15 +540,16 @@
                     <th>Departure</th>
                     <th>Arrival</th>
                     <th>Price</th>
-                    <th>Seats</th>
+                    <th>Seats Inventory</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
-                    var seatsClass = item.SeatsAvailable > 50 ? "seats-high" : (item.SeatsAvailable > 20 ? "seats-medium" : "seats-low");
-                    var seatsText = item.SeatsAvailable > 50 ? "Available" : (item.SeatsAvailable > 20 ? "Limited" : "Critical");
+                    var totalSeats = item.EconomySeats + item.BusinessSeats + item.FirstClassSeats;
+                    var seatsClass = totalSeats > 50 ? "seats-high" : (totalSeats > 20 ? "seats-medium" : "seats-low");
+                    var seatsText = totalSeats > 50 ? "Available" : (totalSeats > 20 ? "Limited" : "Critical");
 
                     <tr>
                         <td>
@@ -582,23 +572,26 @@
                             </div>
                         </td>
                         <td>
-                            <span class="price-cell">$@item.Price.ToString("N0")</span>
+                            <span class="price-cell">Rs. @item.Price.ToString("N0")</span>
                         </td>
                         <td>
                             <span class="seats-badge @seatsClass">
-                                <span class="status-indicator @(item.SeatsAvailable > 0 ? "status-active" : "status-inactive")"></span>
-                                @item.SeatsAvailable (@seatsText)
+                                <span class="status-indicator @(totalSeats > 0 ? "status-active" : "status-inactive")"></span>
+                                @totalSeats (@seatsText)
                             </span>
+                            <div style="font-size: 9px; margin-top: 4px; opacity: 0.8; font-family: monospace;">
+                                E:@item.EconomySeats B:@item.BusinessSeats F:@item.FirstClassSeats
+                            </div>
                         </td>
                         <td>
                             <div class="action-buttons">
-                                <a asp-action="EditFlight" asp-route-id="@item.Id" class="action-btn edit" title="Edit Flight">
+                                <a asp-action="UpdateFlight" asp-controller="Admin" asp-route-id="@item.Id" class="action-btn edit" title="Edit Flight">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
                                     </svg>
                                     Edit
                                 </a>
-                                <a asp-action="FlightDetails" asp-route-id="@item.Id" class="action-btn details" title="View Details">
+                                <a asp-action="FlightDetails" asp-controller="Admin" asp-route-id="@item.Id" class="action-btn details" title="View Details">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="12" cy="12" r="10" />
                                         <line x1="12" y1="16" x2="12" y2="12" />
@@ -606,13 +599,16 @@
                                     </svg>
                                     Details
                                 </a>
-                                <a asp-action="DeleteFlight" asp-route-id="@item.Id" class="action-btn delete" onclick="return confirm('Are you sure you want to delete this flight?')" title="Delete Flight">
-                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="3 6 5 6 21 6" />
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
-                                    </svg>
-                                    Delete
-                                </a>
+                                <form asp-action="DeleteFlight" asp-controller="Admin" asp-route-id="@item.Id" method="post" style="display: inline;">
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="action-btn delete" onclick="return confirm('Delete this flight?')">
+                                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                            <polyline points="3 6 5 6 21 6" />
+                                            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
+                                        </svg>
+                                        Delete
+                                    </button>
+                                </form>
                             </div>
                         </td>
                     </tr>
@@ -629,15 +625,12 @@
                     <line x1="12" y1="16" x2="12.01" y2="16" />
                 </svg>
                 <h3>No Flights Found</h3>
-                <p style="color: var(--muted);">Get started by adding your first flight.</p>
-                <a asp-action="AddFlight" class="btn-create" style="display: inline-flex; margin-top: 15px;">
-                    Add New Flight
-                </a>
+                <p>Get started by adding your first flight.</p>
+                <a asp-action="AddFlight" asp-controller="Admin" class="btn-create" style="margin-top: 15px;">Add New Flight</a>
             </div>
         }
     </div>
 
-    <!-- Pagination (if needed) -->
     @if (Model.Count() > 10)
     {
         <div class="pagination">
@@ -651,22 +644,10 @@
 </div>
 
 <script>
-    // Search functionality
-    document.getElementById('searchInput')?.addEventListener('keyup', function() {
-        filterTable();
-    });
-
-    document.getElementById('priceFilter')?.addEventListener('change', function() {
-        filterTable();
-    });
-
-    document.getElementById('dateFrom')?.addEventListener('change', function() {
-        filterTable();
-    });
-
-    document.getElementById('dateTo')?.addEventListener('change', function() {
-        filterTable();
-    });
+    document.getElementById('searchInput')?.addEventListener('keyup', filterTable);
+    document.getElementById('priceFilter')?.addEventListener('change', filterTable);
+    document.getElementById('dateFrom')?.addEventListener('change', filterTable);
+    document.getElementById('dateTo')?.addEventListener('change', filterTable);
 
     function filterTable() {
         let searchText = document.getElementById('searchInput')?.value.toLowerCase() || '';
@@ -678,32 +659,35 @@
 
         tableRows.forEach(row => {
             let route = row.cells[0]?.textContent.toLowerCase() || '';
-            let price = parseFloat(row.cells[3]?.textContent.replace('$', '').replace(',', '') || '0');
-            let departureTime = row.cells[1]?.querySelector('.time-main')?.textContent || '';
-            let departureDate = row.cells[1]?.querySelector('.time-sub')?.textContent || '';
+            let priceText = row.cells[3]?.textContent.replace('Rs.', '').replace(',', '').trim();
+            let price = parseFloat(priceText || '0');
 
-            // Search filter
             let matchesSearch = route.includes(searchText);
 
-            // Price filter
             let matchesPrice = true;
             if (priceFilter) {
-                if (priceFilter === '0-500') matchesPrice = price < 500;
-                else if (priceFilter === '500-1000') matchesPrice = price >= 500 && price <= 1000;
-                else if (priceFilter === '1000+') matchesPrice = price > 1000;
+                if (priceFilter === '0-20000') matchesPrice = price < 20000;
+                else if (priceFilter === '20000-50000') matchesPrice = price >= 20000 && price <= 50000;
+                else if (priceFilter === '50000-100000') matchesPrice = price >= 50000 && price <= 100000;
+                else if (priceFilter === '100000+') matchesPrice = price > 100000;
             }
 
-            // Date filter (simplified - you'd want to parse dates properly)
             let matchesDate = true;
-            if (dateFrom && dateTo) {
-                // Add proper date comparison logic here
+            if (dateFrom || dateTo) {
+                let dateStr = row.cells[1]?.querySelector('.time-sub')?.textContent || '';
+                let flightDate = new Date(dateStr);
+
+                if (dateFrom) {
+                    let dFrom = new Date(dateFrom);
+                    if (flightDate < dFrom) matchesDate = false;
+                }
+                if (dateTo) {
+                    let dTo = new Date(dateTo);
+                    if (flightDate > dTo) matchesDate = false;
+                }
             }
 
-            if (matchesSearch && matchesPrice && matchesDate) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+            row.style.display = (matchesSearch && matchesPrice && matchesDate) ? '' : 'none';
         });
     }
 </script>

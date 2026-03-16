@@ -54,7 +54,6 @@
             transform: translateY(-2px);
         }
 
-    /* Form Container */
     .form-container {
         background: white;
         border-radius: 12px;
@@ -106,55 +105,24 @@
             box-shadow: 0 0 0 3px rgba(198,167,94,0.1);
         }
 
-    select.form-control {
-        cursor: pointer;
-        appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23c6a75e' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-        background-repeat: no-repeat;
-        background-position: right 15px center;
-    }
-
     .validation-message {
-        font-size: 12px;
+        font-size: 11px;
         color: #ef4444;
         margin-top: 5px;
         display: block;
     }
 
-    /* Info Card */
-    .info-card {
-        background: var(--gold-dim);
-        border-radius: 8px;
-        padding: 15px;
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        border-left: 4px solid var(--gold);
+    /* Seat Classification Grid */
+    .seat-distribution {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        background: #fcfbf8;
+        padding: 20px;
+        border-radius: 10px;
+        border: 1px dashed var(--gold-border);
     }
 
-    .info-icon {
-        width: 40px;
-        height: 40px;
-        background: white;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: var(--gold);
-    }
-
-    .info-text {
-        color: var(--navy);
-        font-size: 14px;
-    }
-
-        .info-text strong {
-            font-family: 'Orbitron', sans-serif;
-            color: var(--gold);
-        }
-
-    /* Form Actions */
     .form-actions {
         display: flex;
         gap: 15px;
@@ -206,48 +174,51 @@
     }
 
         .btn-cancel:hover {
-            border-color: var(--gold);
             background: var(--gold-dim);
+            border-color: var(--gold);
             color: var(--gold);
             transform: translateY(-2px);
         }
 
-    /* Responsive */
+    /* Alert styles */
+    .alert-danger {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid #ef4444;
+    }
+
+        .alert-danger ul {
+            margin: 10px 0 0 20px;
+            padding: 0;
+        }
+
+    .alert-success {
+        background: rgba(34, 197, 94, 0.1);
+        color: #16a34a;
+        padding: 15px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border-left: 4px solid #16a34a;
+    }
+
     @@media (max-width: 768px) {
-        .page-container {
-            padding: 20px;
-        }
-
-        .page-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .form-container {
-            padding: 20px;
-        }
-
-        .form-grid {
+        .form-grid, .seat-distribution {
             grid-template-columns: 1fr;
         }
 
         .form-group.full-width {
             grid-column: span 1;
         }
-
-        .form-actions {
-            flex-direction: column;
-        }
     }
 </style>
 
 <div class="page-container">
-    <!-- Page Header -->
     <div class="page-header">
-        <h1 class="page-title">
-            Update <span>Flight</span>
-        </h1>
-        <a asp-action="Index" class="btn-back">
+        <h1 class="page-title">Update <span>Flight</span></h1>
+        <a asp-action="Flights" asp-controller="Admin" class="btn-back">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <line x1="19" y1="12" x2="5" y2="12" />
                 <polyline points="12 19 5 12 12 5" />
@@ -256,62 +227,102 @@
         </a>
     </div>
 
-    <!-- Form Container -->
     <div class="form-container">
-        <!-- Info Card -->
-        <div class="info-card">
-            <div class="info-icon">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="16" x2="12" y2="12" />
-                    <circle cx="12" cy="8" r="1" fill="currentColor" />
-                </svg>
+        <!-- Display Success Message -->
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="alert-success">
+                @TempData["SuccessMessage"]
             </div>
-            <div class="info-text">
-                Updating flight: <strong>@Model.FromCity?.AirportCode → @Model.ToCity?.AirportCode</strong>
+        }
+
+        <!-- Display Validation Errors -->
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert-danger">
+                <strong>Please fix the following errors:</strong>
+                <ul>
+                    @foreach (var modelState in ViewData.ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            <li>@error.ErrorMessage</li>
+                        }
+                    }
+                </ul>
             </div>
-        </div>
+        }
 
-        <form asp-action="UpdateFlight">
-            <div asp-validation-summary="ModelOnly" class="text-danger" style="margin-bottom: 20px; color: #ef4444;"></div>
-
+        <form asp-action="UpdateFlight" asp-controller="Admin" method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="ModelOnly" class="validation-message"></div>
             <input type="hidden" asp-for="Id" />
 
             <div class="form-grid">
+                <!-- Flight Number Field - IMPORTANT: Add this if missing -->
+                <div class="form-group full-width">
+                    <label asp-for="FlightNumber" class="form-label">Flight Number</label>
+                    <input asp-for="FlightNumber" class="form-control" required />
+                    <span asp-validation-for="FlightNumber" class="validation-message"></span>
+                </div>
+
                 <div class="form-group">
-                    <label asp-for="FromCityId" class="form-label">From City <span style="color: #ef4444;">*</span></label>
-                    <select asp-for="FromCityId" class="form-control" asp-items="ViewBag.FromCityId"></select>
+                    <label asp-for="FromCityId" class="form-label">Origin</label>
+                    <select asp-for="FromCityId" class="form-control" asp-items="ViewBag.FromCityId" required>
+                        <option value="">-- Select Origin City --</option>
+                    </select>
                     <span asp-validation-for="FromCityId" class="validation-message"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ToCityId" class="form-label">To City <span style="color: #ef4444;">*</span></label>
-                    <select asp-for="ToCityId" class="form-control" asp-items="ViewBag.ToCityId"></select>
+                    <label asp-for="ToCityId" class="form-label">Destination</label>
+                    <select asp-for="ToCityId" class="form-control" asp-items="ViewBag.ToCityId" required>
+                        <option value="">-- Select Destination City --</option>
+                    </select>
                     <span asp-validation-for="ToCityId" class="validation-message"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="DepartureTime" class="form-label">Departure Time <span style="color: #ef4444;">*</span></label>
-                    <input asp-for="DepartureTime" class="form-control" type="datetime-local" />
+                    <label asp-for="DepartureTime" class="form-label">Departure</label>
+                    <input asp-for="DepartureTime" class="form-control" type="datetime-local"
+                           value="@(Model.DepartureTime.ToString("yyyy-MM-ddTHH:mm"))" required />
                     <span asp-validation-for="DepartureTime" class="validation-message"></span>
                 </div>
 
                 <div class="form-group">
-                    <label asp-for="ArrivalTime" class="form-label">Arrival Time <span style="color: #ef4444;">*</span></label>
-                    <input asp-for="ArrivalTime" class="form-control" type="datetime-local" />
+                    <label asp-for="ArrivalTime" class="form-label">Arrival</label>
+                    <input asp-for="ArrivalTime" class="form-control" type="datetime-local"
+                           value="@(Model.ArrivalTime.ToString("yyyy-MM-ddTHH:mm"))" required />
                     <span asp-validation-for="ArrivalTime" class="validation-message"></span>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="Price" class="form-label">Price ($) <span style="color: #ef4444;">*</span></label>
-                    <input asp-for="Price" class="form-control" type="number" step="0.01" min="0" />
+                <div class="form-group full-width">
+                    <label asp-for="Price" class="form-label">Base Price (Rs.)</label>
+                    <input asp-for="Price" class="form-control" type="number" step="0.01" min="0"
+                           value="@Model.Price.ToString("0.00")" required />
                     <span asp-validation-for="Price" class="validation-message"></span>
                 </div>
 
-                <div class="form-group">
-                    <label asp-for="SeatsAvailable" class="form-label">Available Seats <span style="color: #ef4444;">*</span></label>
-                    <input asp-for="SeatsAvailable" class="form-control" type="number" min="0" />
-                    <span asp-validation-for="SeatsAvailable" class="validation-message"></span>
+                @* SEAT CLASSIFICATION SECTION *@
+                <div class="form-group full-width">
+                    <label class="form-label">Inventory Management (Seats Available)</label>
+                    <div class="seat-distribution">
+                        <div>
+                            <label asp-for="EconomySeats" class="form-label" style="font-size:10px;">Economy</label>
+                            <input asp-for="EconomySeats" class="form-control" type="number" min="0" required />
+                            <span asp-validation-for="EconomySeats" class="validation-message"></span>
+                        </div>
+                        <div>
+                            <label asp-for="BusinessSeats" class="form-label" style="font-size:10px;">Business</label>
+                            <input asp-for="BusinessSeats" class="form-control" type="number" min="0" required />
+                            <span asp-validation-for="BusinessSeats" class="validation-message"></span>
+                        </div>
+                        <div>
+                            <label asp-for="FirstClassSeats" class="form-label" style="font-size:10px;">First Class</label>
+                            <input asp-for="FirstClassSeats" class="form-control" type="number" min="0" required />
+                            <span asp-validation-for="FirstClassSeats" class="validation-message"></span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -322,13 +333,13 @@
                         <polyline points="17 21 17 13 7 13 7 21" />
                         <polyline points="7 3 7 8 15 8" />
                     </svg>
-                    Save Changes
+                    Save Flight Configuration
                 </button>
-                <a asp-action="Index" class="btn-cancel">
+                <a asp-action="Flights" asp-controller="Admin" class="btn-cancel">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <circle cx="12" cy="12" r="10" />
-                        <line x1="18" y1="6" x2="6" y2="18" />
-                        <line x1="6" y1="6" x2="18" y2="18" />
+                        <line x1="12" y1="8" x2="12" y2="16" />
+                        <line x1="8" y1="12" x2="16" y2="12" />
                     </svg>
                     Cancel
                 </a>
@@ -342,15 +353,40 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
     <script>
-        // Validate that arrival time is after departure time
-        document.querySelector('form').addEventListener('submit', function(e) {
-            var departure = new Date(document.getElementById('DepartureTime').value);
-            var arrival = new Date(document.getElementById('ArrivalTime').value);
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
 
-            if (arrival <= departure) {
-                e.preventDefault();
-                alert('Arrival time must be after departure time.');
-            }
+            form.addEventListener('submit', function(e) {
+                const departure = new Date(document.getElementById('DepartureTime').value);
+                const arrival = new Date(document.getElementById('ArrivalTime').value);
+                const fromCity = document.getElementById('FromCityId').value;
+                const toCity = document.getElementById('ToCityId').value;
+
+                // Validate cities are different
+                if (fromCity === toCity) {
+                    e.preventDefault();
+                    alert('Origin and Destination cities cannot be the same!');
+                    return;
+                }
+
+                // Validate arrival after departure
+                if (arrival <= departure) {
+                    e.preventDefault();
+                    alert('Arrival time must be after departure time!');
+                    return;
+                }
+
+                // Validate seat counts
+                const economy = parseInt(document.getElementById('EconomySeats').value) || 0;
+                const business = parseInt(document.getElementById('BusinessSeats').value) || 0;
+                const firstClass = parseInt(document.getElementById('FirstClassSeats').value) || 0;
+
+                if (economy < 0 || business < 0 || firstClass < 0) {
+                    e.preventDefault();
+                    alert('Seat counts cannot be negative!');
+                    return;
+                }
+            });
         });
     </script>
 }

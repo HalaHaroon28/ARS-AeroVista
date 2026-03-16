@@ -30,6 +30,9 @@ namespace AeroVista.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
@@ -75,12 +78,18 @@ namespace AeroVista.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("PreferredCardNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sex")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SkyMiles")
+                        .HasColumnType("int");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
@@ -113,18 +122,35 @@ namespace AeroVista.Migrations
                     b.Property<int>("Adults")
                         .HasColumnType("int");
 
+                    b.Property<string>("BlockingNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("BookingDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("CancellationNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("CardLastFour")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Children")
                         .HasColumnType("int");
 
+                    b.Property<string>("ConfirmationNumber")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("FlightId")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsRescheduled")
+                        .HasColumnType("bit");
+
                     b.Property<string>("PaymentMethod")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PreviousBookingId")
+                        .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -134,7 +160,6 @@ namespace AeroVista.Migrations
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TransactionId")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TravelClass")
@@ -179,6 +204,39 @@ namespace AeroVista.Migrations
                     b.ToTable("Cities");
                 });
 
+            modelBuilder.Entity("AeroVista.Models.Feedback", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContactNo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Feedbacks");
+                });
+
             modelBuilder.Entity("AeroVista.Models.Flights", b =>
                 {
                     b.Property<int>("Id")
@@ -190,17 +248,28 @@ namespace AeroVista.Migrations
                     b.Property<DateTime>("ArrivalTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("BusinessSeats")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("DepartureTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("EconomySeats")
+                        .HasColumnType("int");
+
+                    b.Property<int>("FirstClassSeats")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FlightNumber")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)");
 
                     b.Property<int>("FromCityId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("SeatsAvailable")
-                        .HasColumnType("int");
 
                     b.Property<int>("ToCityId")
                         .HasColumnType("int");

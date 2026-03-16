@@ -2,6 +2,7 @@ using AeroVista.Data;
 using AeroVista.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Identity.Client;
 using System.Diagnostics;
 
 namespace AirlineSystem.Controllers
@@ -31,6 +32,35 @@ namespace AirlineSystem.Controllers
             };
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ContactUs()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ContactUs(Feedback feedback)
+        {
+            if (ModelState.IsValid)
+            {
+                await _context.Feedbacks.AddAsync(feedback);
+                await _context.SaveChangesAsync();
+                TempData["Success"] = "Thank you for your feedback!";
+                return RedirectToAction("ContactUs");
+            }
+            return View(feedback);
+        }
+
+        public async Task<IActionResult> AboutUs()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> Privacy()
+        {
+            return View();
         }
 
         [HttpPost]

@@ -15,6 +15,9 @@ namespace AeroVista.Models
 
         public string TripType { get; set; } = "RoundTrip";
 
+        // This is the new property for the +5 days logic
+        public bool IsFlexible { get; set; }
+
         public int Adults { get; set; } = 1;
         public int Children { get; set; } = 0;
 

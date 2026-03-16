@@ -1,6 +1,1307 @@
 ﻿@{
     ViewData["Title"] = "Privacy Policy";
 }
-<h1>@ViewData["Title"]</h1>
 
-<p>Use this page to detail your site's privacy policy.</p>
+<style>
+    :root {
+        --navy: #0B1C2D;
+        --navy-mid: #112236;
+        --navy-light: #1a3350;
+        --gold: #C6A75E;
+        --gold-light: #d9be80;
+        --gold-dim: rgba(198,167,94,0.1);
+        --gold-border: rgba(198,167,94,0.2);
+        --muted: #6a7f95;
+        --text-light: #c8d4e0;
+        --off-white: #F5F5F5;
+        --white: #ffffff;
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        background: var(--off-white);
+        font-family: 'DM Sans', sans-serif;
+        overflow-x: hidden;
+    }
+
+    /* Hero Section */
+    .privacy-hero {
+        position: relative;
+        height: 45vh;
+        min-height: 380px;
+        width: 100%;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+    }
+
+    .privacy-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        background-image: url('~/images/privacy-bg.jpg');
+        background-size: cover;
+        background-position: center;
+        filter: brightness(0.35) saturate(0.8);
+    }
+
+    .privacy-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 2;
+        background: linear-gradient(108deg, rgba(15, 40, 65, 0.95) 0%, rgba(12, 37, 62, 0.65) 55%, rgba(16, 31, 46, 0.2) 100%);
+    }
+
+    .privacy-grid {
+        position: absolute;
+        inset: 0;
+        z-index: 3;
+        background-image: linear-gradient(rgba(198,167,94,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(198,167,94,0.035) 1px, transparent 1px);
+        background-size: 72px 72px;
+        animation: gridDrift 22s linear infinite;
+    }
+
+    @@keyframes gridDrift {
+        0% { background-position: 0 0; }
+        100% { background-position: 72px 72px; }
+    }
+
+    .privacy-scan {
+        position: absolute;
+        inset: 0;
+        z-index: 4;
+        background: linear-gradient(to bottom, transparent, rgba(198,167,94,0.025) 50%, transparent);
+        background-size: 100% 180px;
+        animation: scanMove 9s linear infinite;
+        pointer-events: none;
+    }
+
+    @@keyframes scanMove {
+        0% { background-position: 0 -180px; }
+        100% { background-position: 0 100vh; }
+    }
+
+    .privacy-hero-content {
+        position: relative;
+        z-index: 5;
+        padding: 0 6vw;
+        width: 100%;
+        animation: heroIn 1.1s cubic-bezier(0.22,1,0.36,1) forwards;
+    }
+
+    @@keyframes heroIn {
+        from { opacity: 0; transform: translateY(28px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .privacy-eyebrow {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 22px;
+    }
+
+    .privacy-eyebrow-line {
+        width: 36px;
+        height: 1px;
+        background: var(--gold);
+    }
+
+    .privacy-eyebrow-text {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 4px;
+        color: var(--gold);
+        text-transform: uppercase;
+    }
+
+    .privacy-hero h1 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: clamp(42px, 5.5vw, 64px);
+        font-weight: 900;
+        color: var(--white);
+        line-height: 1.08;
+        letter-spacing: -0.5px;
+        margin-bottom: 18px;
+    }
+
+    .privacy-hero h1 .accent {
+        color: var(--gold);
+        display: block;
+    }
+
+    .privacy-hero-sub {
+        font-size: 16px;
+        font-weight: 300;
+        color: var(--text-light);
+        max-width: 600px;
+        line-height: 1.75;
+    }
+
+    .last-updated {
+        margin-top: 25px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 11px;
+        color: var(--gold);
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        padding: 8px 18px;
+        border-radius: 4px;
+        display: inline-block;
+    }
+
+    /* Main Content */
+    .privacy-content {
+        padding: 60px 6vw;
+        position: relative;
+        z-index: 10;
+        margin-top: -40px;
+    }
+
+    .privacy-card {
+        background: var(--white);
+        border-radius: 24px;
+        padding: 60px;
+        box-shadow: 0 32px 80px rgba(0,0,0,0.08);
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .privacy-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(198,167,94,0.03), transparent 70%);
+        border-radius: 50%;
+    }
+
+    .privacy-card::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(circle, rgba(11,28,45,0.02), transparent 70%);
+        border-radius: 50%;
+    }
+
+    .privacy-section {
+        margin-bottom: 50px;
+        position: relative;
+        z-index: 1;
+    }
+
+    .privacy-section:last-child {
+        margin-bottom: 0;
+    }
+
+    .privacy-section-header {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 25px;
+    }
+
+    .privacy-section-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+        flex-shrink: 0;
+    }
+
+    .privacy-section h2 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--navy);
+        line-height: 1.3;
+    }
+
+    .privacy-section h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 18px;
+        font-weight: 600;
+        color: var(--navy);
+        margin: 30px 0 15px;
+    }
+
+    .privacy-section h4 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--gold);
+        margin: 20px 0 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .privacy-section p {
+        font-size: 15px;
+        color: #4a5f72;
+        line-height: 1.8;
+        margin-bottom: 15px;
+    }
+
+    .privacy-section p:last-child {
+        margin-bottom: 0;
+    }
+
+    .privacy-section ul, 
+    .privacy-section ol {
+        margin: 15px 0 20px 25px;
+        color: #4a5f72;
+        line-height: 1.8;
+    }
+
+    .privacy-section li {
+        margin-bottom: 8px;
+        font-size: 15px;
+    }
+
+    .privacy-section li::marker {
+        color: var(--gold);
+    }
+
+    .privacy-note {
+        background: var(--off-white);
+        border-left: 3px solid var(--gold);
+        padding: 20px 25px;
+        border-radius: 8px;
+        margin: 25px 0;
+        font-style: italic;
+    }
+
+    .privacy-note p {
+        margin-bottom: 0;
+    }
+
+    .data-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 14px;
+    }
+
+    .data-table th {
+        background: var(--navy);
+        color: var(--white);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        padding: 12px 15px;
+        text-align: left;
+    }
+
+    .data-table td {
+        padding: 12px 15px;
+        border-bottom: 1px solid rgba(198,167,94,0.1);
+        color: #4a5f72;
+    }
+
+    .data-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .data-table tr:hover td {
+        background: var(--gold-dim);
+    }
+
+    .highlight-box {
+        background: var(--navy);
+        border: 1px solid var(--gold-border);
+        border-radius: 12px;
+        padding: 25px;
+        color: var(--white);
+        margin: 25px 0;
+    }
+
+    .highlight-box h4 {
+        color: var(--gold);
+        margin-top: 0;
+    }
+
+    .highlight-box p {
+        color: var(--text-light);
+        margin-bottom: 0;
+    }
+
+    .two-column-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin: 25px 0;
+    }
+
+    .grid-item {
+        background: var(--off-white);
+        padding: 20px;
+        border-radius: 8px;
+        border: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .grid-item h4 {
+        margin-top: 0;
+        margin-bottom: 10px;
+        color: var(--navy);
+    }
+
+    .contact-methods {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        margin: 30px 0 20px;
+    }
+
+    .contact-method {
+        flex: 1;
+        min-width: 200px;
+        background: var(--white);
+        border: 1px solid var(--gold-border);
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .contact-method:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(198,167,94,0.15);
+    }
+
+    .contact-method-icon {
+        width: 48px;
+        height: 48px;
+        background: var(--gold-dim);
+        border: 1px solid var(--gold-border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 15px;
+        color: var(--gold);
+    }
+
+    .contact-method h4 {
+        font-size: 14px;
+        margin-bottom: 8px;
+        color: var(--navy);
+    }
+
+    .contact-method p {
+        font-size: 13px;
+        color: var(--muted);
+        margin-bottom: 0;
+    }
+
+    .contact-method a {
+        color: var(--gold);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .contact-method a:hover {
+        text-decoration: underline;
+    }
+
+    .cookie-banner-preview {
+        background: var(--navy-light);
+        border: 1px solid var(--gold-border);
+        border-radius: 12px;
+        padding: 20px;
+        margin: 25px 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .cookie-banner-preview p {
+        color: var(--text-light);
+        margin-bottom: 0;
+        font-size: 14px;
+    }
+
+    .cookie-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .cookie-btn {
+        padding: 8px 16px;
+        border-radius: 6px;
+        font-family: 'Orbitron', sans-serif;
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        cursor: default;
+    }
+
+    .cookie-btn.accept {
+        background: var(--gold);
+        color: var(--navy);
+    }
+
+    .cookie-btn.decline {
+        background: transparent;
+        border: 1px solid var(--gold-border);
+        color: var(--text-light);
+    }
+
+    .divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, var(--gold-border), transparent);
+        margin: 40px 0;
+    }
+
+    .back-to-top {
+        position: fixed;
+        bottom: 30px;
+        right: 30px;
+        width: 50px;
+        height: 50px;
+        background: var(--gold);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--navy);
+        box-shadow: 0 4px 15px rgba(198,167,94,0.3);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        z-index: 100;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+    }
+
+    .back-to-top.visible {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .back-to-top:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 25px rgba(198,167,94,0.4);
+    }
+
+    .table-of-contents {
+        background: var(--off-white);
+        border-radius: 12px;
+        padding: 25px;
+        margin-bottom: 40px;
+        border: 1px solid var(--gold-border);
+    }
+
+    .table-of-contents h3 {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--navy);
+        margin-bottom: 15px;
+    }
+
+    .toc-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 10px;
+    }
+
+    .toc-item {
+        color: var(--navy);
+        text-decoration: none;
+        font-size: 14px;
+        padding: 8px 12px;
+        border-radius: 6px;
+        transition: background 0.25s, color 0.25s;
+    }
+
+    .toc-item:hover {
+        background: var(--gold-dim);
+        color: var(--gold);
+    }
+
+    .jurisdiction-flags {
+        display: flex;
+        gap: 15px;
+        margin: 20px 0;
+        flex-wrap: wrap;
+    }
+
+    .jurisdiction-flag {
+        padding: 8px 16px;
+        background: var(--white);
+        border: 1px solid var(--gold-border);
+        border-radius: 30px;
+        font-size: 13px;
+        color: var(--navy);
+    }
+
+    .jurisdiction-flag span {
+        color: var(--gold);
+        font-weight: 600;
+        margin-right: 5px;
+    }
+
+    @@media (max-width: 768px) {
+        .privacy-card {
+            padding: 30px;
+        }
+        
+        .two-column-grid {
+            grid-template-columns: 1fr;
+        }
+        
+        .privacy-section-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 10px;
+        }
+        
+        .data-table {
+            display: block;
+            overflow-x: auto;
+        }
+        
+        .back-to-top {
+            bottom: 20px;
+            right: 20px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="privacy-hero">
+    <div class="privacy-bg"></div>
+    <div class="privacy-overlay"></div>
+    <div class="privacy-grid"></div>
+    <div class="privacy-scan"></div>
+    
+    <div class="privacy-hero-content">
+        <div class="privacy-eyebrow">
+            <div class="privacy-eyebrow-line"></div>
+            <span class="privacy-eyebrow-text">Your Privacy Matters</span>
+        </div>
+        <h1>
+            Transparency & Trust.
+            <span class="accent">Our Privacy Commitment.</span>
+        </h1>
+        <p class="privacy-hero-sub">We believe in clear communication about how we collect, use, and protect your personal information when you fly with us.</p>
+        
+        <div class="last-updated">
+            Last Updated: March 15, 2026
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="privacy-content">
+    <div class="privacy-card">
+        
+        <!-- Table of Contents -->
+        <div class="table-of-contents">
+            <h3>Quick Navigation</h3>
+            <div class="toc-grid">
+                <a href="#introduction" class="toc-item">1. Introduction</a>
+                <a href="#information-collection" class="toc-item">2. Information We Collect</a>
+                <a href="#usage" class="toc-item">3. How We Use Information</a>
+                <a href="#sharing" class="toc-item">4. Information Sharing</a>
+                <a href="#cookies" class="toc-item">5. Cookies & Tracking</a>
+                <a href="#data-security" class="toc-item">6. Data Security</a>
+                <a href="#your-rights" class="toc-item">7. Your Rights</a>
+                <a href="#international" class="toc-item">8. International Transfers</a>
+                <a href="#children" class="toc-item">9. Children's Privacy</a>
+                <a href="#retention" class="toc-item">10. Data Retention</a>
+                <a href="#changes" class="toc-item">11. Policy Changes</a>
+                <a href="#contact" class="toc-item">12. Contact Us</a>
+            </div>
+        </div>
+
+        <!-- 1. Introduction -->
+        <div id="introduction" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="12" y1="16" x2="12" y2="12" />
+                        <circle cx="12" cy="8" r="0.5" fill="currentColor" />
+                    </svg>
+                </div>
+                <h2>1. Introduction</h2>
+            </div>
+            
+            <p>Welcome to AeroVista Airlines. We are committed to protecting your privacy and handling your personal information with transparency and care. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our mobile applications, book flights, or interact with our services.</p>
+            
+            <p>AeroVista Airlines is a global carrier operating in over 48 countries. We comply with applicable data protection laws including the General Data Protection Regulation (GDPR) in Europe, the California Consumer Privacy Act (CCPA), and other relevant privacy regulations in the jurisdictions where we operate.</p>
+            
+            <div class="jurisdiction-flags">
+                <div class="jurisdiction-flag"><span>🌍</span> GDPR Compliant</div>
+                <div class="jurisdiction-flag"><span>🇺🇸</span> CCPA Compliant</div>
+                <div class="jurisdiction-flag"><span>🇬🇧</span> UK GDPR</div>
+                <div class="jurisdiction-flag"><span>🇨🇦</span> PIPEDA</div>
+            </div>
+            
+            <p>By using our services, you acknowledge the practices described in this policy. If you do not agree with our policies, please do not use our services.</p>
+            
+            <div class="privacy-note">
+                <p><strong>✈️ Our Commitment:</strong> Your data is as important to us as your safety in the air. We handle it with the same level of care and precision that we apply to every flight operation.</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 2. Information We Collect -->
+        <div id="information-collection" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <rect x="2" y="4" width="20" height="16" rx="2" />
+                        <line x1="8" y1="10" x2="16" y2="10" />
+                        <line x1="8" y1="14" x2="12" y2="14" />
+                    </svg>
+                </div>
+                <h2>2. Information We Collect</h2>
+            </div>
+            
+            <p>We collect several types of information from and about users of our services, including:</p>
+            
+            <h3>2.1 Personal Information You Provide</h3>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Examples</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Identity Data</strong></td>
+                        <td>Full name, date of birth, gender, passport/national ID number, nationality</td>
+                        <td>Booking verification, security checks, immigration compliance</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Contact Data</strong></td>
+                        <td>Email address, phone number, billing address, emergency contact information</td>
+                        <td>Booking confirmation, flight updates, customer support</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Payment Data</strong></td>
+                        <td>Credit/debit card details, billing information, frequent flyer numbers</td>
+                        <td>Ticket purchases, refunds, loyalty program management</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Travel Data</strong></td>
+                        <td>Flight history, seat preferences, meal preferences, special assistance requirements</td>
+                        <td>Personalizing your travel experience, service improvement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Biometric Data</strong></td>
+                        <td>Facial recognition (for expedited boarding where available)</td>
+                        <td>Optional identity verification, streamlining airport processes</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>2.2 Information Automatically Collected</h3>
+            <p>When you access our website or mobile app, we automatically collect certain information through cookies and similar technologies:</p>
+            <ul>
+                <li><strong>Usage Data:</strong> Pages visited, time spent, links clicked, search history</li>
+                <li><strong>Device Data:</strong> IP address, browser type, operating system, device identifiers</li>
+                <li><strong>Location Data:</strong> Approximate location based on IP address, precise location (with your permission for airport services)</li>
+                <li><strong>Cookies:</strong> See our <a href="#cookies" style="color: var(--gold);">Cookies section</a> for detailed information</li>
+            </ul>
+            
+            <h3>2.3 Information from Third Parties</h3>
+            <p>We may receive information about you from:</p>
+            <ul>
+                <li><strong>Travel Partners:</strong> Travel agencies, online booking platforms, other airlines (codeshare partners)</li>
+                <li><strong>Government Agencies:</strong> Customs and border protection for international travel</li>
+                <li><strong>Payment Processors:</strong> Fraud detection and payment verification services</li>
+                <li><strong>Social Media:</strong> When you interact with our social media accounts</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h4>✈️ Special Category Data</h4>
+                <p>For certain services (like special meals or medical assistance), we may collect health information. This data is processed only with your explicit consent and is subject to enhanced protection measures under applicable laws.</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 3. How We Use Your Information -->
+        <div id="usage" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="12" r="3" />
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+                    </svg>
+                </div>
+                <h2>3. How We Use Your Information</h2>
+            </div>
+            
+            <p>We use the information we collect for the following purposes:</p>
+            
+            <div class="two-column-grid">
+                <div class="grid-item">
+                    <h4>🎫 Booking & Reservations</h4>
+                    <p>Process your flight bookings, issue tickets, manage changes/cancellations, and provide boarding passes.</p>
+                </div>
+                <div class="grid-item">
+                    <h4>👤 Account Management</h4>
+                    <p>Create and manage your AeroVista account, frequent flyer program, and preferences.</p>
+                </div>
+                <div class="grid-item">
+                    <h4>📢 Communications</h4>
+                    <p>Send booking confirmations, flight updates, service notifications, and marketing (with consent).</p>
+                </div>
+                <div class="grid-item">
+                    <h4>🔒 Security & Safety</h4>
+                    <p>Verify identities, prevent fraud, ensure passenger safety, and comply with security regulations.</p>
+                </div>
+                <div class="grid-item">
+                    <h4>⚙️ Service Improvement</h4>
+                    <p>Analyze usage patterns, improve our website and services, and develop new features.</p>
+                </div>
+                <div class="grid-item">
+                    <h4>⚖️ Legal Compliance</h4>
+                    <p>Comply with applicable laws, regulations, and legal processes (e.g., customs, immigration).</p>
+                </div>
+            </div>
+            
+            <h3>3.1 Legal Basis for Processing (for EEA Users)</h3>
+            <p>If you are located in the European Economic Area, we process your personal information under the following legal bases:</p>
+            <ul>
+                <li><strong>Contract Performance:</strong> To fulfill our flight booking agreement with you</li>
+                <li><strong>Legitimate Interests:</strong> For security, fraud prevention, and service improvement</li>
+                <li><strong>Legal Obligation:</strong> To comply with aviation and security laws</li>
+                <li><strong>Consent:</strong> For marketing communications and optional data collection</li>
+            </ul>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 4. Information Sharing and Disclosure -->
+        <div id="sharing" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="18" cy="5" r="3" />
+                        <circle cx="6" cy="12" r="3" />
+                        <circle cx="18" cy="19" r="3" />
+                        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+                        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+                    </svg>
+                </div>
+                <h2>4. Information Sharing and Disclosure</h2>
+            </div>
+            
+            <p>We may share your personal information in the following circumstances:</p>
+            
+            <h3>4.1 Within the AeroVista Group</h3>
+            <p>Your information may be shared among AeroVista's subsidiaries and affiliates for operational purposes, always subject to this Privacy Policy.</p>
+            
+            <h3>4.2 Service Providers</h3>
+            <p>We engage trusted third-party service providers to perform functions on our behalf, including:</p>
+            <ul>
+                <li>Payment processing and fraud detection</li>
+                <li>IT services and cloud hosting</li>
+                <li>Customer support and call center operations</li>
+                <li>Marketing and analytics providers</li>
+                <li>Ground handling and airport services</li>
+            </ul>
+            <p>These providers are contractually obligated to protect your information and use it only for the services they provide to us.</p>
+            
+            <h3>4.3 Travel Partners</h3>
+            <p>When you book flights involving codeshare partners, interline agreements, or connecting flights with other airlines, we share necessary information with these partners to complete your travel arrangements.</p>
+            
+            <h3>4.4 Legal Requirements</h3>
+            <p>We may disclose your information if required to do so by law or in response to valid requests by public authorities (e.g., court orders, government agencies). This includes sharing with:</p>
+            <ul>
+                <li>Customs and border protection agencies</li>
+                <li>Aviation security authorities</li>
+                <li>Law enforcement agencies</li>
+                <li>Regulatory bodies</li>
+            </ul>
+            
+            <h3>4.5 Business Transfers</h3>
+            <p>In the event of a merger, acquisition, or sale of assets, your information may be transferred as part of the transaction. We will notify you of any such change.</p>
+            
+            <div class="privacy-note">
+                <p><strong>Important:</strong> We do not sell your personal information to third parties for their marketing purposes without your explicit consent.</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 5. Cookies and Tracking Technologies -->
+        <div id="cookies" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="12" r="10" />
+                        <circle cx="12" cy="12" r="2" fill="currentColor" />
+                        <circle cx="8" cy="8" r="1" fill="currentColor" />
+                        <circle cx="16" cy="9" r="1" fill="currentColor" />
+                        <circle cx="9" cy="16" r="1" fill="currentColor" />
+                        <circle cx="15" cy="15" r="1" fill="currentColor" />
+                    </svg>
+                </div>
+                <h2>5. Cookies and Tracking Technologies</h2>
+            </div>
+            
+            <p>We use cookies and similar technologies to enhance your experience, analyze traffic, and personalize content.</p>
+            
+            <h3>5.1 What Are Cookies?</h3>
+            <p>Cookies are small text files stored on your device when you visit a website. They help us remember your preferences and understand how you use our site.</p>
+            
+            <h3>5.2 Types of Cookies We Use</h3>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Type</th>
+                        <th>Purpose</th>
+                        <th>Duration</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Essential Cookies</strong></td>
+                        <td>Required for website functionality, booking process, and security</td>
+                        <td>Session / Persistent</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Functional Cookies</strong></td>
+                        <td>Remember your preferences, language, and recent searches</td>
+                        <td>1 year</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Analytics Cookies</strong></td>
+                        <td>Track usage patterns, improve site performance (Google Analytics)</td>
+                        <td>2 years</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Marketing Cookies</strong></td>
+                        <td>Deliver personalized ads, measure campaign effectiveness</td>
+                        <td>90 days</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>5.3 Your Cookie Choices</h3>
+            <p>You can manage cookie preferences through:</p>
+            <ul>
+                <li>Our cookie consent banner (appears on first visit)</li>
+                <li>Browser settings to block or delete cookies</li>
+                <li>Opt-out links for specific services (e.g., Google Analytics)</li>
+            </ul>
+            
+            <p>Here's a preview of our cookie consent banner:</p>
+            
+            <div class="cookie-banner-preview">
+                <p>🍪 We use cookies to enhance your experience. By continuing, you agree to our <a href="#" style="color: var(--gold);">Cookie Policy</a>.</p>
+                <div class="cookie-buttons">
+                    <span class="cookie-btn accept">Accept All</span>
+                    <span class="cookie-btn decline">Essential Only</span>
+                </div>
+            </div>
+            
+            <h3>5.4 Do Not Track Signals</h3>
+            <p>Our website responds to Do Not Track (DNT) signals. When we receive a DNT signal, we will not set non-essential cookies.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 6. Data Security -->
+        <div id="data-security" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <rect x="3" y="11" width="18" height="11" rx="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                    </svg>
+                </div>
+                <h2>6. Data Security</h2>
+            </div>
+            
+            <p>We implement robust security measures to protect your personal information:</p>
+            
+            <ul>
+                <li><strong>Encryption:</strong> SSL/TLS encryption for all data transmission (256-bit)</li>
+                <li><strong>Access Controls:</strong> Strict role-based access to personal information</li>
+                <li><strong>PCI Compliance:</strong> We are PCI-DSS compliant for payment processing</li>
+                <li><strong>Regular Audits:</strong> Independent security assessments and penetration testing</li>
+                <li><strong>Employee Training:</strong> All staff undergo privacy and security training</li>
+                <li><strong>Incident Response:</strong> 24/7 security monitoring and breach response procedures</li>
+            </ul>
+            
+            <div class="highlight-box">
+                <h4>🔐 Our Security Promise</h4>
+                <p>We maintain administrative, technical, and physical safeguards designed to protect your personal information against accidental, unlawful, or unauthorized destruction, loss, alteration, access, disclosure, or use.</p>
+            </div>
+            
+            <p>While we implement industry-standard security measures, no method of transmission over the Internet is 100% secure. We encourage you to take precautions to protect your personal information when using our services.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 7. Your Rights and Choices -->
+        <div id="your-rights" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+                <h2>7. Your Rights and Choices</h2>
+            </div>
+            
+            <p>Depending on your location, you may have the following rights regarding your personal information:</p>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Right</th>
+                        <th>Description</th>
+                        <th>Applicable Regions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Access</strong></td>
+                        <td>Request a copy of your personal information</td>
+                        <td>EEA, UK, California, Canada</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rectification</strong></td>
+                        <td>Correct inaccurate or incomplete information</td>
+                        <td>All regions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Erasure</strong></td>
+                        <td>Request deletion of your information</td>
+                        <td>EEA, UK, California</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Restriction</strong></td>
+                        <td>Limit how we use your information</td>
+                        <td>EEA, UK</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Portability</strong></td>
+                        <td>Receive your information in a portable format</td>
+                        <td>EEA, UK, California</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Objection</strong></td>
+                        <td>Object to processing for marketing or legitimate interests</td>
+                        <td>EEA, UK</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Opt-out of Sale</strong></td>
+                        <td>Opt-out of the sale of your personal information</td>
+                        <td>California</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>7.1 How to Exercise Your Rights</h3>
+            <p>To exercise your rights, please contact us using the information in Section 12. We will respond within the timeframe required by applicable law (usually 30 days).</p>
+            
+            <h3>7.2 Marketing Communications</h3>
+            <p>You can opt-out of marketing emails at any time by:</p>
+            <ul>
+                <li>Clicking the "unsubscribe" link in our emails</li>
+                <li>Updating your account preferences</li>
+                <li>Contacting customer support</li>
+            </ul>
+            
+            <h3>7.3 Account Deletion</h3>
+            <p>You may delete your AeroVista account by contacting customer support. Note that some information may be retained as required by law or for legitimate business purposes.</p>
+            
+            <div class="privacy-note">
+                <p><strong>For California Residents:</strong> Under the CCPA, you have the right to request disclosure of information collected, request deletion, and opt-out of the sale of personal information. We do not sell your personal information.</p>
+            </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 8. International Data Transfers -->
+        <div id="international" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="12" r="10" />
+                        <line x1="2" y1="12" x2="22" y2="12" />
+                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                </div>
+                <h2>8. International Data Transfers</h2>
+            </div>
+            
+            <p>AeroVista operates globally, which means your personal information may be transferred to and processed in countries outside your home country. These countries may have different data protection laws.</p>
+            
+            <h3>8.1 Transfer Mechanisms</h3>
+            <p>When we transfer personal information from the European Economic Area or UK to countries not deemed adequate by the European Commission, we rely on:</p>
+            <ul>
+                <li><strong>Standard Contractual Clauses:</strong> EU Commission-approved contracts</li>
+                <li><strong>Binding Corporate Rules:</strong> For transfers within our corporate group</li>
+                <li><strong>Derogations:</strong> For specific situations (e.g., with your consent, for contract performance)</li>
+            </ul>
+            
+            <h3>8.2 Data Processing Locations</h3>
+            <p>Our servers and data processing facilities are located in:</p>
+            <ul>
+                <li>United States</li>
+                <li>European Union (Ireland, Germany)</li>
+                <li>United Kingdom</li>
+                <li>Singapore</li>
+            </ul>
+            
+            <p>We ensure appropriate safeguards are in place for all international transfers.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 9. Children's Privacy -->
+        <div id="children" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M5.5 20v-2a6.5 6.5 0 0 1 13 0v2" />
+                    </svg>
+                </div>
+                <h2>9. Children's Privacy</h2>
+            </div>
+            
+            <p>Our services are not directed to children under the age of 13 (or 16 in the European Economic Area). We do not knowingly collect personal information from children without parental consent.</p>
+            
+            <p>When we collect information about children (for unaccompanied minor services or family bookings), we do so with parental consent and only as necessary to provide our services.</p>
+            
+            <p>If you believe we have collected information from a child without appropriate consent, please contact us immediately.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 10. Data Retention -->
+        <div id="retention" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <h2>10. Data Retention</h2>
+            </div>
+            
+            <p>We retain your personal information only as long as necessary to fulfill the purposes for which it was collected, including for legal, accounting, or reporting requirements.</p>
+            
+            <h3>10.1 Retention Periods</h3>
+            
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Data Category</th>
+                        <th>Retention Period</th>
+                        <th>Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Booking Records</td>
+                        <td>5 years after flight</td>
+                        <td>Legal requirements, tax purposes, dispute resolution</td>
+                    </tr>
+                    <tr>
+                        <td>Account Information</td>
+                        <td>Until account deletion + 2 years</td>
+                        <td>Service continuity, legal obligations</td>
+                    </tr>
+                    <tr>
+                        <td>Frequent Flyer Data</td>
+                        <td>As long as account active + 3 years</td>
+                        <td>Program management, points expiration</td>
+                    </tr>
+                    <tr>
+                        <td>Payment Information</td>
+                        <td>7 years</td>
+                        <td>Tax and accounting requirements</td>
+                    </tr>
+                    <tr>
+                        <td>Marketing Preferences</td>
+                        <td>Until opt-out + 1 year</td>
+                        <td>Compliance with marketing laws</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>After the retention period, your information will be securely deleted or anonymized.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 11. Changes to This Privacy Policy -->
+        <div id="changes" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34" />
+                        <polygon points="18 2 22 6 12 16 8 16 8 12 18 2" />
+                    </svg>
+                </div>
+                <h2>11. Changes to This Privacy Policy</h2>
+            </div>
+            
+            <p>We may update this Privacy Policy from time to time to reflect changes in our practices, legal requirements, or operational needs.</p>
+            
+            <p>When we make material changes, we will notify you by:</p>
+            <ul>
+                <li>Posting the updated policy on this page with a revised "Last Updated" date</li>
+                <li>Sending an email notification (for significant changes)</li>
+                <li>Displaying a notice on our website or app</li>
+            </ul>
+            
+            <p>We encourage you to review this Privacy Policy periodically to stay informed about how we protect your information.</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- 12. Contact Us -->
+        <div id="contact" class="privacy-section">
+            <div class="privacy-section-header">
+                <div class="privacy-section-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                </div>
+                <h2>12. Contact Us</h2>
+            </div>
+            
+            <p>If you have questions, concerns, or requests regarding this Privacy Policy or our data practices, please contact us:</p>
+            
+            <div class="contact-methods">
+                <div class="contact-method">
+                    <div class="contact-method-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                            <polyline points="22,6 12,13 2,6" />
+                        </svg>
+                    </div>
+                    <h4>Email</h4>
+                    <p><a href="mailto:privacy@aerovista.com">privacy@aerovista.com</a></p>
+                    <p style="font-size: 12px;">Data Protection Officer</p>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-method-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
+                        </svg>
+                    </div>
+                    <h4>Phone</h4>
+                    <p><a href="tel:+18001234567">+1 (800) 123-4567</a></p>
+                    <p style="font-size: 12px;">24/7 Privacy Helpline</p>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-method-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                            <circle cx="12" cy="10" r="3" />
+                        </svg>
+                    </div>
+                    <h4>Mail</h4>
+                    <p>Privacy Officer<br>AeroVista Airlines<br>550 5th Avenue, Suite 1200<br>New York, NY 10036</p>
+                </div>
+                
+                <div class="contact-method">
+                    <div class="contact-method-icon">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="12" cy="12" r="10" />
+                            <line x1="2" y1="12" x2="22" y2="12" />
+                            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                        </svg>
+                    </div>
+                    <h4>EU Representative</h4>
+                    <p>AeroVista Europe<br>10 Dublin Street<br>Dublin, D02 X576<br>Ireland</p>
+                </div>
+            </div>
+            
+            <h3 style="margin-top: 30px;">12.1 Data Protection Officer</h3>
+            <p>We have appointed a Data Protection Officer (DPO) who oversees our compliance with data protection laws. You can reach our DPO at <a href="mailto:dpo@aerovista.com" style="color: var(--gold);">dpo@aerovista.com</a>.</p>
+            
+            <h3>12.2 Complaints</h3>
+            <p>If you believe we have not handled your privacy concerns adequately, you have the right to lodge a complaint with your local data protection authority. For EEA residents, you can contact your national data protection authority. For UK residents, the Information Commissioner's Office (ICO) is the supervisory authority.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Back to Top Button -->
+<button class="back-to-top" id="backToTop" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="12" y1="19" x2="12" y2="5" />
+        <polyline points="5 12 12 5 19 12" />
+    </svg>
+</button>
+
+<script>
+    // Back to top functionality
+    const backToTop = document.getElementById('backToTop');
+    
+    window.addEventListener('scroll', function() {
+        if (window.scrollY > 300) {
+            backToTop.classList.add('visible');
+        } else {
+            backToTop.classList.remove('visible');
+        }
+    });
+    
+    backToTop.addEventListener('click', function() {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    
+    // Smooth scroll for anchor links
+    document.querySelectorAll('.toc-item').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+</script>

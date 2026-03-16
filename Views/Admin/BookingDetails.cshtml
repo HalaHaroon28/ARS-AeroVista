@@ -1,0 +1,934 @@
+﻿@model AeroVista.Models.Booking
+
+@{
+    ViewData["Title"] = "Booking Details";
+}
+
+<style>
+    .page-container {
+        padding: 30px;
+        background: var(--off-white);
+        min-height: 100vh;
+    }
+
+    .page-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 28px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+        .page-title span {
+            color: var(--gold);
+        }
+
+        .page-title small {
+            font-size: 14px;
+            color: var(--muted);
+            font-family: 'Inter', sans-serif;
+            margin-left: 10px;
+        }
+
+    .btn-back {
+        background: transparent;
+        color: var(--navy);
+        border: 1px solid rgba(198,167,94,0.2);
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+    }
+
+        .btn-back:hover {
+            border-color: var(--gold);
+            background: var(--gold-dim);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+    .btn-print {
+        background: var(--gold);
+        color: var(--navy);
+        border: none;
+        padding: 12px 25px;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        text-decoration: none;
+        margin-left: 10px;
+    }
+
+        .btn-print:hover {
+            background: var(--navy);
+            color: var(--gold);
+            transform: translateY(-2px);
+        }
+
+    /* Status Banner */
+    .status-banner {
+        background: white;
+        border-radius: 12px;
+        padding: 20px 30px;
+        margin-bottom: 25px;
+        border: 1px solid rgba(198,167,94,0.1);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .status-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+    }
+
+    .status-badge-large {
+        display: inline-block;
+        padding: 10px 25px;
+        border-radius: 30px;
+        font-size: 14px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .status-confirmed {
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+    }
+
+    .status-pending {
+        background: rgba(245, 158, 11, 0.1);
+        color: #f59e0b;
+    }
+
+    .status-cancelled {
+        background: rgba(239, 68, 68, 0.1);
+        color: #ef4444;
+    }
+
+    .confirmation-number {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 16px;
+        color: var(--navy);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .confirmation-label {
+        font-size: 12px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .confirmation-value {
+        font-weight: 700;
+        color: var(--gold);
+    }
+
+    .action-buttons-large {
+        display: flex;
+        gap: 10px;
+    }
+
+    /* Details Grid */
+    .details-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 25px;
+        margin-bottom: 25px;
+    }
+
+    .detail-card {
+        background: white;
+        border-radius: 12px;
+        padding: 25px;
+        border: 1px solid rgba(198,167,94,0.1);
+        transition: all 0.3s ease;
+    }
+
+        .detail-card:hover {
+            border-color: var(--gold-border);
+            box-shadow: 0 8px 25px rgba(198,167,94,0.15);
+        }
+
+    .card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .card-icon {
+        width: 40px;
+        height: 40px;
+        background: var(--gold-dim);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--gold);
+    }
+
+    .card-title {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--navy);
+    }
+
+        .card-title span {
+            color: var(--gold);
+            font-size: 12px;
+            margin-left: 8px;
+        }
+
+    .detail-row {
+        display: flex;
+        margin-bottom: 15px;
+        padding: 8px 0;
+        border-bottom: 1px dashed rgba(198,167,94,0.1);
+    }
+
+    .detail-label {
+        width: 40%;
+        font-size: 13px;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .detail-value {
+        width: 60%;
+        font-size: 14px;
+        font-weight: 500;
+        color: var(--navy);
+    }
+
+        .detail-value.highlight {
+            color: var(--gold);
+            font-weight: 600;
+        }
+
+        .detail-value.monospace {
+            font-family: monospace;
+            font-size: 13px;
+        }
+
+    /* Flight Route Display */
+    .flight-route-large {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: rgba(198,167,94,0.05);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .airport {
+        text-align: center;
+    }
+
+    .airport-code {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 24px;
+        font-weight: 700;
+        color: var(--navy);
+    }
+
+    .airport-city {
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    .flight-path {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .flight-line {
+        width: 150px;
+        height: 2px;
+        background: linear-gradient(90deg, var(--gold), var(--gold-border));
+        position: relative;
+    }
+
+        .flight-line::before,
+        .flight-line::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .flight-line::before {
+            left: -4px;
+        }
+
+        .flight-line::after {
+            right: -4px;
+        }
+
+    .flight-time-large {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        padding: 15px;
+        background: white;
+        border-radius: 8px;
+        border: 1px solid rgba(198,167,94,0.1);
+    }
+
+    .time-block {
+        text-align: center;
+    }
+
+    .time-label {
+        font-size: 11px;
+        color: var(--muted);
+        text-transform: uppercase;
+    }
+
+    .time-value {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--navy);
+        margin-top: 5px;
+    }
+
+    /* Passenger Chips */
+    .passenger-chips {
+        display: flex;
+        gap: 15px;
+        margin-top: 10px;
+    }
+
+    .passenger-chip {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 15px;
+        background: rgba(198,167,94,0.05);
+        border-radius: 25px;
+    }
+
+    .chip-number {
+        font-family: 'Orbitron', sans-serif;
+        font-weight: 700;
+        color: var(--gold);
+    }
+
+    .chip-label {
+        font-size: 13px;
+        color: var(--navy);
+    }
+
+    /* Price Breakdown */
+    .price-breakdown {
+        margin-top: 15px;
+    }
+
+    .price-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(198,167,94,0.1);
+    }
+
+        .price-item.total {
+            margin-top: 10px;
+            padding-top: 15px;
+            border-top: 2px solid var(--gold);
+            border-bottom: none;
+            font-weight: 700;
+        }
+
+    .price-label {
+        color: var(--muted);
+    }
+
+    .price-value {
+        font-weight: 600;
+        color: var(--navy);
+    }
+
+        .price-value.total {
+            font-size: 18px;
+            color: var(--gold);
+        }
+
+    /* Payment Info */
+    .payment-details {
+        background: rgba(198,167,94,0.02);
+        border-radius: 8px;
+        padding: 15px;
+        margin-top: 15px;
+    }
+
+    .payment-row {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+    }
+
+    /* Timeline */
+    .booking-timeline {
+        margin-top: 20px;
+    }
+
+    .timeline-item {
+        display: flex;
+        gap: 15px;
+        padding: 15px 0;
+        border-left: 2px solid rgba(198,167,94,0.2);
+        padding-left: 20px;
+        position: relative;
+    }
+
+        .timeline-item::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: absolute;
+            left: -6px;
+            top: 20px;
+        }
+
+    .timeline-date {
+        font-size: 12px;
+        color: var(--muted);
+        min-width: 80px;
+    }
+
+    .timeline-title {
+        font-weight: 600;
+        color: var(--navy);
+        margin-bottom: 5px;
+    }
+
+    .timeline-subtitle {
+        font-size: 12px;
+        color: var(--muted);
+    }
+
+    /* Related Bookings */
+    .related-booking {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background: rgba(198,167,94,0.02);
+        border-radius: 8px;
+        margin-top: 10px;
+    }
+
+        .related-booking:first-of-type {
+            margin-top: 0;
+        }
+
+    .related-info {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .related-number {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 12px;
+        font-weight: 600;
+        color: var(--gold);
+    }
+
+    .related-type {
+        font-size: 11px;
+        color: var(--muted);
+    }
+
+    .related-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 10px;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .badge-rescheduled {
+        background: rgba(59, 130, 246, 0.1);
+        color: #3b82f6;
+    }
+
+    /* Responsive */
+    @@media (max-width: 1024px) {
+        .details-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .page-container {
+            padding: 20px;
+        }
+
+        .page-header {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .status-banner {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .status-info {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .action-buttons-large {
+            width: 100%;
+        }
+
+        .btn-back, .btn-print {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .flight-route-large {
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .flight-path {
+            flex-direction: column;
+        }
+
+        .flight-line {
+            width: 2px;
+            height: 50px;
+        }
+
+        .passenger-chips {
+            flex-direction: column;
+        }
+
+        .detail-row {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .detail-label, .detail-value {
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="page-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <div>
+            <h1 class="page-title">
+                Booking <span>Details</span>
+                <small>#@Model.Id.ToString().PadLeft(6, '0')</small>
+            </h1>
+        </div>
+        <div>
+            <a asp-action="Bookings" class="btn-back">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12" />
+                    <polyline points="12 19 5 12 12 5" />
+                </svg>
+                Back to List
+            </a>
+            <button onclick="window.print()" class="btn-print">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2" />
+                    <path d="M6 9V3h12v6" />
+                    <rect x="6" y="15" width="12" height="6" rx="2" />
+                </svg>
+                Print Details
+            </button>
+        </div>
+    </div>
+
+    <!-- Status Banner -->
+    <div class="status-banner">
+        <div class="status-info">
+            @{
+                var statusClass = Model.Status?.ToLower() switch
+                {
+                    "confirmed" => "status-confirmed",
+                    "pending" => "status-pending",
+                    "cancelled" => "status-cancelled",
+                    _ => "status-pending"
+                };
+            }
+            <span class="status-badge-large @statusClass">
+                @Model.Status
+            </span>
+
+            <div class="confirmation-number">
+                <span class="confirmation-label">Confirmation #</span>
+                <span class="confirmation-value">@Model.ConfirmationNumber</span>
+            </div>
+        </div>
+
+        <div class="action-buttons-large">
+            <form asp-action="ChangeStatus" method="post" style="display: inline;"
+                  onsubmit="return confirm('Are you sure you want to change status?')">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <select name="status" class="status-select @Model.Status.ToLower()"
+                        style="width: 140px;" onchange="this.form.submit()">
+                    <option value="Pending" selected="@(Model.Status == "Pending")">⏳ Pending</option>
+                    <option value="Confirmed" selected="@(Model.Status == "Confirmed")">✓ Confirmed</option>
+                    <option value="Cancelled" selected="@(Model.Status == "Cancelled")">✗ Cancelled</option>
+                </select>
+            </form>
+
+            <form asp-action="DeleteBooking" method="post" style="display: inline;"
+                  onsubmit="return confirm('Are you sure you want to delete this booking?')">
+                @Html.AntiForgeryToken()
+                <input type="hidden" name="id" value="@Model.Id" />
+                <button type="submit" class="action-btn delete" style="padding: 12px 20px;">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="3 6 5 6 21 6" />
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
+                    </svg>
+                    Delete Booking
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Details Grid -->
+    <div class="details-grid">
+        <!-- Flight Details Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8 10a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0 1 22 16.92z" />
+                    </svg>
+                </div>
+                <div class="card-title">Flight Information</div>
+            </div>
+
+            @if (Model.Flight != null)
+            {
+                <div class="flight-route-large">
+                    <div class="airport">
+                        <div class="airport-code">@Model.Flight.FromCity?.AirportCode</div>
+                        <div class="airport-city">@Model.Flight.FromCity?.CityName</div>
+                    </div>
+                    <div class="flight-path">
+                        <div class="flight-line"></div>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3" />
+                        </svg>
+                    </div>
+                    <div class="airport">
+                        <div class="airport-code">@Model.Flight.ToCity?.AirportCode</div>
+                        <div class="airport-city">@Model.Flight.ToCity?.CityName</div>
+                    </div>
+                </div>
+
+                <div class="flight-time-large">
+                    <div class="time-block">
+                        <div class="time-label">Departure</div>
+                        <div class="time-value">@Model.Flight.DepartureTime.ToString("dd MMM yyyy")</div>
+                        <div class="time-value" style="font-size: 20px;">@Model.Flight.DepartureTime.ToString("HH:mm")</div>
+                    </div>
+                    <div class="time-block">
+                        <div class="time-label">Arrival</div>
+                        <div class="time-value">@Model.Flight.ArrivalTime.ToString("dd MMM yyyy")</div>
+                        <div class="time-value" style="font-size: 20px;">@Model.Flight.ArrivalTime.ToString("HH:mm")</div>
+                    </div>
+                </div>
+            }
+
+            <div class="detail-row">
+                <div class="detail-label">Flight Number</div>
+                <div class="detail-value highlight">@(Model.Flight?.FlightNumber ?? "N/A")</div>
+            </div>
+        </div>
+
+        <!-- Passenger Details Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                        <circle cx="12" cy="7" r="4" />
+                    </svg>
+                </div>
+                <div class="card-title">Passenger Details</div>
+            </div>
+
+            <div class="passenger-chips">
+                <div class="passenger-chip">
+                    <span class="chip-number">@Model.Adults</span>
+                    <span class="chip-label">Adults</span>
+                </div>
+                @if (Model.Children > 0)
+                {
+                    <div class="passenger-chip">
+                        <span class="chip-number">@Model.Children</span>
+                        <span class="chip-label">Children</span>
+                    </div>
+                }
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Travel Class</div>
+                <div class="detail-value">
+                    <span class="class-badge @(Model.TravelClass?.ToLower() == "business" ? "class-business" :
+                                                                         Model.TravelClass?.ToLower() == "first" ? "class-first" : "class-economy")">
+                        @Model.TravelClass
+                    </span>
+                </div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Booking Date</div>
+                <div class="detail-value">@Model.BookingDate.ToString("dd MMM yyyy 'at' HH:mm")</div>
+            </div>
+
+            <div class="detail-row">
+                <div class="detail-label">Customer</div>
+                <div class="detail-value">
+                    <div class="user-info">
+                        <div class="user-avatar">@(Model.User?.Email?.Substring(0, 1).ToUpper() ?? "?")</div>
+                        <div>@(Model.User?.Email ?? "N/A")</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Payment Details Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                    </svg>
+                </div>
+                <div class="card-title">Payment Information</div>
+            </div>
+
+            <div class="price-breakdown">
+                <div class="price-item">
+                    <span class="price-label">Base Fare</span>
+                    <span class="price-value">PKR.@((Model.TotalPrice * 0.85m).ToString("N0"))</span>
+                </div>
+                <div class="price-item">
+                    <span class="price-label">Taxes & Fees</span>
+                    <span class="price-value">PKR.@((Model.TotalPrice * 0.15m).ToString("N0"))</span>
+                </div>
+                <div class="price-item total">
+                    <span class="price-label">Total Amount</span>
+                    <span class="price-value total">PKR.@Model.TotalPrice.ToString("N0")</span>
+                </div>
+            </div>
+
+            <div class="payment-details">
+                <div class="payment-row">
+                    <span class="detail-label">Payment Method</span>
+                    <span class="detail-value">@Model.PaymentMethod</span>
+                </div>
+                <div class="payment-row">
+                    <span class="detail-label">Transaction ID</span>
+                    <span class="detail-value monospace">@Model.TransactionId</span>
+                </div>
+                @if (!string.IsNullOrEmpty(Model.CardLastFour))
+                {
+                    <div class="payment-row">
+                        <span class="detail-label">Card Number</span>
+                        <span class="detail-value">**** **** **** @Model.CardLastFour</span>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Booking Timeline Card -->
+        <div class="detail-card">
+            <div class="card-header">
+                <div class="card-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10" />
+                        <polyline points="12 6 12 12 16 14" />
+                    </svg>
+                </div>
+                <div class="card-title">Booking Timeline</div>
+            </div>
+
+            <div class="booking-timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">@Model.BookingDate.ToString("dd MMM")</div>
+                    <div>
+                        <div class="timeline-title">Booking Created</div>
+                        <div class="timeline-subtitle">@Model.BookingDate.ToString("HH:mm")</div>
+                    </div>
+                </div>
+
+                @if (!string.IsNullOrEmpty(Model.ConfirmationNumber))
+                {
+                    <div class="timeline-item">
+                        <div class="timeline-date">@Model.BookingDate.ToString("dd MMM")</div>
+                        <div>
+                            <div class="timeline-title">Confirmation Generated</div>
+                            <div class="timeline-subtitle">#@Model.ConfirmationNumber</div>
+                        </div>
+                    </div>
+                }
+
+                @if (Model.IsRescheduled && Model.PreviousBookingId != null)
+                {
+                    <div class="timeline-item">
+                        <div class="timeline-date">@Model.BookingDate.ToString("dd MMM")</div>
+                        <div>
+                            <div class="timeline-title">Rescheduled</div>
+                            <div class="timeline-subtitle">Previous booking #@Model.PreviousBookingId</div>
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <!-- Related Bookings -->
+            @if (Model.PreviousBookingId != null || !string.IsNullOrEmpty(Model.BlockingNumber) || !string.IsNullOrEmpty(Model.CancellationNumber))
+            {
+                <div style="margin-top: 20px;">
+                    <div class="card-title" style="font-size: 14px; margin-bottom: 15px;">
+                        Related <span>Bookings</span>
+                    </div>
+
+                    @if (Model.PreviousBookingId != null)
+                    {
+                        <div class="related-booking">
+                            <div class="related-info">
+                                <span class="related-number">#@Model.PreviousBookingId</span>
+                                <span class="related-type">Previous Booking</span>
+                            </div>
+                            <span class="related-badge badge-rescheduled">Rescheduled</span>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.BlockingNumber))
+                    {
+                        <div class="related-booking">
+                            <div class="related-info">
+                                <span class="related-number">#@Model.BlockingNumber</span>
+                                <span class="related-type">Blocking Reference</span>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.CancellationNumber))
+                    {
+                        <div class="related-booking">
+                            <div class="related-info">
+                                <span class="related-number">#@Model.CancellationNumber</span>
+                                <span class="related-type">Cancellation Reference</span>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+
+    <!-- Additional Information Section -->
+    <div class="detail-card" style="margin-top: 25px;">
+        <div class="card-header">
+            <div class="card-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10" />
+                    <line x1="12" y1="16" x2="12" y2="12" />
+                    <circle cx="12" cy="8" r="1" fill="currentColor" />
+                </svg>
+            </div>
+            <div class="card-title">Additional Information</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;">
+            @if (!string.IsNullOrEmpty(Model.BlockingNumber))
+            {
+                <div>
+                    <div class="detail-label">Blocking Number</div>
+                    <div class="detail-value monospace">@Model.BlockingNumber</div>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.CancellationNumber))
+            {
+                <div>
+                    <div class="detail-label">Cancellation Number</div>
+                    <div class="detail-value monospace">@Model.CancellationNumber</div>
+                </div>
+            }
+
+            @if (Model.PreviousBookingId != null)
+            {
+                <div>
+                    <div class="detail-label">Previous Booking</div>
+                    <div class="detail-value">#@Model.PreviousBookingId</div>
+                </div>
+            }
+
+            <div>
+                <div class="detail-label">Rescheduled</div>
+                <div class="detail-value">@(Model.IsRescheduled ? "Yes" : "No")</div>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.UserId))
+            {
+                <div>
+                    <div class="detail-label">User ID</div>
+                    <div class="detail-value monospace">@Model.UserId</div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<script>
+    function confirmStatusChange() {
+        return confirm('Are you sure you want to change the booking status?');
+    }
+</script>

@@ -1,353 +1,39 @@
 ﻿@model AeroVista.Models.City
 
 @{
-    ViewData["Title"] = "Delete City";
+    ViewData["Title"] = "DeleteCities";
 }
 
-<style>
-    .page-container {
-        padding: 30px;
-        background: var(--off-white);
-        min-height: 100vh;
-    }
+<h1>DeleteCities</h1>
 
-    .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-        flex-wrap: wrap;
-        gap: 20px;
-    }
-
-    .page-title {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 28px;
-        font-weight: 700;
-        color: var(--navy);
-    }
-
-        .page-title span {
-            color: var(--gold);
-        }
-
-    .btn-back {
-        background: transparent;
-        color: var(--navy);
-        border: 1px solid var(--gold-border);
-        padding: 12px 25px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-    }
-
-        .btn-back:hover {
-            background: var(--gold-dim);
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-    /* Delete Container */
-    .delete-container {
-        background: white;
-        border-radius: 12px;
-        padding: 30px;
-        border: 1px solid rgba(198,167,94,0.1);
-        max-width: 600px;
-        margin: 0 auto;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-    }
-
-    /* Warning Banner */
-    .warning-banner {
-        background: rgba(239, 68, 68, 0.05);
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 25px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        border-left: 4px solid #ef4444;
-    }
-
-    .warning-icon {
-        width: 48px;
-        height: 48px;
-        background: rgba(239, 68, 68, 0.1);
-        border-radius: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #ef4444;
-    }
-
-    .warning-text h3 {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 18px;
-        color: var(--navy);
-        margin-bottom: 5px;
-    }
-
-    .warning-text p {
-        color: var(--muted);
-        font-size: 14px;
-    }
-
-    /* City Details Card */
-    .details-card {
-        background: var(--off-white);
-        border-radius: 8px;
-        padding: 20px;
-        margin-bottom: 25px;
-    }
-
-    .detail-row {
-        display: flex;
-        padding: 12px 0;
-        border-bottom: 1px solid rgba(198,167,94,0.1);
-    }
-
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-    .detail-label {
-        width: 120px;
-        font-size: 13px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        color: var(--muted);
-        font-weight: 500;
-    }
-
-    .detail-value {
-        flex: 1;
-        color: var(--navy);
-        font-weight: 500;
-    }
-
-    .airport-badge {
-        display: inline-block;
-        padding: 6px 12px;
-        background: var(--gold-dim);
-        color: var(--gold);
-        border-radius: 20px;
-        font-size: 12px;
-        font-weight: 600;
-        font-family: monospace;
-        letter-spacing: 1px;
-    }
-
-    .country-flag {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .flag-icon {
-        width: 24px;
-        height: 16px;
-        background: var(--gold-dim);
-        border-radius: 3px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 12px;
-    }
-
-    /* Form Actions */
-    .form-actions {
-        display: flex;
-        gap: 15px;
-        margin-top: 25px;
-    }
-
-    .btn-delete {
-        background: #ef4444;
-        color: white;
-        border: none;
-        padding: 14px 30px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        flex: 1;
-        justify-content: center;
-    }
-
-        .btn-delete:hover {
-            background: #dc2626;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
-        }
-
-    .btn-cancel {
-        background: transparent;
-        color: var(--navy);
-        border: 1px solid var(--gold-border);
-        padding: 14px 30px;
-        border-radius: 8px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        text-decoration: none;
-        flex: 1;
-        justify-content: center;
-    }
-
-        .btn-cancel:hover {
-            background: var(--gold-dim);
-            border-color: var(--gold);
-            color: var(--gold);
-            transform: translateY(-2px);
-        }
-
-    /* Responsive */
-    @@media (max-width: 768px) {
-        .page-container {
-            padding: 20px;
-        }
-
-        .page-header {
-            flex-direction: column;
-            align-items: flex-start;
-        }
-
-        .delete-container {
-            padding: 20px;
-        }
-
-        .warning-banner {
-            flex-direction: column;
-            text-align: center;
-        }
-
-        .form-actions {
-            flex-direction: column;
-        }
-
-        .detail-row {
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .detail-label {
-            width: 100%;
-        }
-    }
-</style>
-
-<div class="page-container">
-    <!-- Page Header -->
-    <div class="page-header">
-        <h1 class="page-title">
-            Delete <span>City</span>
-        </h1>
-        <a asp-action="Cities" class="btn-back">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <line x1="19" y1="12" x2="5" y2="12" />
-                <polyline points="12 19 5 12 12 5" />
-            </svg>
-            Back to List
-        </a>
-    </div>
-
-    <!-- Delete Container -->
-    <div class="delete-container">
-        <!-- Warning Banner -->
-        <div class="warning-banner">
-            <div class="warning-icon">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <circle cx="12" cy="12" r="10" />
-                    <line x1="12" y1="8" x2="12" y2="12" />
-                    <line x1="12" y1="16" x2="12.01" y2="16" />
-                </svg>
-            </div>
-            <div class="warning-text">
-                <h3>Are you absolutely sure?</h3>
-                <p>This action cannot be undone. This will permanently delete the city and may affect related flights and routes.</p>
-            </div>
-        </div>
-
-        <!-- City Details Card -->
-        <div class="details-card">
-            <div class="detail-row">
-                <span class="detail-label">City ID</span>
-                <span class="detail-value">#@Model.CityId</span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">City Name</span>
-                <span class="detail-value">
-                    <div style="display: flex; align-items: center; gap: 10px;">
-                        <div style="width: 32px; height: 32px; background: var(--gold-dim); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gold);">
-                            🏙️
-                        </div>
-                        <strong>@Model.CityName</strong>
-                    </div>
-                </span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Airport Code</span>
-                <span class="detail-value">
-                    <span class="airport-badge">@Model.AirportCode</span>
-                </span>
-            </div>
-            <div class="detail-row">
-                <span class="detail-label">Country</span>
-                <span class="detail-value">
-                    <div class="country-flag">
-                        <span class="flag-icon">🌍</span>
-                        @Model.Country
-                    </div>
-                </span>
-            </div>
-        </div>
-
-        <!-- Confirmation Form -->
-        <form asp-action="DeleteCities">
-            <input type="hidden" asp-for="CityId" />
-
-            <div class="form-actions">
-                <button type="submit" class="btn-delete" onclick="return confirmDelete()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="3 6 5 6 21 6" />
-                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0h10" />
-                        <line x1="10" y1="11" x2="10" y2="17" />
-                        <line x1="14" y1="11" x2="14" y2="17" />
-                    </svg>
-                    Yes, Delete City
-                </button>
-                <a asp-action="Index" class="btn-cancel">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10" />
-                        <line x1="12" y1="8" x2="12" y2="16" />
-                        <line x1="8" y1="12" x2="16" y2="12" />
-                    </svg>
-                    No, Keep City
-                </a>
-            </div>
-        </form>
-    </div>
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>City</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CityName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CityName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.AirportCode)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.AirportCode)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Country)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Country)
+        </dd>
+    </dl>
+    
+    <form asp-action="DeleteCities">
+        <input type="hidden" asp-for="CityId" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Cities">Back to List</a>
+    </form>
 </div>
-
-<script>
-    function confirmDelete() {
-        return confirm('Are you absolutely sure you want to delete this city? This action cannot be undone.');
-    }
-</script>

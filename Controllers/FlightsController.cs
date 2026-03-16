@@ -21,12 +21,22 @@ namespace AeroVista.Controllers
         public async Task<IActionResult> Results(FlightSearchViewModel model, string sortOrder, decimal? maxPrice, int page = 1)
         {
             int pageSize = 5;
+            int totalPax = model.Adults + model.Children;
+
+            // Update query to check availability in the SPECIFIC class selected
             var query = _context.Flights
                 .Include(f => f.FromCity).Include(f => f.ToCity)
                 .Where(f => f.FromCityId == model.FromCityId &&
                             f.ToCityId == model.ToCityId &&
-                            f.DepartureTime.Date == model.DepartureDate.Date &&
-                            f.SeatsAvailable >= (model.Adults + model.Children));
+                            f.DepartureTime.Date == model.DepartureDate.Date);
+
+            // Dynamically check the correct seat column based on user's choice
+            query = model.TravelClass switch
+            {
+                "Business" => query.Where(f => f.BusinessSeats >= totalPax),
+                "First" => query.Where(f => f.FirstClassSeats >= totalPax),
+                _ => query.Where(f => f.EconomySeats >= totalPax)
+            };
 
             if (maxPrice.HasValue) query = query.Where(f => f.Price <= maxPrice.Value);
 
@@ -36,13 +46,20 @@ namespace AeroVista.Controllers
             List<Flights> returnFlights = new();
             if (model.TripType == "RoundTrip" && model.ReturnDate.HasValue)
             {
-                returnFlights = await _context.Flights
+                var returnQuery = _context.Flights
                     .Include(f => f.FromCity).Include(f => f.ToCity)
                     .Where(f => f.FromCityId == model.ToCityId &&
                                 f.ToCityId == model.FromCityId &&
-                                f.DepartureTime.Date == model.ReturnDate.Value.Date &&
-                                f.SeatsAvailable >= (model.Adults + model.Children))
-                    .ToListAsync();
+                                f.DepartureTime.Date == model.ReturnDate.Value.Date);
+
+                returnQuery = model.TravelClass switch
+                {
+                    "Business" => returnQuery.Where(f => f.BusinessSeats >= totalPax),
+                    "First" => returnQuery.Where(f => f.FirstClassSeats >= totalPax),
+                    _ => returnQuery.Where(f => f.EconomySeats >= totalPax)
+                };
+
+                returnFlights = await returnQuery.ToListAsync();
             }
 
             ViewBag.ReturnFlights = returnFlights;
@@ -63,8 +80,17 @@ namespace AeroVista.Controllers
             var user = await _userManager.GetUserAsync(User);
             int totalPax = adults + children;
 
-            if (flight.SeatsAvailable < totalPax) return BadRequest("Seats no longer available.");
+            // Verify availability in the specific class bucket before booking
+            bool isAvailable = travelClass switch
+            {
+                "Business" => flight.BusinessSeats >= totalPax,
+                "First" => flight.FirstClassSeats >= totalPax,
+                _ => flight.EconomySeats >= totalPax
+            };
 
+            if (!isAvailable) return BadRequest("Seats no longer available in this class.");
+
+            // Keep your existing multipliers safe
             decimal basePrice = flight.Price;
             decimal classSurcharge = travelClass switch
             {
@@ -89,7 +115,11 @@ namespace AeroVista.Controllers
                 Status = "Pending"
             };
 
-            flight.SeatsAvailable -= totalPax;
+            // Deduct from the specific class bucket
+            if (travelClass == "Business") flight.BusinessSeats -= totalPax;
+            else if (travelClass == "First") flight.FirstClassSeats -= totalPax;
+            else flight.EconomySeats -= totalPax;
+
             _context.Bookings.Add(booking);
             await _context.SaveChangesAsync();
 

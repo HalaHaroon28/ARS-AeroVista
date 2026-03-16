@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using AeroVista.Models;
 
 namespace AeroVista.Models
 {
@@ -15,17 +14,24 @@ namespace AeroVista.Models
         public int Children { get; set; }
 
         public string TravelClass { get; set; } = "Economy";
-
         public decimal TotalPrice { get; set; }
-
         public DateTime BookingDate { get; set; }
 
         public string UserId { get; set; } = default!;
         public ApplicationUser User { get; set; } = default!;
 
-        public string PaymentMethod { get; set; } = "Pending";
-        public string TransactionId { get; set; } = "Pending";
+        public string? PaymentMethod { get; set; }
+        public string? TransactionId { get; set; }
+        public string? CardLastFour { get; set; } 
 
-        public string Status { get; set; } = "Pending";
+        
+        public string Status { get; set; } = "Pending"; 
+        public string? ConfirmationNumber { get; set; }
+        public string? BlockingNumber { get; set; }
+        public string? CancellationNumber { get; set; }
+
+      
+        public bool IsRescheduled { get; set; } = false;
+        public int? PreviousBookingId { get; set; }
     }
 }

@@ -21,6 +21,7 @@
         --danger: #ff4d4d;
         --success: #28a745;
         --warning: #ffc107;
+        --expired: #4a5568;
     }
 
     body {
@@ -47,13 +48,8 @@
     }
 
     @@keyframes gridDrift {
-        0% {
-            background-position: 0 0;
-        }
-
-        100% {
-            background-position: 72px 72px;
-        }
+        0% { background-position: 0 0; }
+        100% { background-position: 72px 72px; }
     }
 
     .page-wrapper {
@@ -123,12 +119,18 @@
         transition: all 0.3s ease;
     }
 
-        .booking-card:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--gold);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
-        }
+    .booking-card:hover {
+        background: rgba(255, 255, 255, 0.05);
+        border-color: var(--gold);
+        transform: translateY(-5px);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    }
+
+    .booking-card.is-expired {
+        opacity: 0.6;
+        filter: grayscale(0.5);
+        border-color: var(--expired);
+    }
 
     .location-group {
         display: flex;
@@ -190,21 +192,12 @@
         font-weight: 700;
     }
 
-    .status-pending {
-        color: var(--warning);
-    }
-
-    .status-confirmed {
-        color: var(--success);
-    }
-
-    .status-cancelled {
-        color: var(--danger);
-    }
-
-    .status-rescheduled {
-        color: #17a2b8;
-    }
+    .status-pending { color: var(--warning); }
+    .status-confirmed { color: var(--success); }
+    .status-cancelled { color: var(--danger); }
+    .status-rescheduled { color: #17a2b8; }
+    .status-blocked { color: #ae81ff; }
+    .status-expired { color: var(--expired); }
 
     .booking-details {
         display: flex;
@@ -227,16 +220,18 @@
 
     .ref-number {
         font-family: 'Orbitron', sans-serif;
-        font-size: 11px;
-        color: var(--muted);
+        font-size: 14px;
+        color: var(--white);
     }
 
-    .empty-state {
-        text-align: center;
-        padding: 100px 20px;
-        background: rgba(255,255,255,0.02);
-        border: 1px dashed var(--gold-border);
-        border-radius: 20px;
+    .termination-notice {
+        font-size: 10px;
+        color: var(--warning);
+        margin-bottom: 8px;
+        text-align: right;
+        font-style: italic;
+        max-width: 200px;
+        line-height: 1.2;
     }
 
     .btn-action-base {
@@ -252,43 +247,17 @@
         text-align: center;
     }
 
-    .btn-status {
-        background: var(--navy-light);
-        border: 1px solid var(--gold-border);
-        color: var(--gold);
-    }
-
-        .btn-status:hover {
-            background: var(--gold-dim);
-            transform: translateY(-3px);
-        }
-
-    .btn-reschedule {
-        background: var(--navy-light);
-        color: white;
-        border: 1px solid var(--gold-border);
-    }
-
-        .btn-reschedule:hover {
-            border-color: var(--gold);
-            transform: translateY(-3px);
-        }
-
-    .btn-cancel {
-        background: rgba(255,0,0,0.1);
-        color: #ff4d4d;
-        border: 1px solid rgba(255,0,0,0.2);
-    }
-
-        .btn-cancel:hover {
-            background: rgba(255,0,0,0.2);
-            transform: translateY(-3px);
-        }
+    .btn-status { background: var(--navy-light); border: 1px solid var(--gold-border); color: var(--gold); }
+    .btn-status:hover { background: var(--gold-dim); transform: translateY(-3px); }
+    .btn-reschedule { background: var(--navy-light); color: white; border: 1px solid var(--gold-border); }
+    .btn-reschedule:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .btn-confirm { background: var(--gold); color: var(--navy) !important; font-weight: 800; }
+    .btn-confirm:hover { background: var(--white); transform: translateY(-3px); }
+    .btn-cancel { background: rgba(255,0,0,0.1); color: #ff4d4d; border: 1px solid rgba(255,0,0,0.2); }
+    .btn-cancel:hover { background: rgba(255,0,0,0.2); transform: translateY(-3px); }
 </style>
 
-<div class="page-background">
-    <div class="hero-grid"></div>
-</div>
+<div class="page-background"><div class="hero-grid"></div></div>
 
 <div class="page-wrapper">
     <div class="section-header">
@@ -303,13 +272,9 @@
 
     @if (Model == null || !Model.Any())
     {
-        <div class="empty-state">
-            <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="var(--gold-border)" stroke-width="1">
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.9 11.5a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.82 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.96-.96a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" />
-            </svg>
-            <h3 style="font-family: 'Orbitron'; margin-top: 20px;">No Active Itineraries</h3>
-            <p>Your sky-bound journey awaits. Start by selecting a destination.</p>
-            <a href="/" class="btn-action">Find a Flight</a>
+        <div class="empty-state" style="text-align:center; padding: 100px 0;">
+            <h3 style="font-family: 'Orbitron';">No Active Itineraries</h3>
+            <a href="/" class="btn-action-base btn-status" style="margin-top:20px;">Find a Flight</a>
         </div>
     }
     else
@@ -317,7 +282,9 @@
         <div class="bookings-list">
             @foreach (var booking in Model)
             {
-                <div class="booking-card">
+                bool isExpired = booking.Status == "Expired";
+                
+                <div class="booking-card @(isExpired ? "is-expired" : "")">
                     <div class="location-group">
                         <div class="city-full">Origin</div>
                         <div class="city-code">@booking.Flight.FromCity.CityName</div>
@@ -327,14 +294,10 @@
                     <div class="flight-path">
                         <div class="path-line">
                             <div class="path-plane">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-                                    <path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" />
-                                </svg>
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M21 16v-2l-8-5V3.5A1.5 1.5 0 0 0 11.5 2 1.5 1.5 0 0 0 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" /></svg>
                             </div>
                         </div>
-                        <div class="dynamic-status status-@booking.Status.ToLower()">
-                            @booking.Status
-                        </div>
+                        <div class="dynamic-status status-@booking.Status.ToLower()">@booking.Status</div>
                     </div>
 
                     <div class="location-group">
@@ -344,18 +307,39 @@
                     </div>
 
                     <div class="booking-details">
-                        <div class="status-badge">
-                            @((booking.Adults + booking.Children) == 1 ? "1 Passenger" : (booking.Adults + booking.Children) + " Passengers")
-                        </div>
-                        <div class="ref-number">REF: AV-@((1000 + booking.Id).ToString())</div>
+                        <div class="status-badge">@booking.TravelClass Class</div>
+                        <div class="ref-number">REF: @(booking.ConfirmationNumber ?? booking.BlockingNumber ?? "AV-" + booking.Id)</div>
+
+                        @if (booking.Status == "Blocked")
+                        {
+                            <div class="termination-notice">
+                                Please confirm 14 days before the departure day or it will be terminated automatically.
+                            </div>
+                        }
 
                         <div style="display:flex; gap:8px; margin-top:10px;">
-                            <a asp-action="Status" asp-route-id="@booking.Id" class="btn-action-base btn-status">Info</a>
+                            <a asp-action="Status" asp-route-id="@booking.Id" class="btn-action-base btn-status">Ticket</a>
 
-                            @if (booking.Status != "Cancelled")
+                            @if (booking.Status == "Blocked")
+                            {
+                                <a asp-action="Confirmation" 
+                                   asp-route-id="@booking.FlightId" 
+                                   asp-route-adults="@booking.Adults" 
+                                   asp-route-children="@booking.Children" 
+                                   asp-route-travelClass="@booking.TravelClass" 
+                                   asp-route-bookingId="@booking.Id" 
+                                   class="btn-action-base btn-confirm">Confirm</a>
+                                <a asp-action="Cancel" asp-route-id="@booking.Id" class="btn-action-base btn-cancel">Release</a>
+                            }
+                            else if (booking.Status != "Cancelled" && booking.Status != "Expired")
                             {
                                 <a asp-action="Reschedule" asp-route-id="@booking.Id" class="btn-action-base btn-reschedule">Modify</a>
                                 <a asp-action="Cancel" asp-route-id="@booking.Id" class="btn-action-base btn-cancel">Void</a>
+                            }
+                            
+                            @if(isExpired)
+                            {
+                                <span class="btn-action-base" style="background: rgba(255,255,255,0.05); color: var(--muted); cursor: not-allowed;">Terminated</span>
                             }
                         </div>
                     </div>
